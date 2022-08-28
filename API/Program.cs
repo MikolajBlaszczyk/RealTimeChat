@@ -3,7 +3,6 @@ using API.Hubs;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using API.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AppContextConnection") ?? throw new InvalidOperationException("Connection string 'AppContextConnection' not found.");
@@ -11,8 +10,21 @@ var connectionString = builder.Configuration.GetConnectionString("AppContextConn
 builder.Services.AddDbContext<API.Data.AppContext>(options =>
     options.UseSqlServer(connectionString));
 
-builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<API.Data.AppContext>();
+
+
+builder.Services.AddIdentity<AppUser, IdentityRole>(options => { options.User.RequireUniqueEmail = false; })
+    .AddEntityFrameworkStores<API.Data.AppContext>()
+    .AddDefaultTokenProviders();
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 6;
+    options.Password.RequiredUniqueChars = 0;
+});
+
 
 builder.Services.AddSignalR();
 builder.Services.AddControllers();

@@ -1,13 +1,13 @@
-﻿using API.Areas.Identity.Data;
+﻿
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Data;
 
-public class AppContext : IdentityDbContext<AppUser>
+public class ApplicationContext : IdentityDbContext<IdentityUser>
 {
-    public AppContext(DbContextOptions<AppContext> options)
+    public ApplicationContext(DbContextOptions<ApplicationContext> options)
         : base(options)
     {
     }

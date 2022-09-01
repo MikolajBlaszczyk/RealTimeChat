@@ -10,11 +10,13 @@ namespace RealTimeChat.API.Startup
     {
         public static IServiceCollection RegisterServices(this IServiceCollection services, string connectionString)
         {
+            //Entity
             services.AddDbContext<ApplicationContext>(options =>
                 options.UseSqlServer(connectionString, builder =>
                 {
                     builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
                 }));
+            //Identity 
             services.AddDefaultIdentity<IdentityUser>()
                 .AddEntityFrameworkStores<ApplicationContext>();
             services.Configure<IdentityOptions>(options =>
@@ -38,17 +40,16 @@ namespace RealTimeChat.API.Startup
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
             });
-            
+            //SignalR WebSocket. to chat
             services.AddSignalR();
             services.AddResponseCompression(options =>
             {
                 options.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(new[] { "application/octet-stream" });
             });
-
+            //Other
             services.AddControllers();
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
-
             //Dependency injection
             services.AddTransient<IUserValidator, UserValidator>();
 

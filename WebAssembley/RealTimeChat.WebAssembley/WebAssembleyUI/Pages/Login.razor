@@ -1,0 +1,46 @@
+﻿@page "/"
+@implements IAsyncDisposable
+@inject IJSRuntime JsRuntime
+<div class="login-page ">
+    <div class="login-form-div">
+        <form>
+            <div id="username-div">
+                <input type="text" value="" placeholder="Username" class="input" id="username-input" onmouseover="@UsernameInputOn" onmouseleave="@UsernameInputOff"/>
+            </div>
+            
+        </form>
+    </div>
+</div>
+
+
+
+@code {
+    private IJSObjectReference? module;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender == true)
+        {
+            module = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/Login.js");
+        } 
+    }
+
+    protected async Task UsernameInputOn()
+    {
+        await module.InvokeAsync<string>("LoginModule", true);
+    }
+
+    protected async Task UsernameInputOff()
+    {
+        await module.InvokeAsync<string>("LoginModule", false);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (module is not null)
+        {
+            await module.DisposeAsync();
+        }
+    }
+
+}

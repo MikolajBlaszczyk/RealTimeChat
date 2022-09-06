@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 
 namespace RealTimeChat.API.Controllers
 {
@@ -6,7 +7,7 @@ namespace RealTimeChat.API.Controllers
     {
         public IActionResult Index()
         {
-            return View();
+            return Ok();
         }
     }
 }

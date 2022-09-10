@@ -1,5 +1,6 @@
 ﻿using API.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RealTimeChat.API.Helpers.Validators;

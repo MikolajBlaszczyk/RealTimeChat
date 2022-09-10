@@ -1,0 +1,34 @@
+﻿
+.flying-plane {
+    display: flex;
+    animation-name: start-plane;
+    animation-duration: 4s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes start-plane {
+    5% {
+        transform: translate(-20%, 5%) scale(0.9) rotate(20deg);
+    }
+    15% {
+        transform: translate(40vw, -10vh) scale(4) rotate(50deg);
+    }
+    25% {
+        transform: translate(70vw, -20vh) scale(5) rotate(60deg);
+    }
+    40% {
+        transform: translate(50vw, 20vh) scale(3) scalex(-1) rotate(50deg);
+    }
+    50% {
+        transform: translate(0, 400%) scale(2) scalex(-1) rotate(20deg);
+    }
+    80% {
+        transform: translate(-40vw, 0) scale(1) scalex(-1) rotate(20deg);
+    }
+    100% {
+        transform: translate(-60vw, 0) scale(1) scalex(-1);
+    }
+
+
+}

@@ -1,40 +1,93 @@
 ﻿@page "/"
+@using System.Net.Http.Headers
 @implements IAsyncDisposable
 @inject IJSRuntime JsRuntime
+@inject IHttpClientFactory ClientFactory
 <div class="login-page ">
     <div class="login-form-div">
         <form>
-            <div id="username-div">
-                <input type="text" value="" placeholder="Username" class="input" id="username-input" onmouseover="@UsernameInputOn" onmouseleave="@UsernameInputOff"/>
+            <div id="username-div" onmouseover="@UsernameInputOn" onmouseleave="@UsernameInputOff">
+                <input type="text" value="" placeholder="Username" class="input" id="username-input" />
             </div>
-            
+            <div id="password-div" onmouseover="@PasswordInputOn" onmouseleave="@PasswordInputOff">
+                <input type="text" value="" placeholder="Password" class="input" id="password-input" />
+            </div>
+            <div id="button-div">
+                <button type="button" class="submit-button" onclick="@SubmitClick">
+                    Sign In
+                    <i class="im im-paperplane i-standard invisible" ></i>
+                </button>
+            </div>
+            <div id="message-div" >
+                <div class="line-div"></div>
+            </div>
         </form>
     </div>
 </div>
 
 
 
+
 @code {
     private IJSObjectReference? module;
+    private bool IsMouseOverUsername = false;
+    private bool IsMouseOverPassword = false;
+    private string TextBoxModule = "LoginModule";
+    private HttpClient Client;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Client = ClientFactory.CreateClient();
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender == true)
-        {
+        { 
             module = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/Login.js");
         } 
     }
 
+    #region UsernameInput
     protected async Task UsernameInputOn()
     {
-        await module.InvokeAsync<string>("LoginModule", true);
+        if (IsMouseOverUsername == true)
+            return;
+
+        await module.InvokeVoidAsync(TextBoxModule, new { inputID = "username-input", isMouseOver = true, cssClassName = "username-text", innerText = "Username" });
+        IsMouseOverUsername = true;
     }
 
     protected async Task UsernameInputOff()
     {
-        await module.InvokeAsync<string>("LoginModule", false);
+        await module.InvokeVoidAsync(TextBoxModule, new { inputID = "username-input", isMouseOver = false, cssClassName = "username-text", placeholder = "Username" });
+        IsMouseOverUsername = false;
+    }
+    #endregion
+
+    #region PasswordInput
+    protected async Task PasswordInputOn()
+    {
+        if(IsMouseOverPassword == true)
+            return;
+
+        await module.InvokeVoidAsync(TextBoxModule, new { inputID = "password-input", isMouseOver = true, cssClassName = "username-text", innerText = "Password" });
+        IsMouseOverPassword = true;
     }
 
+    protected async Task PasswordInputOff()
+    {
+        await module.InvokeVoidAsync(TextBoxModule, new { inputID = "password-input", isMouseOver = false, cssClassName = "username-text", placeholder = "Password" });
+        IsMouseOverPassword = false;
+    }
+    #endregion;
+
+    private async Task SubmitClick()
+    {
+       
+        await module.InvokeVoidAsync("PaperPlane");
+    }
+        
     public async ValueTask DisposeAsync()
     {
         if (module is not null)

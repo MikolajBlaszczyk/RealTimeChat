@@ -71,6 +71,15 @@ a, .btn-link {
     justify-self: center;
 }
 
+.img-standard {
+    width: 100%;
+    height: auto;
+}
+
+.invisible {
+    display: none;
+}
+
 .username-text {
     position: relative !important;
     display: flex;

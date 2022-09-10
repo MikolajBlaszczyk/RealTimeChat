@@ -37,7 +37,7 @@ form {
     display: grid;
     width: 100%;
     height: 100%;
-    grid-template-rows: 4% 10% 4% 10% 4% 10% 4% 20% 4% 20%;
+    grid-template-rows: 7% 10% 7% 10% 7% 10% 3% 40% 3%;
     grid-template-columns: 5% 90% 5%;
 }
 
@@ -81,11 +81,28 @@ form {
 .submit-button{
     background-color:transparent;
     border-radius: 5px;
-    font-size: 2rem;
-    width: 20%;
+    font-size: 1.5rem;
+    height: fit-content;
+    width: fit-content;
 }
 
 
 .submit-button:hover {
     background-color: #a6ecff
+}
+
+#message-div {
+    width: 100%;
+    height: 100%;
+    grid-row: 8;
+    grid-column: 2;
+}
+
+.line-div {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: 100%;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
 }

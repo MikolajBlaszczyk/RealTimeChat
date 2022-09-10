@@ -20,13 +20,15 @@
 export const PaperPlane = () => {
     let PaperPlane = document.getElementsByClassName('im-paperplane')
     PaperPlane = PaperPlane.length == 1 ? PaperPlane[0] : null
-    console.log(PaperPlane)
+   
     if (PaperPlane) {
         if (PaperPlane.classList.contains('flying-plane') == false) {
             PaperPlane.classList.add('flying-plane')
+            PaperPlane.classList.remove('invisible')
         }
         else {
             PaperPlane.classList.remove('flying-plane')
+            PaperPlane.classList.add('invisible')
         }
     }
 }

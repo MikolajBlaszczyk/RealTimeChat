@@ -3,6 +3,8 @@
     min-height: 100vh;
     min-width: 100vw;
     justify-content: center;
+    overflow-x: hidden;
+    overflow-y: hidden;
     align-items: center;
     background-color: #00bfff;
 }
@@ -37,7 +39,7 @@ form {
     display: grid;
     width: 100%;
     height: 100%;
-    grid-template-rows: 7% 10% 7% 10% 7% 10% 3% 40% 3%;
+    grid-template-rows: 7% 10% 7% 10% 7% 10% 7% 35% 3%;
     grid-template-columns: 5% 90% 5%;
 }
 
@@ -62,10 +64,11 @@ form {
     min-height: 100%;
     border-radius: 5px;
     height: 3rem;
-    font-size: 2rem;
+    font-size: 1.6rem;
     outline: 1px auto;
     background-color:#e8fcff;
     z-index: 1;
+    user-select: none;
 }
 
 #button-div {
@@ -82,13 +85,13 @@ form {
     background-color:transparent;
     border-radius: 5px;
     font-size: 1.5rem;
-    height: fit-content;
-    width: fit-content;
+    width: 100%;
 }
 
 
+
 .submit-button:hover {
-    background-color: #a6ecff
+    
 }
 
 #message-div {
@@ -101,8 +104,12 @@ form {
 .line-div {
     position: relative;
     display: flex;
-    width: 100%;
+    padding: 10%;
+    width: 90%;
     height: 100%;
-    border-top: 1px solid black;
-    border-bottom: 1px solid black;
+}
+
+@keyframes fade-in {
+
+
 }

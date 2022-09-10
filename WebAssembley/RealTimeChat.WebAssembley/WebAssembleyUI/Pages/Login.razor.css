@@ -37,7 +37,7 @@ form {
     display: grid;
     width: 100%;
     height: 100%;
-    grid-template-rows: 4% 15% 4% 20% 4% 20% 4% 20% 4% 5%;
+    grid-template-rows: 4% 10% 4% 10% 4% 10% 4% 20% 4% 20%;
     grid-template-columns: 5% 90% 5%;
 }
 
@@ -47,17 +47,45 @@ form {
     grid-column: 2;
     width: 100%;
     height: 100%;
-    align-items: center;
+}
+
+#password-div {
+    display: flex;
+    grid-row: 4;
+    grid-column: 2;
+    width: 100%;
+    height: 100%;
 }
 
 .input {
     min-width: 100%;
+    min-height: 100%;
     border-radius: 5px;
     height: 3rem;
     font-size: 2rem;
-    border: 1px solid #374955;
+    outline: 1px auto;
     background-color:#e8fcff;
     z-index: 1;
 }
 
+#button-div {
+    display: flex;
+    justify-content: center;
+    grid-row: 6;
+    grid-column: 2;
+    width: 100%;
+    height: 100%;
+}
 
+
+.submit-button{
+    background-color:transparent;
+    border-radius: 5px;
+    font-size: 2rem;
+    width: 20%;
+}
+
+
+.submit-button:hover {
+    background-color: #a6ecff
+}

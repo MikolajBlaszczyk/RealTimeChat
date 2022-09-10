@@ -1,18 +1,32 @@
 ﻿export const LoginModule = (input) => {
-    let usernameInput = document.getElementById("username-input");
-    if (input === true) {
-        let span = document.createElement('span')
-        span.classList.add('username-text')
-        span.innerText = 'Username'
-        console.log(span)
-        usernameInput.parentElement.appendChild(span)
+    const { inputID, isMouseOver, cssClassName, innerText, placeholder } = input
+    let textBox = document.getElementById(inputID)
+    if (isMouseOver == true) {
+        let newSpan = document.createElement('span')
+        newSpan.innerText = innerText
+        textBox['placeholder'] = ''
+        textBox.parentElement.appendChild(newSpan)
+        newSpan.classList.add(cssClassName)
     }
     else {
-        let span = document.querySelector('.username-text')
-
+        let span = document.querySelector(`.${cssClassName}`)
         if (span) {
             span.remove()
+            textBox['placeholder'] = placeholder
         }
     }
 }
 
+export const PaperPlane = () => {
+    let PaperPlane = document.getElementsByClassName('im-paperplane')
+    PaperPlane = PaperPlane.length == 1 ? PaperPlane[0] : null
+    console.log(PaperPlane)
+    if (PaperPlane) {
+        if (PaperPlane.classList.contains('flying-plane') == false) {
+            PaperPlane.classList.add('flying-plane')
+        }
+        else {
+            PaperPlane.classList.remove('flying-plane')
+        }
+    }
+}

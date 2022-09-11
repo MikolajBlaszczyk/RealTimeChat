@@ -78,42 +78,6 @@ a, .btn-link {
 }
 
 
-
-.username-text {
-    position: relative !important;
-    display: flex;
-    color: black;
-    height: fit-content;
-    background-color: #e8fcff;
-    padding: 0 2.5px;
-    left: calc(-95%);
-    z-index: 2;
-    animation-name: inputAnimation;
-    animation-duration: 0.01s;
-    animation-fill-mode: forwards;
-}
-
-
-@keyframes inputAnimation {
-    0% {
-        z-index: -1;
-        top: 0px;
-        font-size: 2rem;
-    }
-
-    90% {
-        z-index: -1;
-        top: calc(-0.4rem);
-        font-size: 1.2rem;
-    }
-
-    100% {
-        z-index: 2;
-        top: calc(-0.6rem);
-        font-size: 0.7rem;
-    }
-}
-
 .spinner::before {
     animation: 1.5s linear infinite spinner;
     animation-play-state: inherit;
@@ -124,8 +88,8 @@ a, .btn-link {
     height: 80px;
     width: 80px;
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 50vh;
+    left: 50vw;
 }
 
 @keyframes spinner {

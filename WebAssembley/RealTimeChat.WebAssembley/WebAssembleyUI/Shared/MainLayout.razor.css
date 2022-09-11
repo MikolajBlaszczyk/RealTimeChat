@@ -10,7 +10,6 @@ main {
 
 article {
     display: flex;
-    
     padding: 0 !important;
 }
 
@@ -32,6 +31,4 @@ article {
     .page {
         flex-direction: row;
     }
-
-  
 }

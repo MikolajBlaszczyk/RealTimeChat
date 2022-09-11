@@ -6,7 +6,7 @@
     overflow-x: hidden;
     overflow-y: hidden;
     align-items: center;
-    background-color: #00bfff;
+    background-color: var(--blue);
 }
 
 .login-form-div {
@@ -14,7 +14,7 @@
     width: 17%;
     height: 60%;
     border-radius: 20px;
-    background-color: #e8fcff;
+    background-color: var(--white-blue);
     padding: 0.5%;
     box-shadow: 0px 0px 8px 0.2px;
 }
@@ -23,7 +23,6 @@
     .login-form-div {
         width: 23%;
         height: 60%;
-        
     }
 }
 
@@ -64,9 +63,9 @@ form {
     min-height: 100%;
     border-radius: 5px;
     height: 3rem;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     outline: 1px auto;
-    background-color:#e8fcff;
+    background-color: var(--white-blue);
     z-index: 1;
     user-select: none;
 }
@@ -81,17 +80,15 @@ form {
 }
 
 
-.submit-button{
-    background-color:transparent;
+.submit-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
     border-radius: 5px;
     font-size: 1.5rem;
+    padding: 4px auto;
     width: 100%;
-}
-
-
-
-.submit-button:hover {
-    
 }
 
 #message-div {
@@ -109,7 +106,5 @@ form {
     height: 100%;
 }
 
-@keyframes fade-in {
 
 
-}

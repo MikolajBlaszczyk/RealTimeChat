@@ -9,3 +9,8 @@ In New Solution:
 - Create MVC/Razor pages UI 
 - Create WebAssembley UI 
 - Create React UI  
+WebAssembley UI:
+- need to refactor the code to be slighlty better to fix in the future if needed
+- backend logic
+HelperClassLibrary: 
+- Add new project that will have helpers in abstraction.

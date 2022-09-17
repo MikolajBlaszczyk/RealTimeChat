@@ -1,4 +1,6 @@
-﻿export const LoginModule = (input) => {
+﻿import { Popup } from './Popups.js'
+
+export const LoginModule = (input) => {
     const { inputID, isMouseOver, cssClassName, innerText, placeholder } = input
     let textBox = document.getElementById(inputID)
     if (isMouseOver == true) {
@@ -32,4 +34,10 @@ export const PaperPlane = () => {
             }, 700)
         }
     }
+}
+
+export const ErrorModalShow = (message,show) => {
+    let popup = new Popup(message, 'error')
+    popup.ShowPopup()
+    popup.RegisterCloseEvent()
 }

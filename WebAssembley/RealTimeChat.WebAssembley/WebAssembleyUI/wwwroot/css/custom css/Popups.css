@@ -1,0 +1,67 @@
+﻿@import url("../variables/color-variables.css");
+
+
+.popup-standard-error {
+    position: fixed;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    grid-template-columns: 12.5px 22.5px calc(100% - 70px) 22.5px 12.5px;
+    grid-template-rows: 12.5px 22.5px calc(100% - 70px) 22.5px 12.5px;
+    height: 60%;
+    top: calc(20%);
+    left: 0;
+    background-color: #ff5e3e;
+    z-index: 20;
+    border-start-end-radius: 20px;
+    border-end-end-radius: 20px;
+    box-shadow: 0px 0px 8px 0.2px;
+    animation: slide 0.3s linear forwards;
+    z-index: 2;
+}
+
+.close-button {
+    background: #ff5e3e;
+    border: none;
+    grid-column: 4;
+    grid-row: 2;
+    font-size: 20px;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    border-radius: 50%;
+    transition: transform linear 0.2s;
+}
+.close-button:hover {
+    transform: scale(1.5) rotateX(180deg);
+}
+
+.popup-message {
+    display: flex;
+    grid-column: 2/4;
+    grid-row: 2/4;
+    justify-content: center;
+    align-items: center;
+}
+
+    .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 1;
+    }
+
+
+
+
+    @keyframes slide {
+        0%{
+        width: 0;
+    }
+    100%{
+        width: 20%;
+    }
+}

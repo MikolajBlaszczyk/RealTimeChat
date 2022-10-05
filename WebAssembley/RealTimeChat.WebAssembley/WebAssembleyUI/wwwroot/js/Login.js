@@ -1,4 +1,6 @@
-﻿export const LoginModule = (input) => {
+﻿import { Popup } from './Popups.js'
+
+export const LoginModule = (input) => {
     const { inputID, isMouseOver, cssClassName, innerText, placeholder } = input
     let textBox = document.getElementById(inputID)
     if (isMouseOver == true) {
@@ -20,13 +22,22 @@
 export const PaperPlane = () => {
     let PaperPlane = document.getElementsByClassName('im-paperplane')
     PaperPlane = PaperPlane.length == 1 ? PaperPlane[0] : null
-    console.log(PaperPlane)
+
     if (PaperPlane) {
         if (PaperPlane.classList.contains('flying-plane') == false) {
             PaperPlane.classList.add('flying-plane')
-        }
-        else {
-            PaperPlane.classList.remove('flying-plane')
+            PaperPlane.classList.remove('invisible')
+            setTimeout(() => {
+                console.log('abc')
+                PaperPlane.classList.remove('flying-plane')
+                PaperPlane.classList.add('invisible')
+            }, 700)
         }
     }
+}
+
+export const ErrorModalShow = (message,show) => {
+    let popup = new Popup(message, 'error')
+    popup.ShowPopup()
+    popup.RegisterCloseEvent()
 }

@@ -1,40 +1,124 @@
-﻿@page "/"
+﻿@page "/Login"
+@using System.Net.Http.Headers
+@using HelperLibrary.Helpers.Http
+@using WebAssembleyUI.Helpers.Login
 @implements IAsyncDisposable
 @inject IJSRuntime JsRuntime
+@inject IHttpClientFactory ClientFactory
+@inject IServiceProvider ServiceProvider
+@inject NavigationManager NavManager
+@inject IConfiguration Configuration
+
+<div id="line-one"></div>
+
+
 <div class="login-page ">
     <div class="login-form-div">
         <form>
-            <div id="username-div">
-                <input type="text" value="" placeholder="Username" class="input" id="username-input" onmouseover="@UsernameInputOn" onmouseleave="@UsernameInputOff"/>
+            <div id="username-div" onmouseover="@UsernameInputOn" onmouseleave="@UsernameInputOff">
+                <input type="text"  placeholder="Username" class="input" id="username-input" @bind="Username" autocomplete="off"/>
             </div>
-            
+            <div id="password-div"  onmouseover="@PasswordInputOn" onmouseleave="@PasswordInputOff" >
+                <input type="password"  placeholder="Password" class="input" id="password-input" @bind="Password"  autocomplete="off"/>
+            </div>
+            <div id="button-div">
+                <button type="button" class="submit-button" onclick="@SubmitData" >
+                    Sign In
+                    <i class="im im-paperplane i-standard invisible" ></i>
+                </button>
+            </div>
+            <div id="message-div">
+                <div class="line-div">
+                    <img src="Images/undraw_login_re_4vu2.svg" id="login-img" style="display: flex; width: 100%; height: 100%;"/>
+                </div>
+            </div>
         </form>
     </div>
 </div>
 
 
 
+
 @code {
+    private HttpClient Client;
     private IJSObjectReference? module;
+    private bool IsMouseOverUsername = false;
+    private bool IsMouseOverPassword = false;
+    private string TextBoxModule = "LoginModule";
+    private string? Username { get; set; }
+    private string? Password { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        Client = ClientFactory.CreateClient();
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender == true)
         {
-            module = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/Login.js");
+            while (module is null)
+                module = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/Login.js");
         } 
     }
 
+    #region UsernameInput
     protected async Task UsernameInputOn()
     {
-        await module.InvokeAsync<string>("LoginModule", true);
+        if (IsMouseOverUsername == true)
+            return;
+
+        await module.InvokeVoidAsync(TextBoxModule, new { inputID = "username-input", isMouseOver = true, cssClassName = "username-text", innerText = "Username" });
+        IsMouseOverUsername = true;
     }
 
     protected async Task UsernameInputOff()
     {
-        await module.InvokeAsync<string>("LoginModule", false);
+        await module.InvokeVoidAsync(TextBoxModule, new { inputID = "username-input", isMouseOver = false, cssClassName = "username-text", placeholder = "Username" });
+        IsMouseOverUsername = false;
+    }
+    #endregion
+
+    #region PasswordInput
+    protected async Task PasswordInputOn()
+    {
+        if(IsMouseOverPassword == true)
+            return;
+
+        await module.InvokeVoidAsync(TextBoxModule, new { inputID = "password-input", isMouseOver = true, cssClassName = "username-text", innerText = "Password" });
+        IsMouseOverPassword = true;
     }
 
+    protected async Task PasswordInputOff()
+    {
+        await module.InvokeVoidAsync(TextBoxModule, new { inputID = "password-input", isMouseOver = false, cssClassName = "username-text", placeholder = "Password" });
+        IsMouseOverPassword = false;
+    }
+    #endregion;
+
+    private async Task SubmitData()
+    {
+        //await module.InvokeVoidAsync("PaperPlane");
+        
+        if (string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Username))
+        {
+            await module.InvokeVoidAsync("ErrorModalShow", "Password and Username must be provided!");
+            return;
+        }
+            
+        var LoginHelper = ServiceProvider.GetService<IRequestHandler>();
+        var success = await LoginHelper.HandleRequest(Client, new UserModel() { Password = Password, Username = Username }, Configuration.GetSection("Api")["Login"].ToString());
+
+        if (success)
+        {
+            NavManager.NavigateTo("/Main");
+        }
+        else
+        {
+            await module.InvokeVoidAsync("ErrorModalShow", "Password and Username doesn't match");
+        }
+    }
+        
     public async ValueTask DisposeAsync()
     {
         if (module is not null)
@@ -42,5 +126,6 @@
             await module.DisposeAsync();
         }
     }
+
 
 }

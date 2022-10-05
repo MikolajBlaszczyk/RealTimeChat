@@ -32,4 +32,8 @@
     <ProjectReference Include="..\RealTimeChat.API.Helpers\RealTimeChat.API.Helpers.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Middleware" />
+  </ItemGroup>
+
 </Project>

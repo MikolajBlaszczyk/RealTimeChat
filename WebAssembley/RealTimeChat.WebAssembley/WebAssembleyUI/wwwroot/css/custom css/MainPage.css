@@ -1,0 +1,20 @@
+﻿.navbar-left-show {
+    width: 90% !important;
+    height: 100%;
+    background-color: var(--blue-dark);
+}
+
+.navbar-right-show {
+    width: 90% !important;
+    height: 100%;
+    background-color: var(--blue-dark);
+}
+
+.navbar-left-arrow {
+    display: none !important;
+}
+
+.navbar-right-arrow {
+    display: none !important;
+}
+

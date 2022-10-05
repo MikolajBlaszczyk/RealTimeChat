@@ -1,4 +1,4 @@
-﻿@page "/"
+﻿@page "/Login"
 @using System.Net.Http.Headers
 @using HelperLibrary.Helpers.Http
 @using WebAssembleyUI.Helpers.Login
@@ -8,6 +8,9 @@
 @inject IServiceProvider ServiceProvider
 @inject NavigationManager NavManager
 @inject IConfiguration Configuration
+
+<div id="line-one"></div>
+
 
 <div class="login-page ">
     <div class="login-form-div">
@@ -26,7 +29,7 @@
             </div>
             <div id="message-div">
                 <div class="line-div">
-                    <img src="Images/undraw_secure_login_pdn4.svg" style="display: flex; width: 100%; height: 100%;"/>
+                    <img src="Images/undraw_login_re_4vu2.svg" id="login-img" style="display: flex; width: 100%; height: 100%;"/>
                 </div>
             </div>
         </form>
@@ -53,9 +56,9 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender == true)
-        { 
-
-            module = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/Login.js");
+        {
+            while (module is null)
+                module = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/Login.js");
         } 
     }
 
@@ -95,18 +98,24 @@
 
     private async Task SubmitData()
     {
-        await module.InvokeVoidAsync("PaperPlane");
-
+        //await module.InvokeVoidAsync("PaperPlane");
+        
+        if (string.IsNullOrEmpty(Password) || string.IsNullOrEmpty(Username))
+        {
+            await module.InvokeVoidAsync("ErrorModalShow", "Password and Username must be provided!");
+            return;
+        }
+            
         var LoginHelper = ServiceProvider.GetService<IRequestHandler>();
         var success = await LoginHelper.HandleRequest(Client, new UserModel() { Password = Password, Username = Username }, Configuration.GetSection("Api")["Login"].ToString());
 
         if (success)
         {
-            NavManager.NavigateTo("/Index");
+            NavManager.NavigateTo("/Main");
         }
         else
         {
-            await module.InvokeVoidAsync("ErrorModalShow", "some message");
+            await module.InvokeVoidAsync("ErrorModalShow", "Password and Username doesn't match");
         }
     }
         

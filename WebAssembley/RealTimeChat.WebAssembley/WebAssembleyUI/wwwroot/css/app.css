@@ -1,5 +1,6 @@
 ﻿@import url('./custom css/Login.css');
 @import url('./custom css/Popups.css');
+@import url('./custom css/MainPage.css');
 @import url('./iconmonstr-iconic-font-1.3.0/css/iconmonstr-iconic-font.css');
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300&display=swap');
 
@@ -93,6 +94,13 @@ a, .btn-link {
     top: 50vh;
     left: 50vw;
 }
+
+.max-size {
+    width: 100%;
+    height: 100%;
+}
+
+
 
 @keyframes spinner {
     0% {

@@ -14,9 +14,9 @@
 .username-text {
     position: relative !important;
     display: flex;
-    color: var(--black);
+    color: var(--white);
     height: fit-content;
-    background-color: var(--white-blue);
+    background-color: var(--secondary);
     padding: 0 2.5px;
     left: calc(-95%);
     z-index: 2;

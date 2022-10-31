@@ -1,4 +1,4 @@
-﻿@page "/Login"
+﻿@page "/"
 @using System.Net.Http.Headers
 @using HelperLibrary.Helpers.Http
 @using WebAssembleyUI.Helpers.Login
@@ -16,13 +16,13 @@
     <div class="login-form-div">
         <form>
             <div id="username-div" onmouseover="@UsernameInputOn" onmouseleave="@UsernameInputOff">
-                <input type="text"  placeholder="Username" class="input" id="username-input" @bind="Username" autocomplete="off"/>
+                <input type="text"  placeholder="Username" class="input default-font" id="username-input" @bind="Username" autocomplete="off"/>
             </div>
             <div id="password-div"  onmouseover="@PasswordInputOn" onmouseleave="@PasswordInputOff" >
-                <input type="password"  placeholder="Password" class="input" id="password-input" @bind="Password"  autocomplete="off"/>
+                <input type="password"  placeholder="Password" class="input default-font" id="password-input" @bind="Password"  autocomplete="off"/>
             </div>
             <div id="button-div">
-                <button type="button" class="submit-button" onclick="@SubmitData" >
+                <button type="button" class="submit-button default-font" onclick="@SubmitData" >
                     Sign In
                     <i class="im im-paperplane i-standard invisible" ></i>
                 </button>

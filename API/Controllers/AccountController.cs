@@ -1,13 +1,8 @@
 ﻿using API.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using RealTimeChat.API.Helpers.Validators;
-using System.Text;
-using API.Data;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace API.Controllers
@@ -76,7 +71,7 @@ namespace API.Controllers
             {
                 var model = new IdentityUser() { UserName = body.UserName, Email = body.Email};
                 SignInResult result;
-            
+
                 try
                 {
                     result = await SignInManager.PasswordSignInAsync(model.UserName, body.Password, isPersistent: false,
@@ -86,7 +81,7 @@ namespace API.Controllers
                 {
                     return BadRequest(ex);
                 }
-            
+
                 if (result.Succeeded)
                 {
                     return Ok("Login completed");
@@ -120,36 +115,6 @@ namespace API.Controllers
                 return BadRequest("Something wen wrong");
             }
             
-        }
-
-        [HttpGet]
-        [Route("Users")]
-        public async Task<IActionResult> GetAllUsers()
-        {
-            //SignInManager.Context.User;
-            return Ok();
-        }
-        
-        
-        public async Task<string> GetRawBodyAsync(HttpRequest request, Encoding encoding = null)
-        {
-            if (!request.Body.CanSeek)
-            {
-                // We only do this if the stream isn't *already* seekable,
-                // as EnableBuffering will create a new stream instance
-                // each time it's called
-                request.EnableBuffering();
-            }
-
-            request.Body.Position = 0;
-
-            var reader = new StreamReader(request.Body, encoding ?? Encoding.UTF8);
-
-            var body = await reader.ReadToEndAsync().ConfigureAwait(false);
-
-            request.Body.Position = 0;
-
-            return body;
         }
     }
 }

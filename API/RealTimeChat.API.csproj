@@ -4,7 +4,6 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>3b8326be-8fb4-4f1b-88f3-0cf6fac1a868</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -31,10 +30,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RealTimeChat.API.Helpers\RealTimeChat.API.Helpers.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Middleware" />
   </ItemGroup>
 
 </Project>

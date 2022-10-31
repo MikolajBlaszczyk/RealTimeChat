@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using RealTimeChat.API.Helpers.Validators;
 using System.Text;
+using API.Data;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace API.Controllers
@@ -121,6 +122,14 @@ namespace API.Controllers
             
         }
 
+        [HttpGet]
+        [Route("Users")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            SignInManager.Context.User
+        }
+        
+        
         public async Task<string> GetRawBodyAsync(HttpRequest request, Encoding encoding = null)
         {
             if (!request.Body.CanSeek)

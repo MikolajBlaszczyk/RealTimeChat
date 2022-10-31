@@ -8,5 +8,10 @@ namespace API.Hubs
         {
             return Clients.All.SendAsync("GetMessage",userName, messageContent);
         }
+
+        public Task GetAllUsers()
+        {
+            
+        }
     }
 }

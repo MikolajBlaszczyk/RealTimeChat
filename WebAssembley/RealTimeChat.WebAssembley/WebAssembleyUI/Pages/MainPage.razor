@@ -2,29 +2,61 @@
 @inject IJSRuntime JsRuntime
 <PageTitle>Main</PageTitle>
 
-@*<div id="line-two"></div>*@
+
+
+<!--LOGO will be in the center-->
+<div class="rtc-design">
+    <div class="round-design"></div>
+</div>
 
 <div class="main-page">
     <div class="template">
-        <nav id="nav-left" class="max-size">
-            <div class="nav-left max-size">
+        <div class="nav-users d-flex" id="nav-users">
+            <img src="Images/LogoRTC.png" class="nav-logo" id="nav-logo" />
+        </div>
+        <div class="users" id="users">
+            @foreach (var user in Users)
+            {
+                <div class="user-div d-flex">
+                    <div class="user d-flex" @onclick="() => { OpenChatForUser(user); }">
+                        @user
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="nav-center">
+            <div class="start default-font">Start</div>
+            <div class="friends default-font">Friends</div>
 
+        </div>
+        <div class="nav-chat">
+            <div class="chat-user d-flex default-font" @onclick="() => { ToggleChat(); }">
+                @ChatUser 
             </div>
-        </nav>
-        <nav id="upper-bar" class="max-size">
-            <div class="upper-bar max-size">
-
+            <div class="settings d-flex" @onclick="() => { GetSettingsWindow(); }">
+                <img class="im im-gear im-gear-white" />
             </div>
-        </nav>
-        <section id="main" class="max-size">
-
-        </section>
-        
+        </div>
+        <div class="chat">
+            <div id="chat-window"></div>
+            <div class="settings-window"> </div>
+        </div>
     </div>
 </div>
 
-@code{
+
+
+@code {
     private IJSObjectReference? module;
+    private List<string> Users;
+    private string ChatUser;
+
+    protected override Task OnInitializedAsync()
+    {
+        Users = SampleData.Users.Populate();
+        ChatUser = "Start Chatting";
+        return base.OnInitializedAsync();
+    }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -35,4 +67,19 @@
         }
     }
 
+    protected async Task OpenChatForUser(string user)
+    {
+        ChatUser = user;
+        ToggleChat();
+    }
+
+    protected async Task ToggleChat()
+    {
+        await module.InvokeVoidAsync("ToggleChatWindow");
+    }
+
+    protected async Task GetSettingsWindow()
+    {
+        await module.InvokeVoidAsync("ToggleSettingsWindow");
+    }
 }

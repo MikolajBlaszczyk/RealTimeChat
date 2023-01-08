@@ -1,9 +1,5 @@
-using API.Hubs;
-using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using RealTimeChat.API.Helpers.Validators;
 using RealTimeChat.API.Startup;
+using RealTimeChat.BusinessLogic.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AppContextConnection") ?? throw new InvalidOperationException("Connection string 'AppContextConnection' not found.");
@@ -23,7 +19,6 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseCors();
 app.UseCookiePolicy();
-
 
 app.MapControllers();
 app.MapHub<WebChatHub>("/chat");

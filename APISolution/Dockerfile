@@ -1,4 +1,6 @@
-﻿#Build stage
+﻿#Database Stage
+
+#Build stage
 FROM mcr.microsoft.com/dotnet/sdk:6.0-focal AS build
 ENV ASPNETCORE_URLS=http://*:5000
 WORKDIR /source

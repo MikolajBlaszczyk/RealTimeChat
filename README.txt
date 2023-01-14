@@ -1,4 +1,5 @@
-Master Branch
+
+=======
   DataAccess:
   - Connect MongoDB to store data e.g. chats between users
   API:
@@ -9,6 +10,3 @@ Master Branch
   - Create MVC/Razor pages UI 
   - Create WebAssembley UI 
   - Create React UI  
-Refactor Branch 
-  -Change the directories to support multiple solutions
-  -Check for a way to clone only specific solution 

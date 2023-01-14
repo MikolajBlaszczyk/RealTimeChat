@@ -61,7 +61,7 @@ namespace RealTimeChat.API.Startup
             services.AddSwaggerGen();
             //Dependency injection
             services.AddTransient<IUserValidator, UserValidator>();
-
+            
             return services;
         }
     }

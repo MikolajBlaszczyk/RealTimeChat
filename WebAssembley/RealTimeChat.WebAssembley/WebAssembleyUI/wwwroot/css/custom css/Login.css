@@ -1,0 +1,58 @@
+﻿@import url('../variables/color-variables.css');
+
+.flying-plane {
+    display: flex;
+    animation-name: start-plane;
+    animation-duration: 0.7s;
+    animation-timing-function: linear;
+}
+
+.invisible {
+    display: none;
+}
+
+.username-text {
+    position: relative !important;
+    display: flex;
+    color: var(--white);
+    height: fit-content;
+    background-color: var(--secondary);
+    padding: 0 2.5px;
+    left: calc(-95%);
+    z-index: 2;
+    animation-name: inputAnimation;
+    animation-duration: 0.01s;
+    animation-fill-mode: forwards;
+}
+
+@keyframes start-plane {
+    0% {
+        transform: translate(300%, 0) scale(1) rotate(20deg);
+    }
+
+    100% {
+        transform: translate(70vw, 25vh) scale(5) rotate(60deg);
+    }
+}
+
+@keyframes inputAnimation {
+    0% {
+        z-index: -1;
+        top: 0px;
+        font-size: 2rem;
+    }
+
+    90% {
+        z-index: -1;
+        top: calc(-0.4rem);
+        font-size: 1.2rem;
+    }
+
+    100% {
+        z-index: 2;
+        top: calc(-0.6rem);
+        font-size: 0.7rem;
+    }
+}
+
+

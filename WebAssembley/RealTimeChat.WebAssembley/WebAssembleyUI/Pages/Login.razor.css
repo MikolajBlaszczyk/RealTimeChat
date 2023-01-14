@@ -3,8 +3,10 @@
     min-height: 100vh;
     min-width: 100vw;
     justify-content: center;
+    overflow-x: hidden;
+    overflow-y: hidden;
     align-items: center;
-    background-color: #00bfff;
+    background-color: var(--primary);
 }
 
 .login-form-div {
@@ -12,16 +14,16 @@
     width: 17%;
     height: 60%;
     border-radius: 20px;
-    background-color: #e8fcff;
+    background-color: var(--secondary);
     padding: 0.5%;
     box-shadow: 0px 0px 8px 0.2px;
+    z-index: 1;
 }
 
 @media (max-width: 1400px) {
     .login-form-div {
         width: 23%;
         height: 60%;
-        
     }
 }
 
@@ -37,7 +39,7 @@ form {
     display: grid;
     width: 100%;
     height: 100%;
-    grid-template-rows: 4% 10% 4% 10% 4% 10% 4% 20% 4% 20%;
+    grid-template-rows: 7% 10% 7% 10% 7% 10% 7% 35% 3%;
     grid-template-columns: 5% 90% 5%;
 }
 
@@ -62,10 +64,17 @@ form {
     min-height: 100%;
     border-radius: 5px;
     height: 3rem;
-    font-size: 2rem;
-    outline: 1px auto;
-    background-color:#e8fcff;
+    font-size: 1.5rem;
+    background-color: var(--secondary);
+    outline: 1px solid var(--white);
+    color: var(--white);
     z-index: 1;
+    user-select: none;
+    border: none !important;
+}
+
+.input::placeholder{
+    color:white;
 }
 
 #button-div {
@@ -78,14 +87,46 @@ form {
 }
 
 
-.submit-button{
-    background-color:transparent;
+.submit-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
     border-radius: 5px;
-    font-size: 2rem;
-    width: 20%;
+    font-size: 1.5rem;
+    padding: 4px auto;
+    width: 100%;
+    color: var(--white);
+    background-color: var(--submit-color);
+    border: none;
+}
+
+#message-div {
+    width: 100%;
+    height: 100%;
+    grid-row: 8;
+    grid-column: 2;
+}
+
+.line-div {
+    position: relative;
+    display: flex;
+    padding: 10%;
+    width: 95%;
+    height: 100%;
 }
 
 
-.submit-button:hover {
-    background-color: #a6ecff
+
+#login-img {
+    padding-left: 5%;
+}
+
+#line-one {
+    width: 5vw;
+    height: 200vh;
+    position: fixed;
+    z-index: 0;
+    background-color: var(--white);
+    transform: translateX(50vw) translateY(-45vh) rotate(-45deg);
 }

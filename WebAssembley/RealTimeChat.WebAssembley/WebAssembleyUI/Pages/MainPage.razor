@@ -1,0 +1,38 @@
+﻿@page "/"
+@inject IJSRuntime JsRuntime
+<PageTitle>Main</PageTitle>
+
+@*<div id="line-two"></div>*@
+
+<div class="main-page">
+    <div class="template">
+        <nav id="nav-left" class="max-size">
+            <div class="nav-left max-size">
+
+            </div>
+        </nav>
+        <nav id="upper-bar" class="max-size">
+            <div class="upper-bar max-size">
+
+            </div>
+        </nav>
+        <section id="main" class="max-size">
+
+        </section>
+        
+    </div>
+</div>
+
+@code{
+    private IJSObjectReference? module;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender == true)
+        {
+            while (module is null)
+                module = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/MainPage.js");
+        }
+    }
+
+}

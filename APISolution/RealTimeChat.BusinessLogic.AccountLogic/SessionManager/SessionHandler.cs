@@ -1,40 +1,52 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RealTimeChat.API.DataAccess.IdentityContext;
+﻿using RealTimeChat.API.DataAccess.IdentityContext;
 using RealTimeChat.API.DataAccess.Models;
+using RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
 
-namespace RealTimeChat.BusinessLogic.AccountLogic.SessionManager
+namespace RealTimeChat.BusinessLogic.AccountLogic.SessionManager;
+
+public class SessionHandler :ISessionHandler
 {
-    public class SessionHandler
+    private readonly ApplicationContext DbContext;
+
+    public SessionHandler(ApplicationContext dbContext)
     {
-        private readonly ApplicationContext DbContext;
+        DbContext = dbContext;
+    }
 
-        public SessionHandler(ApplicationContext dbContext)
-        {
-            DbContext = dbContext;
-        }
+    public async Task InitializeSession(IUserModel user)
+    {
+        Session sessionToInitialize = DataAccessModelFactory.CreateSessionModel(GetUserGuid(user.Username));
 
+        DbContext.Session.Add(sessionToInitialize);
+        await DbContext.SaveChangesAsync();
+    }
 
-        public void InitializeSession(string userGuid)
-        {
-            Session sessionToInitialize = new Session();
-
-            sessionToInitialize.UserGUID = userGuid;
-            sessionToInitialize.SignInDate = DateTime.Now;
-
-            DbContext.Session.Add(sessionToInitialize);
-            DbContext.SaveChanges();
-        }
-
-        public void TerminateSession(string userGuid)
-        {
-            Session sessionToTerminate = DbContext.Session.Find(userGuid);
+    public async Task TerminateSession(string userName)
+    {
+        Session? sessionToTerminate = DbContext.Session.SingleOrDefault(session => session.UserGUID == GetUserGuid(userName));
             
-            DbContext.Remove(sessionToTerminate);
-            DbContext.SaveChanges();
+        if (sessionToTerminate != null)
+        {
+            DbContext.Session.Remove(sessionToTerminate);
+            await DbContext.SaveChangesAsync();
         }
+    }
+
+    public async Task TerminateAllSessions()
+    {
+        DbContext.Session.RemoveRange(DbContext.Session.ToList());
+        await DbContext.SaveChangesAsync();
+    }
+
+    private string GetUserGuid(string userName)
+    {
+        var user = DbContext.Users.SingleOrDefault(user => user.UserName == userName);
+
+        return user != null ? user.Id : null;
+    }
+    
+    public void Dispose()
+    {
+        DbContext.Dispose();
     }
 }

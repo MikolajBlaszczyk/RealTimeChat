@@ -1,10 +1,10 @@
-﻿using RealTimeChat.BusinessLogic.AccountLogic.Enums;
+﻿using RealTimeChat.BusinessLogic.AccountLogic.Models;
 
 namespace RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
 
 public interface IUserAccountRequestHandler
 {
-    bool HandleRegisterRequest(IUserModel user, out string message, out ResponseIdentityResult response);
-    bool HandleLoginRequest(IUserModel user, out string message, out ResponseIdentityResult response);
-    bool HandleLogoutRequest(out string message, out ResponseIdentityResult response);
+    Task<ResponseModel> HandleRegisterRequest(IUserModel user);
+    Task<ResponseModel> HandleLoginRequest(IUserModel user);
+    Task<ResponseModel> HandleLogoutRequest();
 }

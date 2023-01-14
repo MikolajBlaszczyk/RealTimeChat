@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using RealTimeChat.BusinessLogic.AccountLogic.Enums;
 using RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
+using RealTimeChat.BusinessLogic.AccountLogic.Models;
 using RealTimeChat.BusinessLogic.AccountLogic.SessionManager;
 using RealTimeChat.BusinessLogic.AccountLogic.Validators;
 
@@ -10,7 +12,7 @@ namespace RealTimeChat.BusinessLogic.AccountLogic.AccountManager;
 public class LoginManager : ILoginManager
 {
     private SignInManager<IdentityUser> _singInManager;
-    private readonly SessionHandler _sessionHandler;
+    private readonly ISessionHandler _sessionHandler;
 
     public IAccountValidator Validator { get; }
     public SignInManager<IdentityUser> SignInManager
@@ -24,62 +26,51 @@ public class LoginManager : ILoginManager
             return _singInManager;
         }
     }
-
-
-    public LoginManager(IAccountValidator validator, SignInManager<IdentityUser> singInManager, SessionHandler sessionHandler)
+    
+    public LoginManager(IAccountValidator validator, SignInManager<IdentityUser> singInManager, ISessionHandler sessionHandler)
     {
         Validator = validator;
         _singInManager = singInManager;
         _sessionHandler = sessionHandler;
     }
 
-    public bool LoginUser(IUserModel user, out string message, out ResponseIdentityResult res)
+    public async Task<ResponseModel> LoginUserAsync(IUserModel user)
     {
-        message = string.Empty;
-
         var isValid = Validator.IsPasswordValid(user.Password);
         if (isValid)
         {
-            SignInResult result = SignIn(user, out message, out res);
+            var result = await SignInAsync(user);
+            
+            await _sessionHandler.InitializeSession(user);
 
-            var guid = 
-
-            _sessionHandler.InitializeSession(guid);
-
-            return result.Succeeded;
+            return result;
         }
         else
         {
             //TODO message should be changes inside of IsPasswordValidFunction
-            message = "Password is Too short";
-            res = ResponseIdentityResult.WrongCredentials;
+            return ResponseModel.CreateResponse(ResponseIdentityResult.WrongCredentials, "Password is Too short");
         }
 
-        return isValid;
     }
 
-    public SignInResult SignIn(IUserModel user, out string message, out ResponseIdentityResult res)
+    public async Task<ResponseModel> SignInAsync(IUserModel user)
     {
-        message = string.Empty;
+        SignInResult signInResult =  await SignInManager.PasswordSignInAsync(user.Username, user.Password, false, false);
 
-        SignInResult signInResult =  SignInManager.PasswordSignInAsync(user.Username, user.Password, false, false).Result;
-
-        if (signInResult.Succeeded) 
-            res = ResponseIdentityResult.Success;
+        if (signInResult.Succeeded)
+            return ResponseModel.CreateResponse(ResponseIdentityResult.Success);
         else
-            res = ResponseIdentityResult.WrongCredentials;
-
-        return signInResult;
+            return ResponseModel.CreateResponse(ResponseIdentityResult.WrongCredentials);
     }
 
   
 
-    public async Task SignOut()
+    public async Task SignOutAsync()
     {
         await SignInManager.SignOutAsync();
 
         var guid = SignInManager.Context.Session.Id;
-
+        
         _sessionHandler.TerminateSession(guid);
     }
 }

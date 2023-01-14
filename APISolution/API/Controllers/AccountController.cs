@@ -11,20 +11,22 @@ namespace RealTimeChat.API.Controllers;
 [AllowAnonymous]
 public class AccountController : Controller
 {
+    private ILogger Logger { get; }
     private readonly IUserAccountRequestHandler RequestHandler;
 
-    public AccountController(IUserAccountRequestHandler requestHandler)
+    public AccountController(ILogger<AccountController> logger,IUserAccountRequestHandler requestHandler)
     {
+        Logger = logger;
         RequestHandler = requestHandler;
     }
-    //TODO: create ResponseResult containing message, response, success
+    
     [HttpPost]
     [Route("Register")]
     public async Task<IActionResult> Register([FromBody] UserModel body)
     {
-        RequestHandler.HandleRegisterRequest(body,out string message, out ResponseIdentityResult response);
-
-        return GenerateResponse(response, message);
+        var response = await RequestHandler.HandleRegisterRequest(body);
+        
+        return GenerateHttpResponse(response.Result, response.Message);
     }
 
 
@@ -32,9 +34,9 @@ public class AccountController : Controller
     [Route("Login")]
     public async Task<IActionResult> Login([FromBody] UserModel body)
     {
-        RequestHandler.HandleLoginRequest(body, out string message, out ResponseIdentityResult response);
-
-        return GenerateResponse(response, message);
+        var response = await RequestHandler.HandleLoginRequest(body);
+        
+        return GenerateHttpResponse(response.Result, response.Message);
     }
 
    
@@ -42,10 +44,9 @@ public class AccountController : Controller
     [Route("Logout")]
     public async Task<IActionResult> Logout()
     {
-        RequestHandler.HandleLogoutRequest(out string message, out ResponseIdentityResult response);
+        var response = await RequestHandler.HandleLogoutRequest();
         
-
-        return GenerateResponse(response, message);
+        return GenerateHttpResponse(response.Result, response.Message);
     }
 
 
@@ -53,15 +54,16 @@ public class AccountController : Controller
     [Route("Users")]
     public async Task<IActionResult> GetUsers()
     {
-
-        return Ok();
+        throw new NotImplementedException();
     }
 
-    private ObjectResult GenerateResponse(ResponseIdentityResult res, string message) => res switch
+    private ObjectResult GenerateHttpResponse(ResponseIdentityResult res, string message) => res switch
     {
         ResponseIdentityResult.UserNotCreated or ResponseIdentityResult.WrongCredentials or ResponseIdentityResult.ValidationPasswordFailed => BadRequest(message),
         ResponseIdentityResult.ServerError or ResponseIdentityResult.LogoutFail => StatusCode(500, message),
         ResponseIdentityResult.Success => Ok(message),
         _ => NotFound(message)
     };
+
+
 }

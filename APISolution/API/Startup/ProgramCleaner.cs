@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using RealTimeChat.API.Controllers;
 using RealTimeChat.API.DataAccess.IdentityContext;
+using RealTimeChat.API.Middleware;
 using RealTimeChat.BusinessLogic.AccountLogic;
 using RealTimeChat.BusinessLogic.AccountLogic.AccountManager;
 using RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
@@ -25,6 +26,7 @@ public static class ProgramCleaner
         //Identity 
         services.AddDefaultIdentity<IdentityUser>()
             .AddEntityFrameworkStores<ApplicationContext>();
+        
         services.Configure<IdentityOptions>(options =>
         {
             options.Password.RequireDigit = true;
@@ -40,6 +42,7 @@ public static class ProgramCleaner
 
             options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
             options.User.RequireUniqueEmail = false;
+
         });
         services.ConfigureApplicationCookie(options =>
         {
@@ -63,16 +66,21 @@ public static class ProgramCleaner
             });
         });
 
+        services.AddOptions<HostOptions>().Configure(options =>
+        {
+            options.ShutdownTimeout = TimeSpan.FromSeconds(20);
+        });
+
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         //Dependency injection
+        services.AddTransient<AppCleaner,AppCleaner>();
         services.AddTransient<IRegisterManager, RegisterManager>();
         services.AddTransient<ILoginManager, LoginManager>();
-        services.AddTransient<SessionHandler, SessionHandler>();
+        services.AddTransient<ISessionHandler, SessionHandler>();
         services.AddTransient<IUserAccountRequestHandler, UserAccountRequestHandler>();
         services.AddTransient<IAccountValidator, AccountValidator>();
-        services.AddSingleton<ChatManager, ChatManager>(); 
         services.AddSingleton<IAvailablilityManager, AvailablilityManager>();
 
         return services;

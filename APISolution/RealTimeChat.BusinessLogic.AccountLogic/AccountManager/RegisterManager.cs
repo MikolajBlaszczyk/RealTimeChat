@@ -1,7 +1,8 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using RealTimeChat.BusinessLogic.AccountLogic.Enums;
 using RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
+using RealTimeChat.BusinessLogic.AccountLogic.Models;
 using RealTimeChat.BusinessLogic.AccountLogic.Validators;
 
 namespace RealTimeChat.BusinessLogic.AccountLogic.AccountManager;
@@ -12,9 +13,8 @@ public class RegisterManager : IRegisterManager
 
     private SignInManager<IdentityUser> _signInManager;
     private UserManager<IdentityUser> _userManager;
-
-    internal IAccountValidator AccountValidator { get;  }
-    internal SignInManager<IdentityUser> SignInManager
+    private IAccountValidator AccountValidator { get;  }
+    private SignInManager<IdentityUser> SignInManager
     {
         get
         {
@@ -25,7 +25,7 @@ public class RegisterManager : IRegisterManager
             return _signInManager;
         }
     }
-    internal UserManager<IdentityUser> UserManager
+    private UserManager<IdentityUser> UserManager
     {
         
         get
@@ -46,33 +46,37 @@ public class RegisterManager : IRegisterManager
         _userManager = userManager;
     }
 
-    public bool RegisterUser(IUserModel userToRegister, out string message, out ResponseIdentityResult response)
+    public async Task<ResponseModel> RegisterUserAsync(IUserModel userToRegister)
     {
-        message = string.Empty;
-
-        var isPasswordValid = AccountValidator.IsPasswordValid(userToRegister.Password, userToRegister.ConfirmPassword, out  message);
+        string message = string.Empty;
+        
+        var isPasswordValid = AccountValidator.IsPasswordValid(userToRegister.Password, userToRegister.ConfirmPassword, ref message);
         if (isPasswordValid)
         {
-            IdentityResult registerResult = CreateUser(userToRegister);
+            IdentityResult registerResult = await  CreateUserAsync(userToRegister);
 
             if (registerResult.Succeeded)
-                response = ResponseIdentityResult.Success;
+                return ResponseModel.CreateResponse(ResponseIdentityResult.Success);
             else
-                response = ResponseIdentityResult.UserNotCreated;
-
-            return registerResult.Succeeded;
+                return ResponseModel.CreateResponse(ResponseIdentityResult.UserNotCreated);
         }
         else
         {
-            response = ResponseIdentityResult.ValidationPasswordFailed;
-            return isPasswordValid;
+            return ResponseModel.CreateResponse(ResponseIdentityResult.ValidationPasswordFailed, message);
         }
     }
-
-
-    private IdentityResult CreateUser(IUserModel userToRegister)
+    
+    private async Task<IdentityResult> CreateUserAsync(IUserModel userToRegister)
     {
-        return UserManager.CreateAsync(userToRegister.ConvertToIdentityUser(), userToRegister.Password).Result;
+        IdentityResult result;
+        var user = userToRegister.ConvertToIdentityUser();
+
+        result = await UserManager.CreateAsync(user, userToRegister.Password);
+        // is it necessary? 
+        //result = await UserManager.AddClaimAsync(user, new Claim("FUID", await UserManager.GetUserIdAsync(user)));
+
+        return result;
+
     }
 
 }

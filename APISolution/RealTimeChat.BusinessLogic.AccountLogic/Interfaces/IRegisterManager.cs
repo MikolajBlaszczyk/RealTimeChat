@@ -1,8 +1,9 @@
 ﻿using RealTimeChat.BusinessLogic.AccountLogic.Enums;
+using RealTimeChat.BusinessLogic.AccountLogic.Models;
 
 namespace RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
 
 public interface IRegisterManager
 {
-    bool RegisterUser(IUserModel userToRegister, out string message, out ResponseIdentityResult response);
+    Task<ResponseModel> RegisterUserAsync(IUserModel userToRegister);
 }

@@ -13,7 +13,7 @@ public class AccountValidator : IAccountValidator
         throw new NotImplementedException();
     }
 
-    public bool IsPasswordValid(string password, string confirmPassword, out string message)
+    public bool IsPasswordValid(string password, string confirmPassword, ref string message)
     {
         var result = true;
         message = string.Empty;

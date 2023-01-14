@@ -1,78 +1,69 @@
-﻿using Microsoft.AspNetCore.Identity;    
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
 using RealTimeChat.BusinessLogic.AccountLogic.Enums;
-using RealTimeChat.BusinessLogic.AccountLogic.SessionManager;
+using RealTimeChat.BusinessLogic.AccountLogic.Models;
 
 namespace RealTimeChat.BusinessLogic.AccountLogic;
 
 public class UserAccountRequestHandler : IUserAccountRequestHandler
 {
-    private const bool ServerError = false;
-
+    private ILogger<IUserAccountRequestHandler> Logger { get; }
     private readonly ILoginManager LoginManager;
     private readonly IRegisterManager RegisterManager;
 
-    public UserAccountRequestHandler(IRegisterManager registerManager, ILoginManager loginManager)
+    public UserAccountRequestHandler(IRegisterManager registerManager, ILoginManager loginManager, ILogger<IUserAccountRequestHandler> logger)
     {
+        Logger = logger;
         LoginManager = loginManager;
         RegisterManager = registerManager;
     }
 
-    public bool HandleRegisterRequest(IUserModel user, out string message, out ResponseIdentityResult res)
+    public async Task<ResponseModel> HandleRegisterRequest(IUserModel user)
     {
         try
         {
-            bool isRegisterSuccess =RegisterManager.RegisterUser(user,out message,out res);
-            if (isRegisterSuccess == false)
+            var registerResult = await RegisterManager.RegisterUserAsync(user);
+            
+            if (registerResult.Result != ResponseIdentityResult.Success)
             {
-                return isRegisterSuccess;
+                return registerResult;
             }
 
-            SignInResult loginResult = LoginManager.SignIn(user, out message, out res);
+            var loginResult = await LoginManager.SignInAsync(user);
 
-            return loginResult.Succeeded;
+            return loginResult;
         }
         catch (Exception ex)
         {
-            message = ex.Message;
-            res = ResponseIdentityResult.ServerError;
-            return ServerError;
+            return ResponseModel.CreateResponse(ResponseIdentityResult.ServerError, ex.Message);
         }
     }
 
-    public bool HandleLoginRequest(IUserModel user, out string message, out ResponseIdentityResult res)
+    public async Task<ResponseModel> HandleLoginRequest(IUserModel user)
     {
         //might need to add claims (perhaps when registering user, i don't remember :)) 
         try
         {
-            bool isLoginSuccess =  LoginManager.LoginUser(user, out message, out res);
-
-            return isLoginSuccess;
+            return await LoginManager.LoginUserAsync(user);
         }
         catch (Exception ex)
         {
-            message = ex.Message;
-            res = ResponseIdentityResult.ServerError;
-            return ServerError;
+            return ResponseModel.CreateResponse(ResponseIdentityResult.ServerError, ex.Message);
         }
     }
 
-    public  bool HandleLogoutRequest(out string message, out ResponseIdentityResult res)
+    public async Task<ResponseModel> HandleLogoutRequest()
     {
         try
         {
-            Task task = LoginManager.SignOut();
-            Task.WaitAll(task);
+            await LoginManager.SignOutAsync();
 
-            res = ResponseIdentityResult.Success;
-            message = string.Empty;
-            return true;
+            return ResponseModel.CreateResponse(ResponseIdentityResult.Success);
         }
         catch (Exception ex)
         {
-            res = ResponseIdentityResult.ServerError;
-            message = ex.Message;
-            return false;
+            return ResponseModel.CreateResponse(ResponseIdentityResult.ServerError, ex.Message);
         }
     }
 

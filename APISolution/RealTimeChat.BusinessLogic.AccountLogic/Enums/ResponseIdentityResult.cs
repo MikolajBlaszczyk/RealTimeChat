@@ -4,15 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RealTimeChat.BusinessLogic.AccountLogic.Enums
+namespace RealTimeChat.BusinessLogic.AccountLogic.Enums;
+
+public enum ResponseIdentityResult
 {
-    public enum ResponseIdentityResult
-    {
-        Success, 
-        WrongCredentials,
-        ValidationPasswordFailed,
-        LogoutFail,
-        UserNotCreated,
-        ServerError
-    }
+    Success, 
+    WrongCredentials,
+    ValidationPasswordFailed,
+    LogoutFail,
+    UserNotCreated,
+    ServerError
 }

@@ -11,4 +11,5 @@ public class Session
     public int SessionId { get; set; }
     public string UserGUID { get; set; }
     public DateTime SignInDate { get; set; }
+    //TODO implement user name, connectionID
 }

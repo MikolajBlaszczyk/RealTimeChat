@@ -38,6 +38,7 @@ public class SessionHandler :ISessionHandler
         await DbContext.SaveChangesAsync();
     }
 
+    //TODO: think about it
     private string GetUserGuid(string userName)
     {
         var user = DbContext.Users.SingleOrDefault(user => user.UserName == userName);

@@ -42,7 +42,6 @@ public class UserAccountRequestHandler : IUserAccountRequestHandler
 
     public async Task<ResponseModel> HandleLoginRequest(IUserModel user)
     {
-        //might need to add claims (perhaps when registering user, i don't remember :)) 
         try
         {
             return await LoginManager.LoginUserAsync(user);

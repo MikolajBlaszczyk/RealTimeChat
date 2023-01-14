@@ -46,8 +46,7 @@ public class LoginManager : ILoginManager
             return result;
         }
         else
-        {
-            //TODO message should be changes inside of IsPasswordValidFunction
+        { 
             return ResponseModel.CreateResponse(ResponseIdentityResult.WrongCredentials, "Password is Too short");
         }
 

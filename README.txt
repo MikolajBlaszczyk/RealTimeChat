@@ -1,12 +1,8 @@
-
-=======
-  DataAccess:
-  - Connect MongoDB to store data e.g. chats between users
-  API:
-  - Create logic behind ChatHub 
-  - Create the logic behind ChatController
-  In New Solution: 
-  - Create Console app to test authorization commands from API [TEST] 
-  - Create MVC/Razor pages UI 
-  - Create WebAssembley UI 
-  - Create React UI  
+In New Solution: 
+- create unit tests
+- Create React UI  
+WebAssembley UI:
+- Improve some Frontend logic
+- Prepare design rtc (object connected with communicator) 
+Docker:
+- find way to run db that ASP.NET Identity is using (Dockerfile in Api solution was created, do it there!)

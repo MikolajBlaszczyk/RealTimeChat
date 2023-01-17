@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>92b457e3-d534-49ce-8b20-ecf28b905aa4</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Libraries\HelperLibrary\HelperLibrary.csproj" />
+    <ProjectReference Include="..\..\..\Libraries\SampleLibrary\SampleData\SampleData.csproj" />
   </ItemGroup>
 
 </Project>

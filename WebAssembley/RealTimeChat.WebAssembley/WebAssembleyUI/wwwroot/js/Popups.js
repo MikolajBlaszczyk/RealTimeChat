@@ -8,6 +8,7 @@
         this.Options = { "error": "popup-standard-error" }
         this.OverlayClass = "overlay"
         this.CloseButtonClass = "close-button"
+        this.Font = "default-font"
     }
 
     RegisterCloseEvent = () => {
@@ -37,6 +38,7 @@
             this.Popup.classList.add(this.Options[this.Type])
             this.Overlay.classList.add(this.OverlayClass)
             this.PopupMessage.classList.add('popup-message')
+            this.PopupMessage.classList.add(this.Font);
 
             //Append created elements
             this.Popup.appendChild(this.PopupMessage)

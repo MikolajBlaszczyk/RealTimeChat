@@ -1,9 +1,9 @@
-﻿
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using RealTimeChat.API.DataAccess.Models;
 
-namespace API.Data;
+namespace RealTimeChat.API.DataAccess.IdentityContext;
 
 public class ApplicationContext : IdentityDbContext<IdentityUser>
 {
@@ -19,4 +19,6 @@ public class ApplicationContext : IdentityDbContext<IdentityUser>
         // For example, you can rename the ASP.NET Identity table names and more.
         // Add your customizations after calling base.OnModelCreating(builder);
     }
+
+    public DbSet<Session> Session { get; set; }
 }

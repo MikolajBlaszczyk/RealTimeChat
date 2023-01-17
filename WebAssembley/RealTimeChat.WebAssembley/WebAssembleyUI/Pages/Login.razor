@@ -1,5 +1,4 @@
 ﻿@page "/"
-@using System.Net.Http.Headers
 @using HelperLibrary.Helpers.Http
 @using WebAssembleyUI.Helpers.Login
 @implements IAsyncDisposable
@@ -59,7 +58,7 @@
         {
             while (module is null)
                 module = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/Login.js");
-        } 
+        }
     }
 
     #region UsernameInput
@@ -107,11 +106,11 @@
         }
             
         var LoginHelper = ServiceProvider.GetService<IRequestHandler>();
-        var success = await LoginHelper.HandleRequest(Client, new UserModel() { Password = Password, Username = Username }, Configuration.GetSection("Api")["Login"].ToString());
+        var success = await LoginHelper.HandleRequest(Client, new UserModel() { Password = Password, Username = Username }, Configuration.GetSection("Api")["Login"]);
 
         if (success)
         {
-            NavManager.NavigateTo("/Main");
+            NavManager.NavigateTo("/rtc");
         }
         else
         {

@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using RealTimeChat.API.Controllers;
 using RealTimeChat.API.DataAccess.IdentityContext;
+using RealTimeChat.API.DataAccess.KeyDataAccess;
 using RealTimeChat.API.Middleware;
+using RealTimeChat.BusinessLogic;
 using RealTimeChat.BusinessLogic.AccountLogic;
 using RealTimeChat.BusinessLogic.AccountLogic.AccountManager;
 using RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
@@ -75,6 +77,8 @@ public static class ProgramCleaner
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         //Dependency injection
+        services.AddTransient<DatabaseClosureManager, DatabaseClosureManager>();
+        services.AddTransient<ClosureHandler, ClosureHandler>();
         services.AddTransient<AppCleaner,AppCleaner>();
         services.AddTransient<IRegisterManager, RegisterManager>();
         services.AddTransient<ILoginManager, LoginManager>();

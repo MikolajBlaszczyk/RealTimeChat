@@ -36,6 +36,7 @@ app.Run();
 void CleanApp()
 {
     app.Logger.Log(LogLevel.Information, UserMessage.AppStopping);
+    List<Task> tasks = new List<Task>();
 
     try
     {
@@ -44,7 +45,13 @@ void CleanApp()
         {
 
             if (cleaner != null)
-                cleaner.CleanAppSession().Wait();
+            {
+                tasks.Add(cleaner.CleanAppSession());
+                tasks.Add(cleaner.CleanBusinessLogic());
+
+                Task.WaitAll(tasks.ToArray());
+            }
+               
         }
     }
     catch (Exception ex)

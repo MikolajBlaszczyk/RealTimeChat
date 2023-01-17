@@ -42,3 +42,5 @@ export const ErrorModalShow = (message,show) => {
     popup.ShowPopup()
     popup.RegisterCloseEvent()
 }
+
+

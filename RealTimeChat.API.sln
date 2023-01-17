@@ -5,13 +5,11 @@ VisualStudioVersion = 17.3.32819.101
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeChat.API", "API\RealTimeChat.API.csproj", "{9F320AD5-38B8-4E10-8E0C-9363545AC6FF}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeChat.API.Helpers", "RealTimeChat.API.Helpers\RealTimeChat.API.Helpers.csproj", "{A88121B3-B079-4EDA-84D0-132760A0C846}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeChat.BusinessLogic", "RealTimeChat.BussinesLogic\RealTimeChat.BusinessLogic.csproj", "{D9B87DDF-A913-446B-B917-9B5DDDB61C6C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeChat.DataAccess", "RealTimeChat.DataAccess\RealTimeChat.DataAccess.csproj", "{2633CA87-CD54-4E00-9FF9-6B3B102B5707}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeChat.AccountLogic", "RealTimeChat.AccountLogic\RealTimeChat.AccountLogic.csproj", "{370E4DBD-C547-4B9B-8CA8-29C6E04AC2A6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeChat.BusinessLogic.AccountLogic", "RealTimeChat.BusinessLogic.AccountLogic\RealTimeChat.BusinessLogic.AccountLogic.csproj", "{370E4DBD-C547-4B9B-8CA8-29C6E04AC2A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeChat.API.DataAccess", "RealTimeChat.API.DataAccess\RealTimeChat.API.DataAccess.csproj", "{2633CA87-CD54-4E00-9FF9-6B3B102B5707}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,6 +21,10 @@ Global
 		{9F320AD5-38B8-4E10-8E0C-9363545AC6FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F320AD5-38B8-4E10-8E0C-9363545AC6FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F320AD5-38B8-4E10-8E0C-9363545AC6FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A88121B3-B079-4EDA-84D0-132760A0C846}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A88121B3-B079-4EDA-84D0-132760A0C846}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A88121B3-B079-4EDA-84D0-132760A0C846}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A88121B3-B079-4EDA-84D0-132760A0C846}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D9B87DDF-A913-446B-B917-9B5DDDB61C6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D9B87DDF-A913-446B-B917-9B5DDDB61C6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9B87DDF-A913-446B-B917-9B5DDDB61C6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -31,10 +33,6 @@ Global
 		{2633CA87-CD54-4E00-9FF9-6B3B102B5707}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2633CA87-CD54-4E00-9FF9-6B3B102B5707}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2633CA87-CD54-4E00-9FF9-6B3B102B5707}.Release|Any CPU.Build.0 = Release|Any CPU
-		{370E4DBD-C547-4B9B-8CA8-29C6E04AC2A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{370E4DBD-C547-4B9B-8CA8-29C6E04AC2A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{370E4DBD-C547-4B9B-8CA8-29C6E04AC2A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{370E4DBD-C547-4B9B-8CA8-29C6E04AC2A6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

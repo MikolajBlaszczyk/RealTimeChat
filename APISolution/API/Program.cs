@@ -46,8 +46,7 @@ void CleanApp()
 
             if (cleaner != null)
             {
-                tasks.Add(cleaner.CleanAppSession());
-                tasks.Add(cleaner.CleanBusinessLogic());
+                tasks.Add(cleaner.CleanApp());
 
                 Task.WaitAll(tasks.ToArray());
             }

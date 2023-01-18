@@ -1,33 +1,38 @@
-﻿using RealTimeChat.BusinessLogic;
-using RealTimeChat.BusinessLogic.AccountLogic.SessionManager;
+﻿using System.Diagnostics;
+using CliWrap;
+using CliWrap.Buffered;
 namespace RealTimeChat.API.Middleware;
 
 public class AppCleaner : IDisposable
 {
-    private readonly ISessionHandler _session;
-    private readonly ClosureHandler _bcHandler;
+    private readonly ILogger<AppCleaner> _logger;
 
-    public AppCleaner(ISessionHandler session,ClosureHandler bcHandler)
+    public AppCleaner(ILogger<AppCleaner> logger)
     {
-        _session = session;
-        _bcHandler = bcHandler;
+        _logger = logger;
+    }
+    public async Task CleanApp()
+    {
+        try
+        {
+            var result = await Cli.Wrap("python")
+                .WithArguments(@"..\..\API.Cleaner\ApiCleaner.py")
+                .WithValidation(CommandResultValidation.None)
+                .ExecuteBufferedAsync();
+            _logger.Log(LogLevel.Critical, result.StandardOutput);
+            _logger.Log(LogLevel.Critical, result.StandardError);
+        }
+        catch (Exception ex)
+        {
+         _logger.Log(LogLevel.Error,ex.ToString());   
+        }
+        
+        
     }
 
-    public async Task CleanAppSession()
-    {
-        await _session.TerminateAllSessions();
-    }
-
-    public async Task CleanBusinessLogic()
-    {
-        await _bcHandler.PerformNecessaryDataAccessAction();
-    }
 
     public void Dispose()
     {
-        if (_session != null)
-        {
-            _session.Dispose();
-        }
+        Process.GetCurrentProcess().Kill();
     }
 }

@@ -15,13 +15,13 @@ public class SessionHandler :ISessionHandler
 
     public async Task InitializeSession(IUserModel user)
     {
-        Session sessionToInitialize = DataAccessModelFactory.CreateSessionModel(GetUserGuid(user.Username));
+        Session sessionToInitialize = DataAccessModelFactory.CreateSessionModel(GetUserGuid(user));
 
         DbContext.Session.Add(sessionToInitialize);
         await DbContext.SaveChangesAsync();
     }
 
-    public async Task TerminateSession(string userName)
+    public async Task TerminateSession(IUserModel userName)
     {
         Session? sessionToTerminate = DbContext.Session.SingleOrDefault(session => session.UserGUID == GetUserGuid(userName));
             
@@ -39,15 +39,10 @@ public class SessionHandler :ISessionHandler
     }
 
     //TODO: think about it
-    private string GetUserGuid(string userName)
+    private string GetUserGuid(IUserModel userName)
     {
-        var user = DbContext.Users.SingleOrDefault(user => user.UserName == userName);
+        var user = DbContext.Users.SingleOrDefault(user => user.UserName == userName.Username);
 
         return user != null ? user.Id : null;
-    }
-    
-    public void Dispose()
-    {
-        DbContext.Dispose();
     }
 }

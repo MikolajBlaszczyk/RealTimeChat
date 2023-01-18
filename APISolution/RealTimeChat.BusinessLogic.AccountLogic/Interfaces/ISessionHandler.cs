@@ -2,9 +2,9 @@
 
 namespace RealTimeChat.BusinessLogic.AccountLogic.SessionManager;
 
-public interface ISessionHandler: IDisposable
+public interface ISessionHandler
 {
     Task InitializeSession(IUserModel user);
-    Task TerminateSession(string userName);
+    Task TerminateSession(IUserModel user);
     Task TerminateAllSessions();
 }

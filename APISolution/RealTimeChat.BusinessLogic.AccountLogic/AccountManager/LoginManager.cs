@@ -68,8 +68,7 @@ public class LoginManager : ILoginManager
     {
         await SignInManager.SignOutAsync();
 
-        var guid = SignInManager.Context.Session.Id;
-        
-        _sessionHandler.TerminateSession(guid);
+        IUserModel model = null;
+        _sessionHandler.TerminateSession(model);
     }
 }

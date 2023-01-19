@@ -1,5 +1,4 @@
-﻿@page "/Login"
-@using System.Net.Http.Headers
+﻿@page "/"
 @using HelperLibrary.Helpers.Http
 @using WebAssembleyUI.Helpers.Login
 @implements IAsyncDisposable
@@ -16,20 +15,20 @@
     <div class="login-form-div">
         <form>
             <div id="username-div" onmouseover="@UsernameInputOn" onmouseleave="@UsernameInputOff">
-                <input type="text"  placeholder="Username" class="input" id="username-input" @bind="Username" autocomplete="off"/>
+                <input type="text"  placeholder="Username" class="input default-font" id="username-input" @bind="Username" autocomplete="off"/>
             </div>
             <div id="password-div"  onmouseover="@PasswordInputOn" onmouseleave="@PasswordInputOff" >
-                <input type="password"  placeholder="Password" class="input" id="password-input" @bind="Password"  autocomplete="off"/>
+                <input type="password"  placeholder="Password" class="input default-font" id="password-input" @bind="Password"  autocomplete="off"/>
             </div>
             <div id="button-div">
-                <button type="button" class="submit-button" onclick="@SubmitData" >
+                <button type="button" class="submit-button default-font" onclick="@SubmitData" >
                     Sign In
                     <i class="im im-paperplane i-standard invisible" ></i>
                 </button>
             </div>
             <div id="message-div">
                 <div class="line-div">
-                    <img src="Images/undraw_login_re_4vu2.svg" id="login-img" style="display: flex; width: 100%; height: 100%;"/>
+                    <img src="Images/FullLogoRTC.png" id="login-img" />
                 </div>
             </div>
         </form>
@@ -59,7 +58,7 @@
         {
             while (module is null)
                 module = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/Login.js");
-        } 
+        }
     }
 
     #region UsernameInput
@@ -107,11 +106,11 @@
         }
             
         var LoginHelper = ServiceProvider.GetService<IRequestHandler>();
-        var success = await LoginHelper.HandleRequest(Client, new UserModel() { Password = Password, Username = Username }, Configuration.GetSection("Api")["Login"].ToString());
+        var success = await LoginHelper.HandleRequest(Client, new UserModel() { Password = Password, Username = Username }, Configuration.GetSection("Api")["Login"]);
 
         if (success)
         {
-            NavManager.NavigateTo("/Main");
+            NavManager.NavigateTo("/rtc");
         }
         else
         {

@@ -1,0 +1,12 @@
+version: '3.9'
+services:
+  rtc_api:
+    image: rtc-api:latest
+    container_name: rtc
+    ports:
+      - "8000:80"
+  sql:
+    image: rtc-database:latest
+    container_name: database
+    ports:
+      - "11433:1433"

@@ -1,12 +1,8 @@
 
-=======
-  DataAccess:
-  - Connect MongoDB to store data e.g. chats between users
-  API:
-  - Create logic behind ChatHub 
-  - Create the logic behind ChatController
-  In New Solution: 
-  - Create Console app to test authorization commands from API [TEST] 
-  - Create MVC/Razor pages UI 
-  - Create WebAssembley UI 
-  - Create React UI  
+API:
+- Create "friends" logic
+- Fix logout method
+- Prepare solution for a session problem 
+- Implement Logger in key methods
+UI
+- Connect UI with new functionalities

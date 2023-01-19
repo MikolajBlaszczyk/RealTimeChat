@@ -9,6 +9,7 @@ export const LoginModule = (input) => {
         textBox['placeholder'] = ''
         textBox.parentElement.appendChild(newSpan)
         newSpan.classList.add(cssClassName)
+        newSpan.classList.add('default-font')
     }
     else {
         let span = document.querySelector(`.${cssClassName}`)
@@ -41,3 +42,5 @@ export const ErrorModalShow = (message,show) => {
     popup.ShowPopup()
     popup.RegisterCloseEvent()
 }
+
+

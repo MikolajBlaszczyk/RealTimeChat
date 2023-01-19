@@ -1,16 +1,23 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
+using RealTimeChat.AccountLogic.Interfaces;
 
-namespace API.Models
+namespace RealTimeChat.API.Models;
+
+public class UserModel : IUserModel
 {
-    public class UserModel
+    [Required]
+    public string Username { get; set; }
+    [Required]
+    [MinLength(6)]
+    public string Password { get; set; }
+    [Compare("Password")]
+    public string? ConfirmPassword { get; set; }
+
+    public string? Email { get; set; }
+
+    public IdentityUser ConvertToIdentityUser()
     {
-        [Required]
-        public string UserName { get; set; }
-        [Required]
-        [MinLength(6)]
-        public string Password { get; set; }
-        [Compare("Password")]
-        public string? ConfirmPassword { get; set; }
-        public string? Email { get; set; }
+        return new IdentityUser() { UserName = Username, Email = Email };
     }
 }

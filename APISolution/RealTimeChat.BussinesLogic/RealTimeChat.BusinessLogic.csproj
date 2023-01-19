@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RealTimeChat.API.DataAccess\RealTimeChat.API.DataAccess.csproj" />
+    <ProjectReference Include="..\RealTimeChat.API.DataAccess\RealTimeChat.DataAccess.csproj" />
   </ItemGroup>
 
 </Project>

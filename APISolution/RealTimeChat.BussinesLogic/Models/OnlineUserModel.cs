@@ -1,4 +1,4 @@
-﻿namespace RealTimeChat.BusinessLogic.Models;
+﻿namespace RealTimeChat.Models;
 
 public class OnlineUserModel
 {

@@ -1,7 +1,6 @@
-﻿
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 
-namespace RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
+namespace RealTimeChat.AccountLogic.Interfaces;
 
 public interface IUserModel
 {

@@ -1,6 +1,6 @@
-﻿using RealTimeChat.BusinessLogic.AccountLogic.Enums;
+﻿using RealTimeChat.AccountLogic.Enums;
 
-namespace RealTimeChat.BusinessLogic.AccountLogic.Models
+namespace RealTimeChat.AccountLogic.Models
 {
     public class ResponseModel
     {

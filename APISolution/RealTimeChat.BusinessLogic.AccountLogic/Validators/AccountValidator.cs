@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RealTimeChat.AccountLogic.Interfaces;
 
-namespace RealTimeChat.BusinessLogic.AccountLogic.Validators;
+namespace RealTimeChat.AccountLogic.Validators;
 
 public class AccountValidator : IAccountValidator
 {

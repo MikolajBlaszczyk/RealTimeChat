@@ -1,6 +1,4 @@
-﻿using RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
-
-namespace RealTimeChat.BusinessLogic.AccountLogic.SessionManager;
+﻿namespace RealTimeChat.AccountLogic.Interfaces;
 
 public interface ISessionHandler
 {

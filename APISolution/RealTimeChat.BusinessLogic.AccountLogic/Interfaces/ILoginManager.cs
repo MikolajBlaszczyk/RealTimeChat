@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
-using RealTimeChat.BusinessLogic.AccountLogic.Enums;
-using RealTimeChat.BusinessLogic.AccountLogic.Models;
+﻿using RealTimeChat.AccountLogic.Models;
+using RealTimeChat.AccountLogic.Enums;
 
-namespace RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
+namespace RealTimeChat.AccountLogic.Interfaces;
 
 public interface ILoginManager
 {

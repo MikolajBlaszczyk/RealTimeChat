@@ -1,8 +1,8 @@
-﻿using RealTimeChat.API.DataAccess.IdentityContext;
+﻿using RealTimeChat.AccountLogic.Interfaces;
+using RealTimeChat.API.DataAccess.IdentityContext;
 using RealTimeChat.API.DataAccess.Models;
-using RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
 
-namespace RealTimeChat.BusinessLogic.AccountLogic.SessionManager;
+namespace RealTimeChat.AccountLogic.SessionManager;
 
 public class SessionHandler :ISessionHandler
 {

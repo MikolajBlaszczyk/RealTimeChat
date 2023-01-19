@@ -1,13 +1,10 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using RealTimeChat.BusinessLogic.AccountLogic.Enums;
-using RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
-using RealTimeChat.BusinessLogic.AccountLogic.Models;
-using RealTimeChat.BusinessLogic.AccountLogic.SessionManager;
-using RealTimeChat.BusinessLogic.AccountLogic.Validators;
+﻿using Microsoft.AspNetCore.Identity;
+using RealTimeChat.AccountLogic.Enums;
+using RealTimeChat.AccountLogic.Interfaces;
+using RealTimeChat.AccountLogic.Models;
+using RealTimeChat.AccountLogic.SessionManager;
 
-namespace RealTimeChat.BusinessLogic.AccountLogic.AccountManager;
+namespace RealTimeChat.AccountLogic.AccountManager;
 
 public class LoginManager : ILoginManager
 {

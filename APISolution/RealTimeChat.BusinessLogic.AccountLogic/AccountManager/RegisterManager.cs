@@ -1,11 +1,9 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
-using RealTimeChat.BusinessLogic.AccountLogic.Enums;
-using RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
-using RealTimeChat.BusinessLogic.AccountLogic.Models;
-using RealTimeChat.BusinessLogic.AccountLogic.Validators;
+﻿using Microsoft.AspNetCore.Identity;
+using RealTimeChat.AccountLogic.Enums;
+using RealTimeChat.AccountLogic.Interfaces;
+using RealTimeChat.AccountLogic.Models;
 
-namespace RealTimeChat.BusinessLogic.AccountLogic.AccountManager;
+namespace RealTimeChat.AccountLogic.AccountManager;
 
 
 public class RegisterManager : IRegisterManager

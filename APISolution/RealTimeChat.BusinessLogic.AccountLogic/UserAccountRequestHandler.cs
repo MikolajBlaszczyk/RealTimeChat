@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
-using RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
-using RealTimeChat.BusinessLogic.AccountLogic.Enums;
-using RealTimeChat.BusinessLogic.AccountLogic.Models;
+using RealTimeChat.AccountLogic.Enums;
+using RealTimeChat.AccountLogic.Interfaces;
+using RealTimeChat.AccountLogic.Models;
 
-namespace RealTimeChat.BusinessLogic.AccountLogic;
+namespace RealTimeChat.AccountLogic;
 
 public class UserAccountRequestHandler : IUserAccountRequestHandler
 {

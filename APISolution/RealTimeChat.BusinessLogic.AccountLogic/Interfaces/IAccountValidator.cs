@@ -1,4 +1,4 @@
-﻿namespace RealTimeChat.BusinessLogic.AccountLogic.Validators;
+﻿namespace RealTimeChat.AccountLogic.Interfaces;
 public interface IAccountValidator
 {
     bool IsModelValid(string password, string confirmPassword, string email, string username);

@@ -1,6 +1,6 @@
-﻿using RealTimeChat.BusinessLogic.AccountLogic.Models;
+﻿using RealTimeChat.AccountLogic.Models;
 
-namespace RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
+namespace RealTimeChat.AccountLogic.Interfaces;
 
 public interface IUserAccountRequestHandler
 {

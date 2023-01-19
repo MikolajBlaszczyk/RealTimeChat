@@ -3,7 +3,7 @@ using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using RealTimeChat.API.Messages;
 using RealTimeChat.API.Middleware;
 using RealTimeChat.API.Startup;
-using RealTimeChat.BusinessLogic.SignalR;
+using RealTimeChat.SignalR;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AppContextConnection") ?? throw new InvalidOperationException("Connection string 'AppContextConnection' not found.");

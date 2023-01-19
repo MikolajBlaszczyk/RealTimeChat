@@ -1,17 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
-using RealTimeChat.API.Controllers;
 using RealTimeChat.API.DataAccess.IdentityContext;
 using RealTimeChat.API.DataAccess.KeyDataAccess;
 using RealTimeChat.API.Middleware;
-using RealTimeChat.BusinessLogic;
-using RealTimeChat.BusinessLogic.AccountLogic;
-using RealTimeChat.BusinessLogic.AccountLogic.AccountManager;
-using RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
-using RealTimeChat.BusinessLogic.AccountLogic.SessionManager;
-using RealTimeChat.BusinessLogic.AccountLogic.Validators;
-using RealTimeChat.BusinessLogic.UserAvaliability;
+using RealTimeChat.AccountLogic;
+using RealTimeChat.AccountLogic.AccountManager;
+using RealTimeChat.AccountLogic.Interfaces;
+using RealTimeChat.AccountLogic.SessionManager;
+using RealTimeChat.AccountLogic.Validators;
+using RealTimeChat.UserAvaliability;
 
 namespace RealTimeChat.API.Startup;
 
@@ -78,14 +76,12 @@ public static class ProgramCleaner
         services.AddSwaggerGen();
         //Dependency injection
         services.AddTransient<DatabaseClosureManager, DatabaseClosureManager>();
-        services.AddTransient<ClosureHandler, ClosureHandler>();
         services.AddTransient<AppCleaner,AppCleaner>();
         services.AddTransient<IRegisterManager, RegisterManager>();
         services.AddTransient<ILoginManager, LoginManager>();
         services.AddTransient<ISessionHandler, SessionHandler>();
         services.AddTransient<IUserAccountRequestHandler, UserAccountRequestHandler>();
         services.AddTransient<IAccountValidator, AccountValidator>();
-        services.AddSingleton<IAvailablilityManager, AvailablilityManager>();
 
         return services;
     }

@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using CliWrap;
 using CliWrap.Buffered;
+
 namespace RealTimeChat.API.Middleware;
 
 public class AppCleaner : IDisposable
@@ -19,17 +20,14 @@ public class AppCleaner : IDisposable
                 .WithArguments(@"..\..\API.Cleaner\ApiCleaner.py")
                 .WithValidation(CommandResultValidation.None)
                 .ExecuteBufferedAsync();
-            _logger.Log(LogLevel.Critical, result.StandardOutput);
-            _logger.Log(LogLevel.Critical, result.StandardError);
         }
         catch (Exception ex)
         {
-         _logger.Log(LogLevel.Error,ex.ToString());   
+            _logger.Log(LogLevel.Error,ex.ToString());   
         }
         
         
     }
-
 
     public void Dispose()
     {

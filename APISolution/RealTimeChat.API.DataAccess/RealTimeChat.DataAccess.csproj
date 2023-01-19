@@ -14,4 +14,8 @@
     <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.12" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="KeyDataAccess\" />
+  </ItemGroup>
+
 </Project>

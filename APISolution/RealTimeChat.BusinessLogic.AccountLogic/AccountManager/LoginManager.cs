@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using RealTimeChat.BusinessLogic.AccountLogic.Enums;
 using RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
+using RealTimeChat.BusinessLogic.AccountLogic.Messages;
 using RealTimeChat.BusinessLogic.AccountLogic.Models;
 using RealTimeChat.BusinessLogic.AccountLogic.SessionManager;
 using RealTimeChat.BusinessLogic.AccountLogic.Validators;
@@ -40,6 +41,11 @@ public class LoginManager : ILoginManager
         if (isValid)
         {
             var result = await SignInAsync(user);
+
+            if (result.Result == ResponseIdentityResult.WrongCredentials)
+            {
+                throw new Exception(ResponseResultMessage.WrongCredentials);
+            }
             
             await _sessionHandler.InitializeSession(user);
 

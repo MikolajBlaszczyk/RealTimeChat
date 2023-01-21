@@ -82,6 +82,7 @@ public static class ProgramCleaner
         services.AddTransient<IUserAccountRequestHandler, UserAccountRequestHandler>();
         services.AddTransient<IAccountValidator, AccountValidator>();
         services.AddSingleton<IAvailablilityManager, AvailablilityManager>();
+        services.AddTransient<AccountCallLogger, AccountCallLogger>();
 
         return services;
     }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using RealTimeChat.BusinessLogic.AccountLogic.Enums;
 using RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
+using RealTimeChat.BusinessLogic.AccountLogic.Messages;
 using RealTimeChat.BusinessLogic.AccountLogic.Models;
 using RealTimeChat.BusinessLogic.AccountLogic.Validators;
 
@@ -20,7 +21,7 @@ public class RegisterManager : IRegisterManager
         {
             //TODO: Implement custom exception
             if (_signInManager == null)
-                throw new Exception("Server Error");
+                throw new Exception(ResponseResultMessage.ServerError);
 
             return _signInManager;
         }
@@ -32,7 +33,7 @@ public class RegisterManager : IRegisterManager
         {
             //TODO: Implement custom exception
             if (_signInManager == null)
-                throw new Exception("Server Error");
+                throw new Exception(ResponseResultMessage.ServerError);
 
             return _userManager;
         }
@@ -54,11 +55,11 @@ public class RegisterManager : IRegisterManager
         if (isPasswordValid)
         {
             IdentityResult registerResult = await  CreateUserAsync(userToRegister);
-
+            
             if (registerResult.Succeeded)
                 return ResponseModel.CreateResponse(ResponseIdentityResult.Success);
             else
-                return ResponseModel.CreateResponse(ResponseIdentityResult.UserNotCreated);
+                return ResponseModel.CreateResponse(ResponseIdentityResult.UserNotCreated, ResponseResultMessage.UserNotCreated);
         }
         else
         {

@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
 using RealTimeChat.BusinessLogic.AccountLogic.Enums;
 using RealTimeChat.BusinessLogic.AccountLogic.Models;
+using Serilog;
 
 namespace RealTimeChat.BusinessLogic.AccountLogic;
 
@@ -36,6 +37,7 @@ public class UserAccountRequestHandler : IUserAccountRequestHandler
         }
         catch (Exception ex)
         {
+            Logger.Log(LogLevel.Error, "Exception message: {Message}", ex.StackTrace);
             return ResponseModel.CreateResponse(ResponseIdentityResult.ServerError, ex.Message);
         }
     }
@@ -48,7 +50,8 @@ public class UserAccountRequestHandler : IUserAccountRequestHandler
         }
         catch (Exception ex)
         {
-            return ResponseModel.CreateResponse(ResponseIdentityResult.ServerError, ex.Message);
+            Logger.Log(LogLevel.Error, "Exception message: {Message}", ex.StackTrace);
+            return ResponseModel.CreateResponse(ResponseIdentityResult.WrongCredentials, ex.Message);
         }
     }
 
@@ -62,6 +65,7 @@ public class UserAccountRequestHandler : IUserAccountRequestHandler
         }
         catch (Exception ex)
         {
+            Logger.Log(LogLevel.Error, "Exception message: {Message}", ex.StackTrace);
             return ResponseModel.CreateResponse(ResponseIdentityResult.ServerError, ex.Message);
         }
     }

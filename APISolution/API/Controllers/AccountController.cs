@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealTimeChat.API.DataAccess.IdentityContext;
+using RealTimeChat.API.Messages;
 using RealTimeChat.API.Models;
 using RealTimeChat.AccountLogic.Enums;
 using RealTimeChat.AccountLogic.Interfaces;
+using Serilog;
+using Serilog.Core;
+using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace RealTimeChat.API.Controllers;
 
@@ -11,20 +15,27 @@ namespace RealTimeChat.API.Controllers;
 [AllowAnonymous]
 public class AccountController : Controller
 {
-    private ILogger Logger { get; }
+    public AccountCallLogger Logger { get; }
+
     private readonly IUserAccountRequestHandler RequestHandler;
 
-    public AccountController(ILogger<AccountController> logger,IUserAccountRequestHandler requestHandler)
+    //TODO friends controller
+    public AccountController(AccountCallLogger logger,IUserAccountRequestHandler requestHandler)
     {
         Logger = logger;
         RequestHandler = requestHandler;
+
     }
     
     [HttpPost]
     [Route("Register")]
     public async Task<IActionResult> Register([FromBody] UserModel body)
     {
+        Logger.GenerateRequestLog(AccountRequest.Register);
+        
         var response = await RequestHandler.HandleRegisterRequest(body);
+
+        Logger.GenerateResponseLog(response.Result, AccountRequest.Register);
         
         return GenerateHttpResponse(response.Result, response.Message);
     }
@@ -34,8 +45,12 @@ public class AccountController : Controller
     [Route("Login")]
     public async Task<IActionResult> Login([FromBody] UserModel body)
     {
-        var response = await RequestHandler.HandleLoginRequest(body);
+        Logger.GenerateRequestLog(AccountRequest.Login);
         
+        var response = await RequestHandler.HandleLoginRequest(body);
+
+        Logger.GenerateResponseLog(response.Result, AccountRequest.Login);
+
         return GenerateHttpResponse(response.Result, response.Message);
     }
 
@@ -44,11 +59,15 @@ public class AccountController : Controller
     [Route("Logout")]
     public async Task<IActionResult> Logout()
     {
+        Logger.GenerateRequestLog(AccountRequest.Logout);
+        
         var response = await RequestHandler.HandleLogoutRequest();
+
+        Logger.GenerateResponseLog(response.Result, AccountRequest.Logout);
         
         return GenerateHttpResponse(response.Result, response.Message);
     }
-
+    
 
     [HttpGet]
     [Route("Users")]
@@ -56,7 +75,7 @@ public class AccountController : Controller
     {
         throw new NotImplementedException();
     }
-
+    
     private ObjectResult GenerateHttpResponse(ResponseIdentityResult res, string message) => res switch
     {
         ResponseIdentityResult.UserNotCreated or ResponseIdentityResult.WrongCredentials or ResponseIdentityResult.ValidationPasswordFailed => BadRequest(message),
@@ -64,6 +83,4 @@ public class AccountController : Controller
         ResponseIdentityResult.Success => Ok(message),
         _ => NotFound(message)
     };
-
-
 }

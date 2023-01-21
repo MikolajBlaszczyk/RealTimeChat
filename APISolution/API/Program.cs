@@ -1,14 +1,28 @@
 using System.Composition.Hosting.Core;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
+using Microsoft.Extensions.Logging.Configuration;
 using RealTimeChat.API.Messages;
 using RealTimeChat.API.Middleware;
 using RealTimeChat.API.Startup;
 using RealTimeChat.SignalR;
+using Serilog;
+using Serilog.Core;
+using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AppContextConnection") ?? throw new InvalidOperationException("Connection string 'AppContextConnection' not found.");
 
 builder.Services.RegisterServices(connectionString);
+
+// Serilog logger configuration
+var logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File(@"logs\log.txt", 
+        rollingInterval: RollingInterval.Day,
+        restrictedToMinimumLevel: LogEventLevel.Warning)
+    .CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
 
 var app = builder.Build();
 
@@ -55,7 +69,7 @@ void CleanApp()
     }
     catch (Exception ex)
     {
-        app.Logger.Log(LogLevel.Error, UserMessage.SessionRefreshError);
+        app.Logger.Log(LogLevel.Critical, UserMessage.SessionRefreshError);
         return;
     }
 

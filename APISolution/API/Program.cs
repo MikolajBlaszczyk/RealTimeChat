@@ -69,7 +69,7 @@ void CleanApp()
     }
     catch (Exception ex)
     {
-        app.Logger.Log(LogLevel.Error, UserMessage.SessionRefreshError);
+        app.Logger.Log(LogLevel.Critical, UserMessage.SessionRefreshError);
         return;
     }
 

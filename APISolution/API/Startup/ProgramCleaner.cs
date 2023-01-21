@@ -94,6 +94,7 @@ public static class ProgramCleaner
         services.AddTransient<IInvitationsManager, InvitationsManager>();
         services.AddTransient<IFriendsManager, FriendsManager>();
         services.AddTransient<IDbUserHelper, DbUserHelper>();
+        services.AddTransient<AccountCallLogger, AccountCallLogger>();
 
         return services;
     }

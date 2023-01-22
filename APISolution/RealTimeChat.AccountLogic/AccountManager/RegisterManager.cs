@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 using RealTimeChat.AccountLogic.Enums;
 using RealTimeChat.AccountLogic.Interfaces;
 using RealTimeChat.AccountLogic.Models;
@@ -25,7 +26,6 @@ public class RegisterManager : IRegisterManager
     }
     private UserManager<IdentityUser> UserManager
     {
-        
         get
         {
             //TODO: Implement custom exception
@@ -70,8 +70,9 @@ public class RegisterManager : IRegisterManager
         var user = userToRegister.ConvertToIdentityUser();
 
         result = await UserManager.CreateAsync(user, userToRegister.Password);
-        // is it necessary? 
-        //result = await UserManager.AddClaimAsync(user, new Claim("FUID", await UserManager.GetUserIdAsync(user)));
+
+        if(result.Succeeded)
+            result = await UserManager.AddClaimAsync(user, new Claim("GUID", await UserManager.GetUserIdAsync(user)));
 
         return result;
 

@@ -10,6 +10,7 @@ var connectionString = builder.Configuration.GetConnectionString("AppContextConn
 
 builder.Services.RegisterServices(connectionString);
 
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -23,6 +24,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseCors();
 app.UseCookiePolicy();
+
 
 app.MapControllers();
 app.MapHub<WebChatHub>("/chat");

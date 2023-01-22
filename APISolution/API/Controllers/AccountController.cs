@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RealTimeChat.API.DataAccess.IdentityContext;
+using RealTimeChat.DataAccess.IdentityContext;
 using RealTimeChat.API.Models;
 using RealTimeChat.AccountLogic.Enums;
 using RealTimeChat.AccountLogic.Interfaces;

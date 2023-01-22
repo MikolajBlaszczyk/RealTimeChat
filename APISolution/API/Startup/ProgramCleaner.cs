@@ -1,20 +1,20 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
-using RealTimeChat.API.DataAccess.IdentityContext;
-using RealTimeChat.API.DataAccess.KeyDataAccess;
+using RealTimeChat.DataAccess.IdentityContext;
 using RealTimeChat.API.Middleware;
 using RealTimeChat.AccountLogic;
 using RealTimeChat.AccountLogic.AccountManager;
 using RealTimeChat.AccountLogic.Interfaces;
 using RealTimeChat.AccountLogic.SessionManager;
 using RealTimeChat.AccountLogic.Validators;
-using RealTimeChat.UserAvaliability;
 
 namespace RealTimeChat.API.Startup;
 
 public static class ProgramCleaner
 {
+   
+
     public static IServiceCollection RegisterServices(this IServiceCollection services, string connectionString)
     {
         //Entity
@@ -74,14 +74,15 @@ public static class ProgramCleaner
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+        services.AddHttpContextAccessor();
         //Dependency injection
-        services.AddTransient<DatabaseClosureManager, DatabaseClosureManager>();
         services.AddTransient<AppCleaner,AppCleaner>();
         services.AddTransient<IRegisterManager, RegisterManager>();
         services.AddTransient<ILoginManager, LoginManager>();
         services.AddTransient<ISessionHandler, SessionHandler>();
         services.AddTransient<IUserAccountRequestHandler, UserAccountRequestHandler>();
         services.AddTransient<IAccountValidator, AccountValidator>();
+
 
         return services;
     }

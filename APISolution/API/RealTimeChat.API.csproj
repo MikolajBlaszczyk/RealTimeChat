@@ -35,4 +35,12 @@
     <ProjectReference Include="..\RealTimeChat.BussinesLogic\RealTimeChat.BusinessLogic.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="RealTimeChat.DataAccess">
+      <HintPath>..\RealTimeChat.DataAccess\bin\Debug\net6.0\RealTimeChat.DataAccess.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+
+
 </Project>

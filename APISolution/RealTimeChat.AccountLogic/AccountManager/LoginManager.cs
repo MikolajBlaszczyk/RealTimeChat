@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using RealTimeChat.AccountLogic.Enums;
 using RealTimeChat.AccountLogic.Interfaces;
 using RealTimeChat.AccountLogic.Models;
@@ -12,6 +14,7 @@ public class LoginManager : ILoginManager
     private readonly ISessionHandler _sessionHandler;
 
     public IAccountValidator Validator { get; }
+
     public SignInManager<IdentityUser> SignInManager
     {
         get
@@ -38,7 +41,7 @@ public class LoginManager : ILoginManager
         {
             var result = await SignInAsync(user);
             
-            await _sessionHandler.InitializeSession(user);
+            await _sessionHandler.InitializeSession();
 
             return result;
         }
@@ -57,6 +60,7 @@ public class LoginManager : ILoginManager
             return ResponseModel.CreateResponse(ResponseIdentityResult.Success);
         else
             return ResponseModel.CreateResponse(ResponseIdentityResult.WrongCredentials);
+
     }
 
   
@@ -65,7 +69,6 @@ public class LoginManager : ILoginManager
     {
         await SignInManager.SignOutAsync();
 
-        IUserModel model = null;
-        _sessionHandler.TerminateSession(model);
+        _sessionHandler.TerminateSession();
     }
 }

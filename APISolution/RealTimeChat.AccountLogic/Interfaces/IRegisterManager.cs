@@ -4,5 +4,5 @@ namespace RealTimeChat.AccountLogic.Interfaces;
 
 public interface IRegisterManager
 {
-    Task<ResponseModel> RegisterUserAsync(IUserModel userToRegister);
+    Task<ResponseModel> RegisterUserAsync(IUserModel userToRegister, CancellationToken token);
 }

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RealTimeChat.DataAccess.IdentityContext;
 using RealTimeChat.API.Models;
 using RealTimeChat.AccountLogic.Enums;
 using RealTimeChat.AccountLogic.Interfaces;
@@ -22,9 +21,9 @@ public class AccountController : Controller
     
     [HttpPost]
     [Route("Register")]
-    public async Task<IActionResult> Register([FromBody] UserModel body)
+    public async Task<IActionResult> Register([FromBody] UserModel body, CancellationToken token)
     {
-        var response = await RequestHandler.HandleRegisterRequest(body);
+        var response = await RequestHandler.HandleRegisterRequest(body, token);
         
         return GenerateHttpResponse(response.Result, response.Message);
     }
@@ -32,9 +31,9 @@ public class AccountController : Controller
 
     [HttpPost]
     [Route("Login")]
-    public async Task<IActionResult> Login([FromBody] UserModel body)
+    public async Task<IActionResult> Login([FromBody] UserModel body, CancellationToken token)
     {
-        var response = await RequestHandler.HandleLoginRequest(body);
+        var response = await RequestHandler.HandleLoginRequest(body, token);
         
         return GenerateHttpResponse(response.Result, response.Message);
     }
@@ -42,9 +41,9 @@ public class AccountController : Controller
    
     [HttpPost]
     [Route("Logout")]
-    public async Task<IActionResult> Logout()
+    public async Task<IActionResult> Logout(CancellationToken token)
     {
-        var response = await RequestHandler.HandleLogoutRequest();
+        var response = await RequestHandler.HandleLogoutRequest(token);
         
         return GenerateHttpResponse(response.Result, response.Message);
     }
@@ -52,7 +51,7 @@ public class AccountController : Controller
 
     [HttpGet]
     [Route("Users")]
-    public async Task<IActionResult> GetUsers()
+    public async Task<IActionResult> GetUsers(CancellationToken token)
     {
         throw new NotImplementedException();
     }

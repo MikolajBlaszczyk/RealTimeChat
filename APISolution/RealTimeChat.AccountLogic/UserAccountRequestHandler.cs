@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
-using RealTimeChat.AccountLogic.Enums;
+﻿using RealTimeChat.AccountLogic.Enums;
 using RealTimeChat.AccountLogic.Interfaces;
 using RealTimeChat.AccountLogic.Models;
 
@@ -8,29 +6,27 @@ namespace RealTimeChat.AccountLogic;
 
 public class UserAccountRequestHandler : IUserAccountRequestHandler
 {
-    private ILogger<IUserAccountRequestHandler> Logger { get; }
     private readonly ILoginManager LoginManager;
     private readonly IRegisterManager RegisterManager;
 
-    public UserAccountRequestHandler(IRegisterManager registerManager, ILoginManager loginManager, ILogger<IUserAccountRequestHandler> logger)
+    public UserAccountRequestHandler(IRegisterManager registerManager, ILoginManager loginManager)
     {
-        Logger = logger;
         LoginManager = loginManager;
         RegisterManager = registerManager;
     }
 
-    public async Task<ResponseModel> HandleRegisterRequest(IUserModel user)
+    public async Task<ResponseModel> HandleRegisterRequest(IUserModel user, CancellationToken token)
     {
         try
         {
-            var registerResult = await RegisterManager.RegisterUserAsync(user);
+            var registerResult = await RegisterManager.RegisterUserAsync(user, token);
             
             if (registerResult.Result != ResponseIdentityResult.Success)
             {
                 return registerResult;
             }
 
-            var loginResult = await LoginManager.SignInAsync(user);
+            var loginResult = await LoginManager.SignInAsync(user, token);
 
             return loginResult;
         }
@@ -40,11 +36,11 @@ public class UserAccountRequestHandler : IUserAccountRequestHandler
         }
     }
 
-    public async Task<ResponseModel> HandleLoginRequest(IUserModel user)
+    public async Task<ResponseModel> HandleLoginRequest(IUserModel user, CancellationToken token)
     {
         try
         {
-            return await LoginManager.LoginUserAsync(user);
+            return await LoginManager.LoginUserAsync(user, token);
         }
         catch (Exception ex)
         {
@@ -52,11 +48,11 @@ public class UserAccountRequestHandler : IUserAccountRequestHandler
         }
     }
 
-    public async Task<ResponseModel> HandleLogoutRequest()
+    public async Task<ResponseModel> HandleLogoutRequest(CancellationToken token)
     {
         try
         {
-            await LoginManager.SignOutAsync();
+            await LoginManager.SignOutAsync(token);
 
             return ResponseModel.CreateResponse(ResponseIdentityResult.Success);
         }

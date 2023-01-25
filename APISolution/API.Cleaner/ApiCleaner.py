@@ -1,7 +1,7 @@
 import sys
 from DataAccess import db
 
-connectionString = sys.argv[0]
+connectionString = sys.argv[1]
 
 dataAccess = db(connectionString)
 

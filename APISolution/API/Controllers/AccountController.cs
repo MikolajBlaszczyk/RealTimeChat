@@ -40,14 +40,18 @@ public class AccountController : Controller
 
    
     [HttpPost]
-    [Route("Logout")]
-    public async Task<IActionResult> Logout(CancellationToken token)
+    [HttpPost]
+    [Route("Register")]
+    public async Task<IActionResult> Register([FromBody] UserModel body)
     {
-        var response = await RequestHandler.HandleLogoutRequest(token);
+        Logger.GenerateRequestLog(AccountRequest.Register);
+        
+        var response = await RequestHandler.HandleRegisterRequest(body);
+
+        Logger.GenerateResponseLog(response.Result, AccountRequest.Register);
         
         return GenerateHttpResponse(response.Result, response.Message);
     }
-
 
     [HttpGet]
     [Route("Users")]

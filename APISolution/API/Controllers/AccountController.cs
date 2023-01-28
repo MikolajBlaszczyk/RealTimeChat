@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RealTimeChat.API.Models;
 using RealTimeChat.AccountLogic.Enums;
 using RealTimeChat.AccountLogic.Interfaces;
+using RealTimeChat.API.enums;
 
 namespace RealTimeChat.API.Controllers;
 
@@ -10,10 +11,10 @@ namespace RealTimeChat.API.Controllers;
 [AllowAnonymous]
 public class AccountController : Controller
 {
-    private ILogger Logger { get; }
+    private AccountCallLogger Logger { get; }
     private readonly IUserAccountRequestHandler RequestHandler;
 
-    public AccountController(ILogger<AccountController> logger,IUserAccountRequestHandler requestHandler)
+    public AccountController(AccountCallLogger logger,IUserAccountRequestHandler requestHandler)
     {
         Logger = logger;
         RequestHandler = requestHandler;
@@ -23,7 +24,11 @@ public class AccountController : Controller
     [Route("Register")]
     public async Task<IActionResult> Register([FromBody] UserModel body, CancellationToken token)
     {
+        Logger.GenerateRequestLog(AccountRequest.Register);
+        
         var response = await RequestHandler.HandleRegisterRequest(body, token);
+
+        Logger.GenerateResponseLog(response.Result, AccountRequest.Register);
         
         return GenerateHttpResponse(response.Result, response.Message);
     }
@@ -33,23 +38,25 @@ public class AccountController : Controller
     [Route("Login")]
     public async Task<IActionResult> Login([FromBody] UserModel body, CancellationToken token)
     {
+        Logger.GenerateRequestLog(AccountRequest.Login);
+
         var response = await RequestHandler.HandleLoginRequest(body, token);
-        
+
+        Logger.GenerateResponseLog(response.Result, AccountRequest.Login);
+
         return GenerateHttpResponse(response.Result, response.Message);
     }
 
-   
     [HttpPost]
-    [HttpPost]
-    [Route("Register")]
-    public async Task<IActionResult> Register([FromBody] UserModel body)
+    [Route("Logout")]
+    public async Task<IActionResult> Logout(CancellationToken token)
     {
-        Logger.GenerateRequestLog(AccountRequest.Register);
-        
-        var response = await RequestHandler.HandleRegisterRequest(body);
+        Logger.GenerateRequestLog(AccountRequest.Logout);
 
-        Logger.GenerateResponseLog(response.Result, AccountRequest.Register);
-        
+        var response = await RequestHandler.HandleLogoutRequest(token);
+
+        Logger.GenerateResponseLog(response.Result, AccountRequest.Logout);
+
         return GenerateHttpResponse(response.Result, response.Message);
     }
 

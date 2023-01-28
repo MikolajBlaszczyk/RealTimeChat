@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RealTimeChat.API.Messages;
-using RealTimeChat.BusinessLogic.AccountLogic.Enums;
+using RealTimeChat.AccountLogic.Enums;
+using RealTimeChat.API.enums;
 
 namespace RealTimeChat.API.Controllers;
 

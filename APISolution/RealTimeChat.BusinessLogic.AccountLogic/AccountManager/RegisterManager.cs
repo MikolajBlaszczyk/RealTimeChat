@@ -1,5 +1,6 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
+using RealTimeChat.API.DataAccess.Models;
 using RealTimeChat.BusinessLogic.AccountLogic.Enums;
 using RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
 using RealTimeChat.BusinessLogic.AccountLogic.Messages;
@@ -12,10 +13,10 @@ namespace RealTimeChat.BusinessLogic.AccountLogic.AccountManager;
 public class RegisterManager : IRegisterManager
 {
 
-    private SignInManager<IdentityUser> _signInManager;
-    private UserManager<IdentityUser> _userManager;
+    private SignInManager<ApplicationUser> _signInManager;
+    private UserManager<ApplicationUser> _userManager;
     private IAccountValidator AccountValidator { get;  }
-    private SignInManager<IdentityUser> SignInManager
+    private SignInManager<ApplicationUser> SignInManager
     {
         get
         {
@@ -26,7 +27,7 @@ public class RegisterManager : IRegisterManager
             return _signInManager;
         }
     }
-    private UserManager<IdentityUser> UserManager
+    private UserManager<ApplicationUser> UserManager
     {
         
         get
@@ -40,7 +41,7 @@ public class RegisterManager : IRegisterManager
     }
 
 
-    public RegisterManager(IAccountValidator accountValidator, SignInManager<IdentityUser> signInManager, UserManager<IdentityUser> userManager)
+    public RegisterManager(IAccountValidator accountValidator, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
     {
         AccountValidator = accountValidator;
         _signInManager = signInManager;

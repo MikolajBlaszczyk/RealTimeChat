@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
+using RealTimeChat.API.DataAccess.Models;
 using RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
 
 namespace RealTimeChat.API.Models;
@@ -16,8 +17,8 @@ public class UserModel : IUserModel
 
     public string? Email { get; set; }
 
-    public IdentityUser ConvertToIdentityUser()
+    public ApplicationUser ConvertToIdentityUser()
     {
-        return new IdentityUser() { UserName = Username, Email = Email };
+        return new ApplicationUser() { UserName = Username, Email = Email };
     }
 }

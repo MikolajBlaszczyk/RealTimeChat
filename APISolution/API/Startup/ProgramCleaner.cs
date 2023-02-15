@@ -24,7 +24,7 @@ public static class ProgramCleaner
                 builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
             }));
         //Identity 
-        services.AddDefaultIdentity<IdentityUser>()
+        services.AddDefaultIdentity<ApplicationUser>()
             .AddEntityFrameworkStores<ApplicationContext>();
         
         services.Configure<IdentityOptions>(options =>
@@ -83,6 +83,7 @@ public static class ProgramCleaner
         services.AddTransient<IAccountValidator, AccountValidator>();
         services.AddSingleton<IAvailablilityManager, AvailablilityManager>();
         services.AddTransient<AccountCallLogger, AccountCallLogger>();
+        services.AddTransient<FriendsCallLogger, FriendsCallLogger>();
 
         return services;
     }

@@ -18,8 +18,7 @@ public class AccountController : Controller
     public AccountCallLogger Logger { get; }
 
     private readonly IUserAccountRequestHandler RequestHandler;
-
-    //TODO friends controller
+    
     public AccountController(AccountCallLogger logger,IUserAccountRequestHandler requestHandler)
     {
         Logger = logger;

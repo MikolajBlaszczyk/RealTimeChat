@@ -10,5 +10,5 @@ public class InvitationModel
     public ApplicationUser Sender { get; set; }
     public ApplicationUser Responder { get; set; }
     
-    public InvitationStatus Status { get; set; }
+    public string Status { get; set; } = String.Empty;
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RealTimeChat.BusinessLogic.FriendsLogic.Enums;
 using System.Security.Claims;
+using RealTimeChat.BusinessLogic.FriendsLogic.Interfaces;
 
 namespace RealTimeChat.API.Controllers;
 
@@ -11,20 +12,28 @@ namespace RealTimeChat.API.Controllers;
 public class FriendsController : Controller
 {
     public FriendsCallLogger Logger { get; }
+    public IFriendsRequestHandler RequestHandler { get; set; }
 
-    private string Username => this.User.FindFirstValue(ClaimTypes.Name);
+    private string Username => this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-    public FriendsController(FriendsCallLogger logger)
+    public FriendsController(FriendsCallLogger logger, IFriendsRequestHandler requestHandler)
     {
         Logger = logger;
+        RequestHandler = requestHandler;
     }
 
     [HttpPost]
     [Route("Add")]
-    public async Task<IActionResult> AddFriend(string FriendUsername)
+    public async Task<IActionResult> AddFriend([FromBody] string FriendUsername)
     {
         Logger.GenerateRequestLog(FriendsRequest.Add);
-        return Ok(Username);
+
+        var result = await RequestHandler.AddFriend(Username, FriendUsername);
+
+        if (result.Result == FriendsResponseResult.ServerError)
+            return BadRequest("INTERNAL ERROR");
+        
+        return Ok(result.Message);
     }
 
     [HttpGet]

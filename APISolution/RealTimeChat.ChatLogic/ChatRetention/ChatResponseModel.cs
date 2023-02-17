@@ -11,7 +11,7 @@ namespace RealTimeChat.ChatLogic.ChatRetention
         public bool Success { get; private set; }
         public string Message { get; private set; }
 
-        public ChatResponseModel CreateChatResponse(bool success, string message = "")
+        public static ChatResponseModel CreateChatResponse(bool success, string message = "")
         {
             return new ChatResponseModel { Success = success, Message = message };
         }

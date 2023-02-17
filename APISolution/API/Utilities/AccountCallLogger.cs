@@ -4,7 +4,7 @@ using RealTimeChat.API.Messages;
 using RealTimeChat.AccountLogic.Enums;
 using RealTimeChat.API.enums;
 
-namespace RealTimeChat.API.Controllers;
+namespace RealTimeChat.API.Utilities;
 
 public class AccountCallLogger
 {
@@ -13,7 +13,7 @@ public class AccountCallLogger
     public AccountCallLogger(ILogger<AccountCallLogger> logger)
     {
         Logger = logger;
-    }    
+    }
 
     internal void GenerateResponseLog(ResponseIdentityResult result, AccountRequest request)
     {
@@ -24,15 +24,15 @@ public class AccountCallLogger
             AccountRequest.Login => result == ResponseIdentityResult.Success
                 ? AccountControllerMessage.LoginSuccess
                 : AccountControllerMessage.LoginFailed,
-            
+
             AccountRequest.Register => result == ResponseIdentityResult.Success
                 ? AccountControllerMessage.RegisterSuccess
                 : AccountControllerMessage.RegisterFailed,
-            
+
             AccountRequest.Logout => result == ResponseIdentityResult.Success
                 ? AccountControllerMessage.LogoutSuccess
                 : AccountControllerMessage.LogoutFailed,
-            
+
             _ => AccountControllerMessage.Error
         };
 
@@ -44,11 +44,11 @@ public class AccountCallLogger
         var logMessage = request switch
         {
             AccountRequest.Login => AccountControllerMessage.LoginRequest,
-            
+
             AccountRequest.Register => AccountControllerMessage.RegisterRequest,
-            
-            AccountRequest.Logout =>AccountControllerMessage.LogoutRequest,
-                
+
+            AccountRequest.Logout => AccountControllerMessage.LogoutRequest,
+
             _ => AccountControllerMessage.Error
         };
 

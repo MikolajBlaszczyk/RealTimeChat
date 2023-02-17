@@ -4,6 +4,7 @@ using RealTimeChat.API.Models;
 using RealTimeChat.AccountLogic.Enums;
 using RealTimeChat.AccountLogic.Interfaces;
 using RealTimeChat.API.enums;
+using RealTimeChat.API.Utilities;
 
 namespace RealTimeChat.API.Controllers;
 

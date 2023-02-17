@@ -9,5 +9,10 @@ namespace RealTimeChat.ChatLogic.Models
     public class ChatJson
     {
         public string MessagesJson { get;  set; }
+
+        public static ChatJson CreateChatJSON(string json)
+        {
+            return new ChatJson { MessagesJson = json };
+        }
     }
 }

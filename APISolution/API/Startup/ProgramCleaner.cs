@@ -3,12 +3,17 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using RealTimeChat.API.Controllers;
 using RealTimeChat.API.DataAccess.IdentityContext;
+using RealTimeChat.API.DataAccess.Models;
 using RealTimeChat.API.Middleware;
 using RealTimeChat.BusinessLogic.AccountLogic;
 using RealTimeChat.BusinessLogic.AccountLogic.AccountManager;
 using RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
 using RealTimeChat.BusinessLogic.AccountLogic.SessionManager;
 using RealTimeChat.BusinessLogic.AccountLogic.Validators;
+using RealTimeChat.BusinessLogic.FriendsLogic;
+using RealTimeChat.BusinessLogic.FriendsLogic.FriendsManagerDir;
+using RealTimeChat.BusinessLogic.FriendsLogic.Interfaces;
+using RealTimeChat.BusinessLogic.FriendsLogic.InvitationsManagerDir;
 using RealTimeChat.BusinessLogic.UserAvaliability;
 
 namespace RealTimeChat.API.Startup;
@@ -22,6 +27,7 @@ public static class ProgramCleaner
             options.UseSqlServer(connectionString, builder =>
             {
                 builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
+                builder.MigrationsAssembly("RealTimeChat.API");
             }));
         //Identity 
         services.AddDefaultIdentity<ApplicationUser>()
@@ -84,6 +90,9 @@ public static class ProgramCleaner
         services.AddSingleton<IAvailablilityManager, AvailablilityManager>();
         services.AddTransient<AccountCallLogger, AccountCallLogger>();
         services.AddTransient<FriendsCallLogger, FriendsCallLogger>();
+        services.AddTransient<IFriendsRequestHandler, FriendsRequestHandler>();
+        services.AddTransient<IInvitationsManager, InvitationsManager>();
+        services.AddTransient<IFriendsManager, FriendsManager>();
 
         return services;
     }

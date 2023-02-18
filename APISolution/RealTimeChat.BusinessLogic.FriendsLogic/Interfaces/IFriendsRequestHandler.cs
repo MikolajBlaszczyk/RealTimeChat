@@ -2,7 +2,7 @@
 
 namespace RealTimeChat.BusinessLogic.FriendsLogic.Interfaces;
 
-public interface IUserFriendsRequestHandler
+public interface IFriendsRequestHandler
 {
     Task<ResponseModel> AddFriend(string UserId, string FriendId);
     Task<ResponseModel> GetAllFriends(string UserId, string FriendId);

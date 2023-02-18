@@ -12,6 +12,7 @@ using RealTimeChat.BusinessLogic.AccountLogic.SessionManager;
 using RealTimeChat.BusinessLogic.AccountLogic.Validators;
 using RealTimeChat.BusinessLogic.FriendsLogic;
 using RealTimeChat.BusinessLogic.FriendsLogic.FriendsManagerDir;
+using RealTimeChat.BusinessLogic.FriendsLogic.Helpers;
 using RealTimeChat.BusinessLogic.FriendsLogic.Interfaces;
 using RealTimeChat.BusinessLogic.FriendsLogic.InvitationsManagerDir;
 using RealTimeChat.BusinessLogic.UserAvaliability;
@@ -93,6 +94,7 @@ public static class ProgramCleaner
         services.AddTransient<IFriendsRequestHandler, FriendsRequestHandler>();
         services.AddTransient<IInvitationsManager, InvitationsManager>();
         services.AddTransient<IFriendsManager, FriendsManager>();
+        services.AddTransient<IDbUserHelper, DbUserHelper>();
 
         return services;
     }

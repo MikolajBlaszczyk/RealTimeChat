@@ -65,10 +65,13 @@ public class FriendsController : Controller
 
     [HttpPost]
     [Route("InvitationResponse")]
-    public async Task<IActionResult> InvitationResponse(string FriendUsername, bool Response)
+    public async Task<IActionResult> InvitationResponse([FromBody]string friendUsername, bool response)
     {
         Logger.GenerateRequestLog(FriendsRequest.RespondToInvitation);
+
+        var result = await RequestHandler.InvitationResponse(Username, friendUsername, response);
         
-        return Ok("Invitation Response");
+        
+        return Ok(result.Message);
     }
 }

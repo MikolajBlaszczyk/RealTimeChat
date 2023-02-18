@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
 using RealTimeChat.AccountLogic.Enums;
 using RealTimeChat.AccountLogic.Interfaces;
 using RealTimeChat.AccountLogic.Models;
@@ -25,7 +26,6 @@ public class RegisterManager : IRegisterManager
     }
     private UserManager<IdentityUser> UserManager
     {
-        
         get
         {
             //TODO: Implement custom exception
@@ -44,14 +44,14 @@ public class RegisterManager : IRegisterManager
         _userManager = userManager;
     }
 
-    public async Task<ResponseModel> RegisterUserAsync(IUserModel userToRegister)
+    public async Task<ResponseModel> RegisterUserAsync(IUserModel userToRegister, CancellationToken token)
     {
         string message = string.Empty;
         
         var isPasswordValid = AccountValidator.IsPasswordValid(userToRegister.Password, userToRegister.ConfirmPassword, ref message);
         if (isPasswordValid)
         {
-            IdentityResult registerResult = await  CreateUserAsync(userToRegister);
+            IdentityResult registerResult = await  CreateUserAsync(userToRegister, token);
 
             if (registerResult.Succeeded)
                 return ResponseModel.CreateResponse(ResponseIdentityResult.Success);
@@ -64,14 +64,15 @@ public class RegisterManager : IRegisterManager
         }
     }
     
-    private async Task<IdentityResult> CreateUserAsync(IUserModel userToRegister)
+    private async Task<IdentityResult> CreateUserAsync(IUserModel userToRegister, CancellationToken token)
     {
         IdentityResult result;
         var user = userToRegister.ConvertToIdentityUser();
 
         result = await UserManager.CreateAsync(user, userToRegister.Password);
-        // is it necessary? 
-        //result = await UserManager.AddClaimAsync(user, new Claim("FUID", await UserManager.GetUserIdAsync(user)));
+
+        if(result.Succeeded)
+            result = await UserManager.AddClaimAsync(user, new Claim("GUID", await UserManager.GetUserIdAsync(user)));
 
         return result;
 

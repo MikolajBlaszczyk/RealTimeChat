@@ -1,12 +1,18 @@
 ﻿@page "/rtc"
+@using Microsoft.AspNetCore.SignalR.Client
+@using WebAssembleyUI.Helpers.WebHub
 @inject IJSRuntime JsRuntime
+@inject IClientSignalR SignalR
+@inject IHttpClientFactory ClientFactory
 <PageTitle>Main</PageTitle>
 
 
 
 <!--LOGO will be in the center-->
 <div class="rtc-design">
-    <div class="round-design"></div>
+    @*<div class="round-design">*@
+        <img src="Images/FullLogoRTC.png" />
+    @*</div>*@
 </div>
 
 <div class="main-page">
@@ -48,15 +54,24 @@
 
 @code {
     private IJSObjectReference? module;
-    private List<string> Users;
+    private List<string> Users = new List<string>();
+    private HttpClient Client;
+    private HubConnection Hub;
     private string ChatUser;
 
-    protected override Task OnInitializedAsync()
+
+    protected  override async Task OnInitializedAsync()
     {
-        Users = SampleData.Users.Populate();
+        Client = ClientFactory.CreateClient();
+        Hub = await SignalR.StartConnection(Client);
+        
+        //Users = SampleData.Users.Populate();
         ChatUser = "Start Chatting";
-        return base.OnInitializedAsync();
+
+        await base.OnInitializedAsync();
     }
+
+    
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -65,6 +80,7 @@
             while (module is null)
                 module = await JsRuntime.InvokeAsync<IJSObjectReference>("import", "./js/MainPage.js");
         }
+        GetAllUsers();
     }
 
     protected async Task OpenChatForUser(string user)
@@ -82,4 +98,18 @@
     {
         await module.InvokeVoidAsync("ToggleSettingsWindow");
     }
+
+    #region WebHub
+
+    private  void GetAllUsers()
+    {
+         Hub.On<List<string>>("AvailableUserInformation", (users) =>
+         {
+             Users = users;
+             InvokeAsync(StateHasChanged);
+         });
+    }
+
+    #endregion
+    
 }

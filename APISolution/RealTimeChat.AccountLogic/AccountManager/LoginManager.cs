@@ -2,7 +2,6 @@
 using RealTimeChat.AccountLogic.Enums;
 using RealTimeChat.AccountLogic.Interfaces;
 using RealTimeChat.AccountLogic.Models;
-using RealTimeChat.AccountLogic.SessionManager;
 
 namespace RealTimeChat.AccountLogic.AccountManager;
 
@@ -12,6 +11,7 @@ public class LoginManager : ILoginManager
     private readonly ISessionHandler _sessionHandler;
 
     public IAccountValidator Validator { get; }
+
     public SignInManager<IdentityUser> SignInManager
     {
         get
@@ -31,14 +31,14 @@ public class LoginManager : ILoginManager
         _sessionHandler = sessionHandler;
     }
 
-    public async Task<ResponseModel> LoginUserAsync(IUserModel user)
+    public async Task<ResponseModel> LoginUserAsync(IUserModel user, CancellationToken token)
     {
         var isValid = Validator.IsPasswordValid(user.Password);
         if (isValid)
         {
-            var result = await SignInAsync(user);
+            var result = await SignInAsync(user, token);
             
-            await _sessionHandler.InitializeSession(user);
+            await _sessionHandler.InitializeSession();
 
             return result;
         }
@@ -49,7 +49,7 @@ public class LoginManager : ILoginManager
 
     }
 
-    public async Task<ResponseModel> SignInAsync(IUserModel user)
+    public async Task<ResponseModel> SignInAsync(IUserModel user, CancellationToken token)
     {
         SignInResult signInResult =  await SignInManager.PasswordSignInAsync(user.Username, user.Password, false, false);
 
@@ -57,15 +57,15 @@ public class LoginManager : ILoginManager
             return ResponseModel.CreateResponse(ResponseIdentityResult.Success);
         else
             return ResponseModel.CreateResponse(ResponseIdentityResult.WrongCredentials);
+
     }
 
   
 
-    public async Task SignOutAsync()
+    public async Task SignOutAsync(CancellationToken token)
     {
         await SignInManager.SignOutAsync();
 
-        IUserModel model = null;
-        _sessionHandler.TerminateSession(model);
+        _sessionHandler.TerminateSession();
     }
 }

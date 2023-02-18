@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RealTimeChat.API.DataAccess.Models;
+namespace RealTimeChat.DataAccess.Models;
 
 public class Session
 {

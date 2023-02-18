@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 
-namespace RealTimeChat.BusinessLogic.SignalR;
+namespace RealTimeChat.SignalR;
 
 public class WebChatHub:Hub
 {

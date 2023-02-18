@@ -1,8 +1,7 @@
 using System.Composition.Hosting.Core;
 using Microsoft.DotNet.Scaffolding.Shared.Messaging;
-using Microsoft.Extensions.Logging.Configuration;
+using RealTimeChat.API.LifeCycle;
 using RealTimeChat.API.Messages;
-using RealTimeChat.API.Middleware;
 using RealTimeChat.API.Startup;
 using RealTimeChat.SignalR;
 using Serilog;

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net.Http.Headers;
+using System.Text;
 using System.Text.Json.Serialization;
 using HelperLibrary.Models.Http;
 using Newtonsoft.Json;
@@ -10,6 +11,7 @@ public class RequestHandler:IRequestHandler
     {
         var data = model.GetData();
         var response = await SendRequest(client, data,url);
+        
 
         if (response.IsSuccessStatusCode)
             return true;
@@ -21,7 +23,19 @@ public class RequestHandler:IRequestHandler
     {
         var json = JsonConvert.SerializeObject(data);
         var content = new StringContent(json, Encoding.UTF8, "application/json");
-        var response = await client.PostAsync(url, content);
+        HttpResponseMessage response = null;
+
+
+        try
+        {
+            response = await client.PostAsync(url, content);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+
         return response;
     }
+
 }

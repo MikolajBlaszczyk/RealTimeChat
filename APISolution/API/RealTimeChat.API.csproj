@@ -16,6 +16,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CliWrap" Version="3.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.12" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.12" />
@@ -34,7 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RealTimeChat.BusinessLogic.AccountLogic\RealTimeChat.BusinessLogic.AccountLogic.csproj" />
+    <ProjectReference Include="..\RealTimeChat.AccountLogic\RealTimeChat.AccountLogic.csproj" />
     <ProjectReference Include="..\RealTimeChat.BussinesLogic\RealTimeChat.BusinessLogic.csproj" />
   </ItemGroup>
 

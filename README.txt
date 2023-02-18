@@ -1,8 +1,8 @@
-In New Solution: 
-- create unit tests
-- Create React UI  
-WebAssembley UI:
-- Improve some Frontend logic
-- Prepare design rtc (object connected with communicator) 
-Docker:
-- find way to run db that ASP.NET Identity is using (Dockerfile in Api solution was created, do it there!)
+
+API:
+- Create "friends" logic
+- Fix logout method
+- Prepare solution for a session problem 
+- Implement Logger in key methods
+UI
+- Connect UI with new functionalities

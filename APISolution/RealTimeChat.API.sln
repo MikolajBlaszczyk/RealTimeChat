@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeChat.API", "API\Rea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeChat.BusinessLogic", "RealTimeChat.BussinesLogic\RealTimeChat.BusinessLogic.csproj", "{D9B87DDF-A913-446B-B917-9B5DDDB61C6C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeChat.API.DataAccess", "RealTimeChat.API.DataAccess\RealTimeChat.API.DataAccess.csproj", "{2633CA87-CD54-4E00-9FF9-6B3B102B5707}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeChat.DataAccess", "RealTimeChat.DataAccess\RealTimeChat.DataAccess.csproj", "{2633CA87-CD54-4E00-9FF9-6B3B102B5707}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeChat.BusinessLogic.AccountLogic", "RealTimeChat.BusinessLogic.AccountLogic\RealTimeChat.BusinessLogic.AccountLogic.csproj", "{370E4DBD-C547-4B9B-8CA8-29C6E04AC2A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeChat.AccountLogic", "RealTimeChat.AccountLogic\RealTimeChat.AccountLogic.csproj", "{370E4DBD-C547-4B9B-8CA8-29C6E04AC2A6}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeChat.BusinessLogic.AccountLogic", "RealTimeChat.BusinessLogic.AccountLogic\RealTimeChat.BusinessLogic.AccountLogic.csproj", "{8928403D-A886-4D90-A772-491AB98196F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{370E4DBD-C547-4B9B-8CA8-29C6E04AC2A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{370E4DBD-C547-4B9B-8CA8-29C6E04AC2A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{370E4DBD-C547-4B9B-8CA8-29C6E04AC2A6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8928403D-A886-4D90-A772-491AB98196F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8928403D-A886-4D90-A772-491AB98196F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8928403D-A886-4D90-A772-491AB98196F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8928403D-A886-4D90-A772-491AB98196F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

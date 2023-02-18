@@ -1,6 +1,6 @@
 ﻿using RealTimeChat.AccountLogic.Interfaces;
-using RealTimeChat.API.DataAccess.IdentityContext;
 using RealTimeChat.API.DataAccess.Models;
+using RealTimeChat.DataAccess.IdentityContext;
 
 namespace RealTimeChat.AccountLogic.SessionManager;
 

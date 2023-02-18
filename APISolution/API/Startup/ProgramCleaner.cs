@@ -1,15 +1,15 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
-using RealTimeChat.API.DataAccess.IdentityContext;
-using RealTimeChat.API.DataAccess.KeyDataAccess;
+using RealTimeChat.DataAccess.IdentityContext;
 using RealTimeChat.API.Middleware;
 using RealTimeChat.AccountLogic;
 using RealTimeChat.AccountLogic.AccountManager;
 using RealTimeChat.AccountLogic.Interfaces;
 using RealTimeChat.AccountLogic.SessionManager;
 using RealTimeChat.AccountLogic.Validators;
-using RealTimeChat.UserAvaliability;
+using RealTimeChat.API.Controllers;
+
 
 namespace RealTimeChat.API.Startup;
 

@@ -2,17 +2,18 @@
 using RealTimeChat.AccountLogic.Enums;
 using RealTimeChat.AccountLogic.Interfaces;
 using RealTimeChat.AccountLogic.Models;
+using RealTimeChat.API.DataAccess.Models;
 
 namespace RealTimeChat.AccountLogic.AccountManager;
 
 public class LoginManager : ILoginManager
 {
-    private SignInManager<IdentityUser> _singInManager;
+    private SignInManager<ApplicationUser> _singInManager;
     private readonly ISessionHandler _sessionHandler;
 
     public IAccountValidator Validator { get; }
 
-    public SignInManager<IdentityUser> SignInManager
+    public SignInManager<ApplicationUser> SignInManager
     {
         get
         {
@@ -24,7 +25,7 @@ public class LoginManager : ILoginManager
         }
     }
     
-    public LoginManager(IAccountValidator validator, SignInManager<IdentityUser> singInManager, ISessionHandler sessionHandler)
+    public LoginManager(IAccountValidator validator, SignInManager<ApplicationUser> singInManager, ISessionHandler sessionHandler)
     {
         Validator = validator;
         _singInManager = singInManager;

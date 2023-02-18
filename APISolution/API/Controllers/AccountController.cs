@@ -10,9 +10,6 @@ using RealTimeChat.AccountLogic.Interfaces;
 using Serilog;
 using Serilog.Core;
 using ILogger = Microsoft.Extensions.Logging.ILogger;
-using Serilog;
-using Serilog.Core;
-using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace RealTimeChat.API.Controllers;
 
@@ -84,13 +81,4 @@ public class AccountController : Controller
         _ => NotFound(message)
     };
 
-
-    
-    private ObjectResult GenerateHttpResponse(ResponseIdentityResult res, string message) => res switch
-    {
-        ResponseIdentityResult.UserNotCreated or ResponseIdentityResult.WrongCredentials or ResponseIdentityResult.ValidationPasswordFailed => BadRequest(message),
-        ResponseIdentityResult.ServerError or ResponseIdentityResult.LogoutFail => StatusCode(500, message),
-        ResponseIdentityResult.Success => Ok(message),
-        _ => NotFound(message)
-    };
 }

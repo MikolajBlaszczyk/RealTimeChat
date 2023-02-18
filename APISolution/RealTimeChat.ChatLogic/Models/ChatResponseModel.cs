@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RealTimeChat.ChatLogic.ChatRetention
+namespace RealTimeChat.ChatLogic.Models
 {
     public class ChatResponseModel
     {

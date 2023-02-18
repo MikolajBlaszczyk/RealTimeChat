@@ -7,6 +7,7 @@ using RealTimeChat.AccountLogic.AccountManager;
 using RealTimeChat.AccountLogic.Interfaces;
 using RealTimeChat.AccountLogic.SessionManager;
 using RealTimeChat.AccountLogic.Validators;
+using RealTimeChat.API.DataAccess.Models;
 using RealTimeChat.API.LifeCycle;
 
 namespace RealTimeChat.API.Startup;
@@ -24,7 +25,7 @@ public static class ProgramCleaner
                 builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
             }));
         //Identity 
-        services.AddDefaultIdentity<IdentityUser>()
+        services.AddDefaultIdentity<ApplicationUser>()
             .AddEntityFrameworkStores<ApplicationContext>();
         
         services.Configure<IdentityOptions>(options =>

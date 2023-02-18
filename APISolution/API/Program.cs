@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging.Configuration;
 using RealTimeChat.API.Messages;
 using RealTimeChat.API.Middleware;
 using RealTimeChat.API.Startup;
-using RealTimeChat.BusinessLogic.SignalR;
+using RealTimeChat.SignalR;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
@@ -50,6 +50,7 @@ app.Run();
 void CleanApp()
 {
     app.Logger.Log(LogLevel.Information, UserMessage.AppStopping);
+    List<Task> tasks = new List<Task>();
 
     try
     {
@@ -58,12 +59,17 @@ void CleanApp()
         {
 
             if (cleaner != null)
-                cleaner.CleanAppSession().Wait();
+            {
+                tasks.Add(cleaner.CleanApp());
+
+                Task.WaitAll(tasks.ToArray());
+            }
+               
         }
     }
     catch (Exception ex)
     {
-        app.Logger.Log(LogLevel.Critical, UserMessage.SessionRefreshError);
+        app.Logger.Log(LogLevel.Error, UserMessage.SessionRefreshError);
         return;
     }
 

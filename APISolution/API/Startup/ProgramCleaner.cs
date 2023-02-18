@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
-using RealTimeChat.API.Controllers;
 using RealTimeChat.DataAccess.IdentityContext;
 using RealTimeChat.DataAccess.Models;
+using RealTimeChat.API.DataAccess.KeyDataAccess;
 using RealTimeChat.API.Middleware;
 using RealTimeChat.AccountLogic;
 using RealTimeChat.AccountLogic.AccountManager;
@@ -82,14 +82,13 @@ public static class ProgramCleaner
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         //Dependency injection
+        services.AddTransient<DatabaseClosureManager, DatabaseClosureManager>();
         services.AddTransient<AppCleaner,AppCleaner>();
         services.AddTransient<IRegisterManager, RegisterManager>();
         services.AddTransient<ILoginManager, LoginManager>();
         services.AddTransient<ISessionHandler, SessionHandler>();
         services.AddTransient<IUserAccountRequestHandler, UserAccountRequestHandler>();
         services.AddTransient<IAccountValidator, AccountValidator>();
-        services.AddSingleton<IAvailablilityManager, AvailablilityManager>();
-        services.AddTransient<AccountCallLogger, AccountCallLogger>();
         services.AddTransient<FriendsCallLogger, FriendsCallLogger>();
         services.AddTransient<IFriendsRequestHandler, FriendsRequestHandler>();
         services.AddTransient<IInvitationsManager, InvitationsManager>();

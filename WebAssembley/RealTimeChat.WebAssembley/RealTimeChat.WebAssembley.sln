@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAssembleyUI", "WebAssemb
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HelperLibrary", "..\..\Libraries\HelperLibrary\HelperLibrary.csproj", "{405811E8-3A1D-4E16-BAD4-07E0B4047245}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleData", "..\..\Libraries\SampleLibrary\SampleData\SampleData.csproj", "{05D31BEB-1D9F-49CE-972B-9E41E505A5A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleData", "..\..\Libraries\SampleLibrary\SampleData\SampleData.csproj", "{05D31BEB-1D9F-49CE-972B-9E41E505A5A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

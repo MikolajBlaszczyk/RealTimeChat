@@ -1,4 +1,6 @@
 ﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using RealTimeChat.AccountLogic.Enums;
@@ -45,9 +47,11 @@ public class LoginManager : ILoginManager
         var isValid = Validator.IsPasswordValid(user.Password);
         if (isValid)
         {
-            var result = await SignInAsync(user, token);
 
-            await ClaimGuid(DataAccess.GetUserGuid(user.Username));
+            var principal = await ClaimGuid(DataAccess.GetUserGuid(user.Username));
+
+            var result = await SignInAsync(user, token, principal);
+
 
             await _sessionHandler.InitializeSession();
 
@@ -60,27 +64,22 @@ public class LoginManager : ILoginManager
 
     }
 
-    public async Task<ResponseModel> SignInAsync(IUserModel user, CancellationToken token)
+    public async Task<ResponseModel> SignInAsync(IUserModel user, CancellationToken token, Claim claim)
     {
-        SignInResult signInResult =  await SignInManager.PasswordSignInAsync(user.Username, user.Password, false, false);
+        
+
+        SignInResult signInResult =  await SignInManager.PasswordSignInAsync(user.Username, user.Password, true, false);
 
         if (signInResult.Succeeded)
+        {
+            await CreateGuidClaim(user, claim);
+
             return ResponseModel.CreateResponse(ResponseIdentityResult.Success);
+        }
         else
+        {
             return ResponseModel.CreateResponse(ResponseIdentityResult.WrongCredentials);
-
-    }
-
-    public async Task ClaimGuid(string? Guid)
-    {
-        //TODO: add message
-        if(Guid is null)
-            throw new ArgumentNullException();
-
-        var claims = new List<Claim> { new Claim("GUID", Guid) };
-        var identity = new ClaimsIdentity(claims);
-        var principal = new ClaimsPrincipal(identity);
-        _accessor.HttpContext.User = principal;
+        }
     }
 
     public async Task SignOutAsync(CancellationToken token)
@@ -89,4 +88,25 @@ public class LoginManager : ILoginManager
 
         _sessionHandler.TerminateSession();
     }
+
+
+    private async Task CreateGuidClaim(IUserModel user, Claim claim)
+    {
+        var userToFind = await SignInManager.UserManager.FindByNameAsync(user.Username);
+        await SignInManager.UserManager.AddClaimAsync(userToFind, claim);
+        await SignInManager.RefreshSignInAsync(userToFind);
+
+
+    }
+
+    public async Task<Claim> ClaimGuid(string? Guid)
+    {
+        //TODO: add message
+        if (Guid is null)
+            throw new ArgumentNullException();
+
+
+        return new Claim("GUID", Guid);
+    }
+
 }

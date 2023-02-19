@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using RealTimeChat.DataAccess.IdentityContext;
@@ -28,8 +29,22 @@ public static class ProgramCleaner
             }));
         //Identity 
         services.AddDefaultIdentity<ApplicationUser>()
-            .AddEntityFrameworkStores<ApplicationContext>();
-        
+            .AddEntityFrameworkStores<ApplicationContext>()
+            .AddDefaultTokenProviders();
+
+        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+            .AddCookie(options =>
+            {
+                options.Cookie.Name = "RTC";
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                options.SlidingExpiration = true;
+
+            });
+
+    
+
         services.Configure<IdentityOptions>(options =>
         {
             options.Password.RequireDigit = true;
@@ -43,15 +58,12 @@ public static class ProgramCleaner
             options.Lockout.MaxFailedAccessAttempts = 5;
             options.Lockout.AllowedForNewUsers = true;
 
-            options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+            options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
             options.User.RequireUniqueEmail = false;
-
         });
-        services.ConfigureApplicationCookie(options =>
-        {
-            options.Cookie.HttpOnly = true;
-            options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
-        });
+      
+     
         //SignalR WebSocket. to chat
         services.AddSignalR();
         services.AddResponseCompression(options =>
@@ -87,6 +99,7 @@ public static class ProgramCleaner
         services.AddTransient<IAccountValidator, AccountValidator>();
         services.AddTransient<AccountCallLogger, AccountCallLogger>();
         services.AddTransient<AccountDataAccess, AccountDataAccess>();
+        services.AddTransient<HubDataAccess, HubDataAccess>();
 
 
         return services;

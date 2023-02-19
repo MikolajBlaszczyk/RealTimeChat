@@ -7,8 +7,10 @@ using RealTimeChat.AccountLogic.AccountManager;
 using RealTimeChat.AccountLogic.Interfaces;
 using RealTimeChat.AccountLogic.SessionManager;
 using RealTimeChat.AccountLogic.Validators;
+using RealTimeChat.API.Controllers;
 using RealTimeChat.API.DataAccess.Models;
 using RealTimeChat.API.LifeCycle;
+using RealTimeChat.DataAccess.DataAccess;
 
 namespace RealTimeChat.API.Startup;
 
@@ -83,6 +85,8 @@ public static class ProgramCleaner
         services.AddTransient<ISessionHandler, SessionHandler>();
         services.AddTransient<IUserAccountRequestHandler, UserAccountRequestHandler>();
         services.AddTransient<IAccountValidator, AccountValidator>();
+        services.AddTransient<AccountCallLogger, AccountCallLogger>();
+        services.AddTransient<AccountDataAccess, AccountDataAccess>();
 
 
         return services;

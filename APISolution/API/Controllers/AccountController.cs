@@ -4,12 +4,6 @@ using RealTimeChat.API.Models;
 using RealTimeChat.AccountLogic.Enums;
 using RealTimeChat.AccountLogic.Interfaces;
 using RealTimeChat.API.enums;
-using RealTimeChat.API.Utilities;
-using RealTimeChat.AccountLogic.Enums;
-using RealTimeChat.AccountLogic.Interfaces;
-using Serilog;
-using Serilog.Core;
-using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace RealTimeChat.API.Controllers;
 

@@ -39,8 +39,8 @@ public class SessionHandler :ISessionHandler
     }
 
 
-    public string GetGUIDClaims()
+    public string? GetGUIDClaims()
     {
-        return ContextAccessor.HttpContext.User.FindFirst(UserGUID).Value;
+        return ContextAccessor.HttpContext.User.FindFirst(UserGUID)?.Value;
     }
 }

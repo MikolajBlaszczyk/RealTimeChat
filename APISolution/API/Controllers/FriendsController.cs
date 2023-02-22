@@ -14,7 +14,7 @@ public class FriendsController : Controller
     public FriendsCallLogger Logger { get; }
     public IFriendsRequestHandler RequestHandler { get; set; }
 
-    private string Username => this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+    private string UserId => this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
     public FriendsController(FriendsCallLogger logger, IFriendsRequestHandler requestHandler)
     {
@@ -28,7 +28,7 @@ public class FriendsController : Controller
     {
         Logger.GenerateRequestLog(FriendsRequest.Add);
 
-        var result = await RequestHandler.AddFriend(Username, FriendUsername);
+        var result = await RequestHandler.AddFriend(UserId, FriendUsername);
 
         if (result.Result == FriendsResponseResult.ServerError)
             return BadRequest("INTERNAL ERROR");
@@ -37,21 +37,25 @@ public class FriendsController : Controller
     }
 
     [HttpGet]
-    [Route("GetAll")]
+    [Route("GetAllFriends")]
     public async Task<IActionResult> GetAllFriends()
     {
         Logger.GenerateRequestLog(FriendsRequest.Get);
+
+        var result = await RequestHandler.GetAllFriends(UserId);
         
-        return Ok("Get all");
+        return Ok(result.Message);
     }
 
     [HttpDelete]
     [Route("Remove")]
-    public async Task<IActionResult> RemoveFriend(string FriendUsername)
+    public async Task<IActionResult> RemoveFriend([FromBody]string friendUsername)
     {
         Logger.GenerateRequestLog(FriendsRequest.Remove);
+
+        var result = await RequestHandler.RemoveFriend(UserId, friendUsername);
         
-        return Ok("Remove");
+        return Ok(result.Message);
     }
 
     [HttpGet]
@@ -59,8 +63,10 @@ public class FriendsController : Controller
     public async Task<IActionResult> GetInvitations()
     {
         Logger.GenerateRequestLog(FriendsRequest.GetInvitations);
+
+        var result = await RequestHandler.GetAllInvitations(UserId);
         
-        return Ok("Requests");
+        return Ok(result.Message);
     }
 
     [HttpPost]
@@ -69,7 +75,7 @@ public class FriendsController : Controller
     {
         Logger.GenerateRequestLog(FriendsRequest.RespondToInvitation);
 
-        var result = await RequestHandler.InvitationResponse(Username, friendUsername, response);
+        var result = await RequestHandler.InvitationResponse(UserId, friendUsername, response);
         
         
         return Ok(result.Message);

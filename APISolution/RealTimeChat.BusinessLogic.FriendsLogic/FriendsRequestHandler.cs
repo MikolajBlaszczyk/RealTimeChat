@@ -29,8 +29,12 @@ public class FriendsRequestHandler : IFriendsRequestHandler
     {
         var friendId = await DbUserHelper.FindUserUsername(friendUsername);
         
+        
         if (friendId == null)
             return ResponseModel.CreateResponse(FriendsResponseResult.Fail, "User does not exist");
+        
+        if(friendId == userId)
+            return ResponseModel.CreateResponse(FriendsResponseResult.Fail, "You cannot add yourself");
         
         var result = await FriendsManager.AddFriend(userId, friendId);
 
@@ -39,30 +43,51 @@ public class FriendsRequestHandler : IFriendsRequestHandler
 
     public async Task<ResponseModel> GetAllFriends(string userId)
     {
-        var user = await Context.Users
-            .Include(u => u.Friends)
-            .FirstOrDefaultAsync(u => u.Id == userId);
 
-        var friends = user.Friends.Select(f => f.Friend).ToList();
+        var response = await FriendsManager.GetAllFriends(userId);
         
-        var response = ResponseModel.CreateResponse(FriendsResponseResult.Success, friends.ToString()!);
+        return response;
+    }
+
+    public async Task<ResponseModel> GetAllInvitations(string userId)
+    {
+        var response = await InvitationsManager.GetAllInvitations(userId);
+
         return response;
     }
 
     public async Task<ResponseModel> InvitationResponse(string userId, string friendUsername, bool response)
     {
         var friendId = await DbUserHelper.FindUserUsername(friendUsername);
+        
+        if (friendId == null)
+            return ResponseModel.CreateResponse(FriendsResponseResult.InvalidUser, "Invalid user");
 
-        var result = await InvitationsManager.UpdateInvitation(userId, friendId, response);
+        var result = await InvitationsManager.UpdateInvitation(friendId, userId, response);
 
-        string message = result switch
+        if (result.Message == "Invitation accepted")
         {
-            InvitationStatus.Accepted => "Invitation accepted",
-            InvitationStatus.Declined => "Invitation declined",
-            _ => "Internal Error"
-        };
+            var managerResponse = await FriendsManager.CreateFriendship(userId, friendId);
+            if (managerResponse.Result == FriendsResponseResult.Fail)
+                return managerResponse;
+        }
 
-        return ResponseModel.CreateResponse(FriendsResponseResult.Success, message);
+        return result;
     }
-    
+
+    public async Task<ResponseModel> RemoveFriend(string userId, string friendUsername)
+    {
+        var friendId = await DbUserHelper.FindUserUsername(friendUsername);
+        
+        
+        if (friendId == null)
+            return ResponseModel.CreateResponse(FriendsResponseResult.Fail, "User does not exist");
+        
+        if(friendId == userId)
+            return ResponseModel.CreateResponse(FriendsResponseResult.Fail, "You cannot remove yourself");
+
+        var result = await FriendsManager.RemoveFriend(userId, friendId);
+
+        return result;
+    }
 }

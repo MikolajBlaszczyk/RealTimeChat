@@ -5,7 +5,7 @@ public class FriendsModel
     public string UserId { get; set; }
     public string FriendId { get; set; }
     
-    public ApplicationUser User { get; set; }
-    public ApplicationUser Friend { get; set; }
+    public virtual ApplicationUser User { get; set; }
+    public virtual ApplicationUser Friend { get; set; }
     
 }

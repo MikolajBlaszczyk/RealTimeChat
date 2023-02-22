@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using RealTimeChat.API.DataAccess.IdentityContext;
 using RealTimeChat.API.DataAccess.Models;
 using RealTimeChat.BusinessLogic.FriendsLogic.Enums;
@@ -11,14 +12,15 @@ namespace RealTimeChat.BusinessLogic.FriendsLogic.InvitationsManagerDir;
 public class InvitationsManager : IInvitationsManager
 {
     public ApplicationContext Context { get; set; }
-    public IDbUserHelper UserHelper { get; }
+    public IDbUserHelper DbUserHelper { get; }
 
-    public InvitationsManager(ApplicationContext context, IDbUserHelper userHelper)
+
+    public InvitationsManager(ApplicationContext context, IDbUserHelper dbUserHelper)
     {
         Context = context;
-        UserHelper = userHelper;
+        DbUserHelper = dbUserHelper;
     }
-    public async Task<InvitationStatus> CreateInvitation(string userId, string friendId)
+    public async Task<ResponseModel> CreateInvitation(string userId, string friendId)
     {
         InvitationModel newInvitation = new InvitationModel();
         newInvitation.Status = "Pending";
@@ -29,34 +31,50 @@ public class InvitationsManager : IInvitationsManager
         if (dbStatus.State == EntityState.Added)
         {
             await Context.SaveChangesAsync();
-            return InvitationStatus.Pending;
+            return ResponseModel.CreateResponse(FriendsResponseResult.Success, "Invitation send");
         }
 
-        return InvitationStatus.Error;
+        return ResponseModel.CreateResponse(FriendsResponseResult.ServerError, "Internal error");
     }
 
-    public async Task<InvitationStatus> UpdateInvitation(string senderId, string responderId, bool response)
+    public async Task<ResponseModel> UpdateInvitation(string senderId, string userId, bool response)
     {
-        var invitation = await UserHelper.FindInvitation(senderId, responderId);
-        if (invitation == null)
-            return InvitationStatus.Error;
+        var invitation = await DbUserHelper.FindInvitation(senderId, userId);
 
-        InvitationStatus status;
+        if (invitation == null)
+            return ResponseModel.CreateResponse(FriendsResponseResult.Fail, "No invitation from this user");
+
+        string message;
 
         if (response == false)
         {
             invitation.Status = "Declined";
             Context.Invitations.Update(invitation);
-            status = InvitationStatus.Declined;
+            message = "Invitation declined";
         }
         else
         {
             invitation.Status = "Accepted";
             Context.Invitations.Remove(invitation);
-            status = InvitationStatus.Accepted;
+            message = "Invitation accepted";
         }
 
         await Context.SaveChangesAsync();
-        return status;
+        return ResponseModel.CreateResponse(FriendsResponseResult.Success, message);
+    }
+
+    public async Task<ResponseModel> GetAllInvitations(string userId)
+    {
+        var invitations = DbUserHelper.GetAllInvitationsSenders(userId);
+        if (invitations == null || invitations.Count == 0)
+            return ResponseModel.CreateResponse(FriendsResponseResult.Fail, "No invitations");
+
+        string result = string.Empty;
+        foreach (var sender in invitations)
+        {
+            result += sender.UserName + " ";
+        }
+        
+        return ResponseModel.CreateResponse(FriendsResponseResult.Success, result);
     }
 }

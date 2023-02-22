@@ -11,10 +11,10 @@ using RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
 using RealTimeChat.BusinessLogic.AccountLogic.SessionManager;
 using RealTimeChat.BusinessLogic.AccountLogic.Validators;
 using RealTimeChat.BusinessLogic.FriendsLogic;
-using RealTimeChat.BusinessLogic.FriendsLogic.FriendsManagerDir;
+using RealTimeChat.BusinessLogic.FriendsLogic.FriendsManagers;
 using RealTimeChat.BusinessLogic.FriendsLogic.Helpers;
 using RealTimeChat.BusinessLogic.FriendsLogic.Interfaces;
-using RealTimeChat.BusinessLogic.FriendsLogic.InvitationsManagerDir;
+
 using RealTimeChat.BusinessLogic.UserAvaliability;
 
 namespace RealTimeChat.API.Startup;

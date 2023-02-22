@@ -1,93 +1,129 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using RealTimeChat.API.DataAccess.IdentityContext;
 using RealTimeChat.API.DataAccess.Models;
 using RealTimeChat.BusinessLogic.FriendsLogic.Interfaces;
 using RealTimeChat.BusinessLogic.FriendsLogic.Models;
 using RealTimeChat.BusinessLogic.FriendsLogic;
 using RealTimeChat.BusinessLogic.FriendsLogic.Enums;
-using RealTimeChat.BusinessLogic.FriendsLogic.FriendsManagerDir;
+using RealTimeChat.BusinessLogic.FriendsLogic.FriendsManagers;
 using RealTimeChat.BusinessLogic.FriendsLogic.Helpers;
 
 namespace RealTimeChat.BusinessLogic.FriendsLogic;
 
 public class FriendsRequestHandler : IFriendsRequestHandler
 {
-    public ApplicationContext Context { get; }
-    public IFriendsManager FriendsManager { get; }
-    public IInvitationsManager InvitationsManager { get; }
-    public IDbUserHelper DbUserHelper { get; }
+    private IFriendsManager FriendsManager { get; }
+    private IInvitationsManager InvitationsManager { get; }
+    private ILogger<IFriendsRequestHandler> Logger { get; }
 
 
-    public FriendsRequestHandler(ApplicationContext context, IFriendsManager friendsManager,IInvitationsManager invitationsManager , IDbUserHelper dbUserHelper)
+    public FriendsRequestHandler(IFriendsManager friendsManager,IInvitationsManager invitationsManager, ILogger<IFriendsRequestHandler> logger)
     {
-        Context = context;
         FriendsManager = friendsManager;
         InvitationsManager = invitationsManager;
-        DbUserHelper = dbUserHelper;
+        Logger = logger;
     }
     public async Task<ResponseModel> AddFriend(string userId, string friendUsername)
     {
-        var friendId = await DbUserHelper.FindUserUsername(friendUsername);
-        
-        
-        if (friendId == null)
-            return ResponseModel.CreateResponse(FriendsResponseResult.Fail, "User does not exist");
-        
-        if(friendId == userId)
-            return ResponseModel.CreateResponse(FriendsResponseResult.Fail, "You cannot add yourself");
-        
-        var result = await FriendsManager.AddFriend(userId, friendId);
 
-        return result;
+        try
+        {
+            var result = await FriendsManager.AddFriend(userId, friendUsername);
+
+            return result;
+        }
+        catch (ArgumentException ex)
+        {
+            Logger.Log(LogLevel.Warning, "Argument exception message: {Message}. Stack trace: {StackTrace}", ex.Message, ex.StackTrace);
+            return ResponseModel.CreateResponse(FriendsResponseResult.InvalidUser, ex.Message);
+        }
+        catch (Exception ex)
+        {
+            Logger.Log(LogLevel.Error, "Exception message: {Message}", ex.StackTrace);
+            return ResponseModel.CreateResponse(FriendsResponseResult.ServerError, ex.Message);
+        }
+
     }
 
     public async Task<ResponseModel> GetAllFriends(string userId)
     {
-
-        var response = await FriendsManager.GetAllFriends(userId);
         
-        return response;
+        try
+        {
+            var response = await FriendsManager.GetAllFriends(userId);
+            return response;
+        }
+        catch (Exception ex)
+        {
+            Logger.Log(LogLevel.Error, "Exception message: {Message}", ex.StackTrace);
+            return ResponseModel.CreateResponse(FriendsResponseResult.ServerError, ex.Message);
+        }
+        
     }
 
     public async Task<ResponseModel> GetAllInvitations(string userId)
     {
-        var response = await InvitationsManager.GetAllInvitations(userId);
 
-        return response;
+        try
+        {
+            var response = await InvitationsManager.GetAllInvitations(userId);
+            return response;
+        }
+        catch (Exception ex)
+        {
+            Logger.Log(LogLevel.Error, "Exception message: {Message}", ex.StackTrace);
+            return ResponseModel.CreateResponse(FriendsResponseResult.ServerError, ex.Message);
+        }
+        
     }
 
     public async Task<ResponseModel> InvitationResponse(string userId, string friendUsername, bool response)
     {
-        var friendId = await DbUserHelper.FindUserUsername(friendUsername);
-        
-        if (friendId == null)
-            return ResponseModel.CreateResponse(FriendsResponseResult.InvalidUser, "Invalid user");
-
-        var result = await InvitationsManager.UpdateInvitation(friendId, userId, response);
-
-        if (result.Message == "Invitation accepted")
+        try
         {
-            var managerResponse = await FriendsManager.CreateFriendship(userId, friendId);
-            if (managerResponse.Result == FriendsResponseResult.Fail)
-                return managerResponse;
-        }
 
-        return result;
+            var invitationResult = await InvitationsManager.UpdateInvitation(friendUsername, userId, response);
+
+            if (invitationResult == InvitationStatus.Declined)
+                return ResponseModel.CreateResponse(FriendsResponseResult.Success, "Invitation declined");
+            
+            var friendshipResponse = await FriendsManager.CreateFriendship(userId, friendUsername);
+
+            return friendshipResponse;
+        }
+        catch (ArgumentException ex)
+        {
+            Logger.Log(LogLevel.Warning, "Argument exception message: {Message}. Stack trace: {StackTrace}", ex.Message, ex.StackTrace);
+            return ResponseModel.CreateResponse(FriendsResponseResult.InvalidUser, ex.Message);
+        }
+        catch (Exception ex)
+        {
+            Logger.Log(LogLevel.Error, "Exception message: {Message}", ex.StackTrace);
+            return ResponseModel.CreateResponse(FriendsResponseResult.ServerError, ex.Message);
+        }
+        
     }
 
     public async Task<ResponseModel> RemoveFriend(string userId, string friendUsername)
     {
-        var friendId = await DbUserHelper.FindUserUsername(friendUsername);
-        
-        
-        if (friendId == null)
-            return ResponseModel.CreateResponse(FriendsResponseResult.Fail, "User does not exist");
-        
-        if(friendId == userId)
-            return ResponseModel.CreateResponse(FriendsResponseResult.Fail, "You cannot remove yourself");
+        try
+        {
+            
+            var result = await FriendsManager.RemoveFriend(userId, friendUsername);
 
-        var result = await FriendsManager.RemoveFriend(userId, friendId);
-
-        return result;
+            return result;
+        }
+        catch (ArgumentException ex)
+        {
+            Logger.Log(LogLevel.Warning, "Argument exception message: {Message}. Stack trace: {StackTrace}", ex.Message, ex.StackTrace);
+            return ResponseModel.CreateResponse(FriendsResponseResult.InvalidUser, ex.Message);
+        }
+        catch (Exception ex)
+        {
+            Logger.Log(LogLevel.Error, "Exception message: {Message}", ex.StackTrace);
+            return ResponseModel.CreateResponse(FriendsResponseResult.ServerError, ex.Message);
+        }
+       
     }
 }

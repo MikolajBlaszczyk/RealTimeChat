@@ -6,6 +6,6 @@ namespace RealTimeChat.BusinessLogic.FriendsLogic.Interfaces;
 public interface IInvitationsManager
 {
     Task<ResponseModel> CreateInvitation(string userId, string friendId);
-    Task<ResponseModel> UpdateInvitation(string userId, string friendId, bool response);
+    Task<InvitationStatus> UpdateInvitation(string friendUsername, string userId, bool response);
     Task<ResponseModel> GetAllInvitations(string userId);
 }

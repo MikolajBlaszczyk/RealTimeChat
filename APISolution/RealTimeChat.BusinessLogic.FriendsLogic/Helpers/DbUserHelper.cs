@@ -16,14 +16,11 @@ public class DbUserHelper : IDbUserHelper
         Context = context;
     }
 
-    public async Task<string?> FindUserUsername(string username)
+    public async Task<string?> UserUsernameToId(string username)
     {
         var user = await Context.Users.FirstOrDefaultAsync(u => u.UserName == username);
-        
-        if (user != null)
-            return user.Id;
-        
-        return null;
+
+        return user?.Id;
     }
     
     public async Task<ApplicationUser?> FindUser(string userId)
@@ -57,6 +54,15 @@ public class DbUserHelper : IDbUserHelper
         );
         return invitation;
     }
+    
+    public async Task<List<InvitationModel>?> FindBothSidesInvitations(string senderId, string responderId)
+    {
+        var invitation =  Context.Invitations.Where(i =>
+            i.SenderId == senderId && i.ResponderId == responderId ||
+            i.SenderId == responderId && i.ResponderId == senderId 
+        ).ToList();
+        return invitation;
+    }
 
     public List<ApplicationUser>? GetAllFriendsUsers(string userId)
     {
@@ -83,7 +89,7 @@ public class DbUserHelper : IDbUserHelper
         return usersList;
     }
 
-    public List<ApplicationUser>? GetAllInvitationsSenders(string userId)
+    public List<ApplicationUser>? GetAllAvailableInvitationsSenders(string userId)
     {
         var invitations = Context.Invitations
             .Include(i => i.Sender)
@@ -94,11 +100,27 @@ public class DbUserHelper : IDbUserHelper
         
         var senders = new List<ApplicationUser>();
 
-        foreach (var model in invitations)
+        foreach (var invitation in invitations)
         {
-            senders.Add(model.Sender);
+            if(invitation.Status != "Declined")
+                senders.Add(invitation.Sender);
         }
 
         return senders;
+    }
+
+    public async Task<string> FriendUsernameToId(string username, string userId)
+    {
+        if (username == string.Empty)
+            throw new ArgumentException("Empty username");
+        
+        var friendId = await UserUsernameToId(username);
+
+        if (friendId == null)
+            throw new ArgumentException("User does not exist");
+        if (friendId == userId)
+            throw new ArgumentException("Invalid user");
+
+        return friendId;
     }
 }

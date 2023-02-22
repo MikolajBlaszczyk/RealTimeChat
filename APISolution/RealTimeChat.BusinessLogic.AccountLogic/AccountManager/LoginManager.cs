@@ -11,6 +11,7 @@ using RealTimeChat.BusinessLogic.AccountLogic.Validators;
 
 namespace RealTimeChat.BusinessLogic.AccountLogic.AccountManager;
 
+
 public class LoginManager : ILoginManager
 {
     private SignInManager<ApplicationUser> _singInManager;
@@ -39,7 +40,7 @@ public class LoginManager : ILoginManager
     public async Task<ResponseModel> LoginUserAsync(IUserModel user)
     {
         var isValid = Validator.IsPasswordValid(user.Password);
-        if (isValid)
+         if (isValid)
         {
             var result = await SignInAsync(user);
 

@@ -12,10 +12,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="FriendsManagerDir" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\RealTimeChat.API.DataAccess\RealTimeChat.API.DataAccess.csproj" />
     </ItemGroup>
 

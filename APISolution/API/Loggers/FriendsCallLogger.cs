@@ -15,7 +15,13 @@ public class FriendsCallLogger
     
     internal void GenerateResponseLog(FriendsResponseResult result, FriendsRequest request)
     {
-        var logLevel = result == FriendsResponseResult.Success ? LogLevel.Information : LogLevel.Error;
+
+        var logLevel = result switch
+        {
+            FriendsResponseResult.Success => LogLevel.Information,
+            FriendsResponseResult.AlreadyFriend or FriendsResponseResult.InvalidUser => LogLevel.Warning,
+            _ => LogLevel.Error
+        };
 
         var logMessage = request switch
         {

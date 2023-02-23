@@ -1,0 +1,45 @@
+﻿@page "/"
+@using System.Text
+@inject HttpClient httpClient;
+@inject NavigationManager navigation;
+<div>
+    <form onsubmit="@HandleSubmit">
+        <input @bind-value="username"/>
+        <input @bind-value="password"/>
+        <input type="submit"/>
+    </form>
+</div>
+
+@code {
+
+private string username { get; set; }
+private string password { get; set; }
+
+private const string cs = "https://localhost:7234/api/Account/Login/";
+private const string cs2 = "https://localhost:7234/api/Account/Users/";
+
+private async Task HandleSubmit()
+{
+    try
+    {
+        var handler = new CustomHandler();
+        string json = "{" + $"\"Username\":\"{username}\",\"Password\":\"{password}\"" + "}";
+        HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+        var res = await httpClient.PostAsync(cs, content);
+
+        await httpClient.GetAsync(cs2);
+
+        if (res.IsSuccessStatusCode)
+        {
+            navigation.NavigateTo("/Chat");
+        }
+
+    }
+    catch (Exception ex)
+    {
+
+    }
+  
+
+}
+}

@@ -1,0 +1,38 @@
+﻿@page "/Chat"
+@using Microsoft.AspNetCore.SignalR.Client;
+
+<div style="display: flex;">
+    <div style="display: flex;">
+        @content
+    </div>
+    <input @bind-value="message" type="text"/>
+    <button @onclick="Send">Send</button>
+</div>
+
+@code {
+    public HubConnection hub { get; set; }
+    public string message;
+    public string content ="";
+    protected override async Task OnInitializedAsync()
+    {
+        hub = new HubConnectionBuilder()
+            .WithUrl("https://localhost:7234/chat")
+            .WithAutomaticReconnect()
+            .Build();
+
+        hub.On<string,string>("GetMessage", (username, msg) => {
+                                                                   content += $"{username}: {msg}\n";
+        });
+
+        await hub.StartAsync();
+
+        await base.OnInitializedAsync();
+    }
+
+
+    private async Task Send()
+    {
+        await hub.InvokeAsync("SendMessageToAll", Thread.CurrentThread.Name, message);
+    }
+
+}

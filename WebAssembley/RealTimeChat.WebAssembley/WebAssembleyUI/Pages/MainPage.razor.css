@@ -183,12 +183,17 @@
     -webkit-transform-style: preserve-3d;
     -webkit-animation: spin 30s infinite linear;
     position: absolute;
-    width: 300px;
-    height: 300px;
+    width: 400px;
+    height: 400px;
     top: 50%;
     left: 50%;
-    margin-left: -150px;
-    margin-top: -150px;
+    margin-left: -200px;
+    margin-top: -200px;
+}
+
+.rtc-design img {
+    width: 400px;
+    height: 400px;
 }
 
 .rtc-design div {

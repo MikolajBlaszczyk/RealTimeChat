@@ -1,25 +1,22 @@
 import pyodbc
 
-driverAndConnectionString = '''
-                            DRIVER={SQL Server};
-                            Server=MIKOŁAJ\SQLEXPRESS;
-                            Database=RealTimeChatAPI;
-                            User Id=RealUser;
-                            Password='RealPassword;
-                            '''
 
-queryToTerminateSession = 'DELETE FROM RealTimeChatAPI.dbo.Session'
-queryToPerformBackup = 'exec sp_CreateBackup'
+class db:
+    def __init__(self, connectionString):
+        self.driverAndConnectionString = f'''
+                                            DRIVER={'{SQL Server}'};
+                                            {connectionString}
+                                            '''
+        self.queryToTerminateSession = 'DELETE FROM RealTimeChatAPI.dbo.Session'
+        self.queryToPerformBackup = 'exec sp_CreateBackup'
 
-connection = pyodbc.connect(driverAndConnectionString)
-cursor = connection.cursor()
+        connection = pyodbc.connect(self.driverAndConnectionString)
+        self.cursor = connection.cursor()
 
+    def TerminateSessionInApi(self):
+        self.cursor.execute(self.queryToTerminateSession)
+        self.cursor.commit()
 
-def TerminateSessionInApi():
-    cursor.execute(queryToTerminateSession)
-    cursor.commit()
-
-
-def PerformBackup():
-    cursor.execute(queryToPerformBackup)
-    cursor.commit()
+    def PerformBackup(self):
+        self.cursor.execute(self.queryToPerformBackup)
+        self.cursor.commit()

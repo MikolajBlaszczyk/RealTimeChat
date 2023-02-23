@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using RealTimeChat.API.DataAccess.Models;
 using RealTimeChat.DataAccess.Models;
-
+using System.Reflection.Emit;
 
 namespace RealTimeChat.DataAccess.IdentityContext;
 
@@ -15,7 +15,24 @@ public class ApplicationContext : IdentityDbContext<ApplicationUser>
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-        base.OnModelCreating(builder);
+        builder.Entity<UserConversationConnector>()
+            .HasKey(connector => new { connector.ConversationID, connector.UserGUID });
+
+
+        builder.Entity<UserConversationConnector>()
+            .HasOne(connector => connector.User)
+            .WithMany(user => user.Connectors)
+            .HasForeignKey(connector => connector.UserGUID);
+
+        builder.Entity<UserConversationConnector>()
+            .HasOne(connector => connector.Conversation)
+            .WithMany(conversation => conversation.Connectors)
+            .HasForeignKey(connector => connector.ConversationID);
+
+        builder.Entity<Session>()
+            .HasOne(session => session.User)
+            .WithOne(user => user.ThisSession)
+            .HasForeignKey<Session>(session => session.UserGUID);
 
         builder.Entity<FriendsModel>()
             .HasKey(f => new { f.UserId, f.FriendId });
@@ -47,13 +64,12 @@ public class ApplicationContext : IdentityDbContext<ApplicationUser>
             .WithMany()
             .HasForeignKey(i => i.ResponderId);
 
-        // Customize the ASP.NET Identity model and override the defaults if needed.
-        // For example, you can rename the ASP.NET Identity table names and more.
-        // Add your customizations after calling base.OnModelCreating(builder);
+        base.OnModelCreating(builder);
     }
 
     public DbSet<Session> Session { get; set; }
-    public DbSet<InvitationModel> Invitations { get; set; }
+    public DbSet<Conversation> Conversation { get; set; }
+    public DbSet<UserConversationConnector> UsersConversation { get; set; }
+  	public DbSet<InvitationModel> Invitations { get; set; }
     public DbSet<FriendsModel> Friends { get; set; }
-    
 }

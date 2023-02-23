@@ -1,4 +1,11 @@
-import DataAccess
+import sys
+from DataAccess import db
 
-DataAccess.TerminateSessionInApi()
-# DataAccess.PerformBackup()
+connectionString = sys.argv[1]
+
+dataAccess = db(connectionString)
+
+dataAccess.TerminateSessionInApi()
+
+if sys.platform == 'linux':
+    dataAccess.PerformBackup()

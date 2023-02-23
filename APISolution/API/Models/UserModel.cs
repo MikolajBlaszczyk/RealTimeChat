@@ -17,7 +17,8 @@ public class UserModel : IUserModel
 
     public string? Email { get; set; }
 
-    public ApplicationUser ConvertToIdentityUser()
+
+    public ApplicationUser ConvertToApplicationUser()
     {
         return new ApplicationUser() { UserName = Username, Email = Email };
     }

@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using RealTimeChat.BusinessLogic.Models;
-using RealTimeChat.BusinessLogic.SignalR;
+using RealTimeChat.Models;
+using RealTimeChat.SignalR;
 
 namespace RealTimeChat.BusinessLogic.UserAvaliability;
 

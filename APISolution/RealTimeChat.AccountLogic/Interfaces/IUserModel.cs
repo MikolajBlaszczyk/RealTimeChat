@@ -1,6 +1,5 @@
-﻿
-using Microsoft.AspNetCore.Identity;
-using RealTimeChat.DataAccess.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using RealTimeChat.API.DataAccess.Models;
 
 namespace RealTimeChat.AccountLogic.Interfaces;
 
@@ -11,5 +10,5 @@ public interface IUserModel
     string Password { get; set; }
     string ConfirmPassword { get; set; }
 
-    ApplicationUser ConvertToIdentityUser();
+    ApplicationUser ConvertToApplicationUser();
 }

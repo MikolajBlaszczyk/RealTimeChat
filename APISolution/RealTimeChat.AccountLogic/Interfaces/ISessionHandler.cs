@@ -1,10 +1,7 @@
-﻿using RealTimeChat.AccountLogic.Interfaces;
+﻿namespace RealTimeChat.AccountLogic.Interfaces;
 
-namespace RealTimeChat.AccountLogic.SessionManager;
-
-public interface ISessionHandler: IDisposable
+public interface ISessionHandler
 {
-    Task InitializeSession(IUserModel user);
-    Task TerminateSession(string userName);
-    Task TerminateAllSessions();
+    Task InitializeSession();
+    Task TerminateSession();
 }

@@ -1,4 +1,4 @@
-﻿using RealTimeChat.AccountLogic.SessionManager;
+﻿
 using System.Diagnostics;
 using CliWrap;
 using CliWrap.Buffered;

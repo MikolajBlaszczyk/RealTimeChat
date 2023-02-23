@@ -2,10 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using RealTimeChat.AccountLogic.Enums;
 using RealTimeChat.AccountLogic.Interfaces;
-using RealTimeChat.AccountLogic.Messages;
 using RealTimeChat.AccountLogic.Models;
-using RealTimeChat.AccountLogic.Validators;
-using RealTimeChat.DataAccess.Models;
+using RealTimeChat.API.DataAccess.Models;
 
 namespace RealTimeChat.AccountLogic.AccountManager;
 
@@ -22,19 +20,18 @@ public class RegisterManager : IRegisterManager
         {
             //TODO: Implement custom exception
             if (_signInManager == null)
-                throw new Exception(ResponseResultMessage.ServerError);
+                throw new Exception("Server Error");
 
             return _signInManager;
         }
     }
     private UserManager<ApplicationUser> UserManager
     {
-        
         get
         {
             //TODO: Implement custom exception
             if (_signInManager == null)
-                throw new Exception(ResponseResultMessage.ServerError);
+                throw new Exception("Server Error");
 
             return _userManager;
         }
@@ -48,19 +45,19 @@ public class RegisterManager : IRegisterManager
         _userManager = userManager;
     }
 
-    public async Task<ResponseModel> RegisterUserAsync(IUserModel userToRegister)
+    public async Task<ResponseModel> RegisterUserAsync(IUserModel userToRegister, CancellationToken token)
     {
         string message = string.Empty;
         
         var isPasswordValid = AccountValidator.IsPasswordValid(userToRegister.Password, userToRegister.ConfirmPassword, ref message);
         if (isPasswordValid)
         {
-            IdentityResult registerResult = await  CreateUserAsync(userToRegister);
-            
+            IdentityResult registerResult = await  CreateUserAsync(userToRegister, token);
+
             if (registerResult.Succeeded)
                 return ResponseModel.CreateResponse(ResponseIdentityResult.Success);
             else
-                return ResponseModel.CreateResponse(ResponseIdentityResult.UserNotCreated, ResponseResultMessage.UserNotCreated);
+                return ResponseModel.CreateResponse(ResponseIdentityResult.UserNotCreated);
         }
         else
         {
@@ -68,14 +65,15 @@ public class RegisterManager : IRegisterManager
         }
     }
     
-    private async Task<IdentityResult> CreateUserAsync(IUserModel userToRegister)
+    private async Task<IdentityResult> CreateUserAsync(IUserModel userToRegister, CancellationToken token)
     {
         IdentityResult result;
-        var user = userToRegister.ConvertToIdentityUser();
+        var user = userToRegister.ConvertToApplicationUser();
 
         result = await UserManager.CreateAsync(user, userToRegister.Password);
-        // is it necessary? 
-        //result = await UserManager.AddClaimAsync(user, new Claim("FUID", await UserManager.GetUserIdAsync(user)));
+
+        if(result.Succeeded)
+            result = await UserManager.AddClaimAsync(user, new Claim("GUID", await UserManager.GetUserIdAsync(user)));
 
         return result;
 

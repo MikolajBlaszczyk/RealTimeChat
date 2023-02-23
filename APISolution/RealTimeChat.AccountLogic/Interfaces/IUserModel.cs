@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using RealTimeChat.API.DataAccess.Models;
+﻿using RealTimeChat.DataAccess.Models;
 
 namespace RealTimeChat.AccountLogic.Interfaces;
 

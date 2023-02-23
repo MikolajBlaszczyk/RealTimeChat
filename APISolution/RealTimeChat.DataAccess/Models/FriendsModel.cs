@@ -1,6 +1,5 @@
-﻿using RealTimeChat.BusinessLogic.FriendsLogic.Models;
-
-namespace RealTimeChat.API.DataAccess.Models;
+﻿
+namespace RealTimeChat.DataAccess.Models;
 
 public class FriendsModel
 {
@@ -10,5 +9,4 @@ public class FriendsModel
     public virtual ApplicationUser User { get; set; }
     public virtual ApplicationUser Friend { get; set; }
     
-    public UserStatus Status { get; set; }
 }

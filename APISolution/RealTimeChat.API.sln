@@ -9,11 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeChat.BusinessLogic"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeChat.DataAccess", "RealTimeChat.DataAccess\RealTimeChat.DataAccess.csproj", "{2633CA87-CD54-4E00-9FF9-6B3B102B5707}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeChat.AccountLogic", "RealTimeChat.AccountLogic\RealTimeChat.AccountLogic.csproj", "{370E4DBD-C547-4B9B-8CA8-29C6E04AC2A6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeChat.AccountLogic", "RealTimeChat.AccountLogic\RealTimeChat.AccountLogic.csproj", "{370E4DBD-C547-4B9B-8CA8-29C6E04AC2A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeChat.FriendsLogic", "RealTimeChat.FriendsLogic\RealTimeChat.FriendsLogic.csproj", "{E17CDF7E-4154-49C4-90B5-2986A2E6236C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeChat.FriendsLogic", "RealTimeChat.FriendsLogic\RealTimeChat.FriendsLogic.csproj", "{E17CDF7E-4154-49C4-90B5-2986A2E6236C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeChat.ChatLogic", "RealTimeChat.ChatLogic\RealTimeChat.ChatLogic.csproj", "{F9C240AC-CA38-4003-B38B-B79C131B4EEA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeChat.ChatLogic", "RealTimeChat.ChatLogic\RealTimeChat.ChatLogic.csproj", "{F9C240AC-CA38-4003-B38B-B79C131B4EEA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +37,13 @@ Global
 		{370E4DBD-C547-4B9B-8CA8-29C6E04AC2A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{370E4DBD-C547-4B9B-8CA8-29C6E04AC2A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{370E4DBD-C547-4B9B-8CA8-29C6E04AC2A6}.Release|Any CPU.Build.0 = Release|Any CPU
-
 		{E17CDF7E-4154-49C4-90B5-2986A2E6236C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E17CDF7E-4154-49C4-90B5-2986A2E6236C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E17CDF7E-4154-49C4-90B5-2986A2E6236C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9C240AC-CA38-4003-B38B-B79C131B4EEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9C240AC-CA38-4003-B38B-B79C131B4EEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9C240AC-CA38-4003-B38B-B79C131B4EEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9C240AC-CA38-4003-B38B-B79C131B4EEA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

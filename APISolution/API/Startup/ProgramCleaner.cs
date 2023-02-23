@@ -9,9 +9,10 @@ using RealTimeChat.AccountLogic.Interfaces;
 using RealTimeChat.AccountLogic.SessionManager;
 using RealTimeChat.AccountLogic.Validators;
 using RealTimeChat.API.Controllers;
-using RealTimeChat.API.DataAccess.Models;
 using RealTimeChat.API.LifeCycle;
 using RealTimeChat.DataAccess.DataAccess;
+using RealTimeChat.DataAccess.Models;
+using RealTimeChat.FriendsLogic;
 using RealTimeChat.FriendsLogic.FriendsManagers;
 using RealTimeChat.FriendsLogic.Helpers;
 using RealTimeChat.FriendsLogic.Interfaces;
@@ -44,7 +45,7 @@ public static class ProgramCleaner
                 options.Cookie.IsEssential = true;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
                 options.Cookie.Domain = "localhost";
-                options.Cookie.Path = "/"
+                options.Cookie.Path = "/";
                 options.Cookie.SameSite = SameSiteMode.None;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
                 options.SlidingExpiration = true;
@@ -107,7 +108,6 @@ public static class ProgramCleaner
         services.AddSwaggerGen();
         services.AddHttpContextAccessor();
         //Dependency injection
-        services.AddTransient<DatabaseClosureManager, DatabaseClosureManager>();
         services.AddTransient<AppCleaner,AppCleaner>();
         services.AddTransient<IRegisterManager, RegisterManager>();
         services.AddTransient<ILoginManager, LoginManager>();

@@ -1,6 +1,4 @@
-﻿using RealTimeChat.API.DataAccess.Models;
-
-namespace RealTimeChat.DataAccess.Models
+﻿namespace RealTimeChat.DataAccess.Models
 {
     public class UserConversationConnector
     {

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using RealTimeChat.AccountLogic.Enums;
 using RealTimeChat.AccountLogic.Interfaces;
 using RealTimeChat.AccountLogic.Models;
-using RealTimeChat.API.DataAccess.Models;
+using RealTimeChat.DataAccess.Models;
 
 namespace RealTimeChat.AccountLogic.AccountManager;
 

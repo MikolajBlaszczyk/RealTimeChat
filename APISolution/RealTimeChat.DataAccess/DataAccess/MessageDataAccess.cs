@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.VisualBasic;
-using RealTimeChat.API.DataAccess.Models;
 using RealTimeChat.DataAccess.IdentityContext;
 using RealTimeChat.DataAccess.Models;
 

@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
-using RealTimeChat.API.DataAccess.Models;
-using RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
+using RealTimeChat.DataAccess.Models;
+using RealTimeChat.AccountLogic.Interfaces;
 
 namespace RealTimeChat.API.Models;
 

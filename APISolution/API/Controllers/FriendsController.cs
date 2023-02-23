@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using RealTimeChat.BusinessLogic.FriendsLogic.Enums;
+using RealTimeChat.FriendsLogic.Enums;
 using System.Security.Claims;
-using RealTimeChat.BusinessLogic.FriendsLogic.Interfaces;
+using RealTimeChat.FriendsLogic.Interfaces;
 
 namespace RealTimeChat.API.Controllers;
 

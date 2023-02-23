@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeChat.API", "API\Rea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeChat.BusinessLogic", "RealTimeChat.BussinesLogic\RealTimeChat.BusinessLogic.csproj", "{D9B87DDF-A913-446B-B917-9B5DDDB61C6C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeChat.API.DataAccess", "RealTimeChat.API.DataAccess\RealTimeChat.API.DataAccess.csproj", "{2633CA87-CD54-4E00-9FF9-6B3B102B5707}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RealTimeChat.DataAccess", "RealTimeChat.DataAccess\RealTimeChat.DataAccess.csproj", "{2633CA87-CD54-4E00-9FF9-6B3B102B5707}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeChat.BusinessLogic.AccountLogic", "RealTimeChat.BusinessLogic.AccountLogic\RealTimeChat.BusinessLogic.AccountLogic.csproj", "{370E4DBD-C547-4B9B-8CA8-29C6E04AC2A6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeChat.AccountLogic", "RealTimeChat.AccountLogic\RealTimeChat.AccountLogic.csproj", "{370E4DBD-C547-4B9B-8CA8-29C6E04AC2A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeChat.BusinessLogic.FriendsLogic", "RealTimeChat.BusinessLogic.FriendsLogic\RealTimeChat.BusinessLogic.FriendsLogic.csproj", "{E17CDF7E-4154-49C4-90B5-2986A2E6236C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RealTimeChat.FriendsLogic", "RealTimeChat.FriendsLogic\RealTimeChat.FriendsLogic.csproj", "{E17CDF7E-4154-49C4-90B5-2986A2E6236C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

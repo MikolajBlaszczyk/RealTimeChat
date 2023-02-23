@@ -1,6 +1,6 @@
 ﻿
 using RealTimeChat.API.Messages;
-using RealTimeChat.BusinessLogic.FriendsLogic.Enums;
+using RealTimeChat.FriendsLogic.Enums;
 
 namespace RealTimeChat.API.Controllers;
 

@@ -2,18 +2,18 @@
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using RealTimeChat.API.Controllers;
-using RealTimeChat.API.DataAccess.IdentityContext;
-using RealTimeChat.API.DataAccess.Models;
+using RealTimeChat.DataAccess.IdentityContext;
+using RealTimeChat.DataAccess.Models;
 using RealTimeChat.API.Middleware;
-using RealTimeChat.BusinessLogic.AccountLogic;
-using RealTimeChat.BusinessLogic.AccountLogic.AccountManager;
-using RealTimeChat.BusinessLogic.AccountLogic.Interfaces;
-using RealTimeChat.BusinessLogic.AccountLogic.SessionManager;
-using RealTimeChat.BusinessLogic.AccountLogic.Validators;
-using RealTimeChat.BusinessLogic.FriendsLogic;
-using RealTimeChat.BusinessLogic.FriendsLogic.FriendsManagers;
-using RealTimeChat.BusinessLogic.FriendsLogic.Helpers;
-using RealTimeChat.BusinessLogic.FriendsLogic.Interfaces;
+using RealTimeChat.AccountLogic;
+using RealTimeChat.AccountLogic.AccountManager;
+using RealTimeChat.AccountLogic.Interfaces;
+using RealTimeChat.AccountLogic.SessionManager;
+using RealTimeChat.AccountLogic.Validators;
+using RealTimeChat.FriendsLogic;
+using RealTimeChat.FriendsLogic.FriendsManagers;
+using RealTimeChat.FriendsLogic.Helpers;
+using RealTimeChat.FriendsLogic.Interfaces;
 
 using RealTimeChat.BusinessLogic.UserAvaliability;
 

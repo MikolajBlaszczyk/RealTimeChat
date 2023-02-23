@@ -1,4 +1,4 @@
-﻿using RealTimeChat.BusinessLogic.AccountLogic.SessionManager;
+﻿using RealTimeChat.AccountLogic.SessionManager;
 namespace RealTimeChat.API.Middleware;
 
 public class AppCleaner : IDisposable

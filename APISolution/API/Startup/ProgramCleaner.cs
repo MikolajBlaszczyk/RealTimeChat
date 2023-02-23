@@ -38,9 +38,12 @@ public static class ProgramCleaner
                 options.Cookie.Name = "RTC";
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
+                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.Domain = "localhost";
+                options.Cookie.Path = "/"
+                options.Cookie.SameSite = SameSiteMode.None;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
                 options.SlidingExpiration = true;
-
             });
 
     
@@ -73,6 +76,14 @@ public static class ProgramCleaner
         //Other
         services.AddCors(options =>
         {
+            options.AddPolicy("CORS", policy =>
+            {
+                policy.WithOrigins("https://localhost:7272")
+                    .AllowCredentials()
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+            });
+
             options.AddDefaultPolicy(policy =>
             {
                 policy.AllowAnyOrigin();
@@ -85,6 +96,7 @@ public static class ProgramCleaner
         {
             options.ShutdownTimeout = TimeSpan.FromSeconds(20);
         });
+
 
         services.AddControllers();
         services.AddEndpointsApiExplorer();

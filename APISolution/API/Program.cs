@@ -1,11 +1,8 @@
-using System.Composition.Hosting.Core;
-using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using RealTimeChat.API.LifeCycle;
 using RealTimeChat.API.Messages;
 using RealTimeChat.API.Startup;
 using RealTimeChat.SignalR;
 using Serilog;
-using Serilog.Core;
 using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -35,7 +32,7 @@ app.UseHttpsRedirection();
 app.UseCookiePolicy();
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCors();
+app.UseCors("CORS");
 
 
 app.MapControllers();

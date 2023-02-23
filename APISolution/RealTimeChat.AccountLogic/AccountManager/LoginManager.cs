@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Caching.Memory;
 using RealTimeChat.AccountLogic.Enums;
 using RealTimeChat.AccountLogic.Interfaces;
 using RealTimeChat.AccountLogic.Models;
@@ -16,10 +17,10 @@ public class LoginManager : ILoginManager
 {
     private SignInManager<ApplicationUser> _singInManager;
     private readonly ISessionHandler _sessionHandler;
-    private readonly IHttpContextAccessor _accessor;
 
     public IAccountValidator Validator { get; }
     public AccountDataAccess DataAccess { get; }
+    public IMemoryCache Cache { get; }
 
     public SignInManager<ApplicationUser> SignInManager
     {
@@ -33,13 +34,13 @@ public class LoginManager : ILoginManager
         }
     }
     
-    public LoginManager(IAccountValidator validator, SignInManager<ApplicationUser> singInManager, ISessionHandler sessionHandler, IHttpContextAccessor accessor,AccountDataAccess dataAccess)
+    public LoginManager(IAccountValidator validator, SignInManager<ApplicationUser> singInManager, ISessionHandler sessionHandler,
+        AccountDataAccess dataAccess)
     {
         Validator = validator;
         DataAccess = dataAccess;
         _singInManager = singInManager;
         _sessionHandler = sessionHandler;
-        _accessor = accessor;
     }
 
     public async Task<ResponseModel> LoginUserAsync(IUserModel user, CancellationToken token)
@@ -67,9 +68,10 @@ public class LoginManager : ILoginManager
     public async Task<ResponseModel> SignInAsync(IUserModel user, CancellationToken token, Claim claim)
     {
         
-
+        
         SignInResult signInResult =  await SignInManager.PasswordSignInAsync(user.Username, user.Password, true, false);
 
+        var cookie = SignInManager.Context.Response.Cookies;
         if (signInResult.Succeeded)
         {
             await CreateGuidClaim(user, claim);
@@ -96,7 +98,8 @@ public class LoginManager : ILoginManager
         await SignInManager.UserManager.AddClaimAsync(userToFind, claim);
         await SignInManager.RefreshSignInAsync(userToFind);
 
-
+        ClaimsIdentity claims = new ClaimsIdentity(new[] { claim });
+        SignInManager.Context.User.AddIdentity(claims);
     }
 
     public async Task<Claim> ClaimGuid(string? Guid)

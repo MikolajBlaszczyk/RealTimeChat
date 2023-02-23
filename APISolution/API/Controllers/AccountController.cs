@@ -29,7 +29,7 @@ public class AccountController : Controller
         var response = await RequestHandler.HandleRegisterRequest(body, token);
 
         Logger.GenerateResponseLog(response.Result, AccountRequest.Register);
-        
+
         return GenerateHttpResponse(response.Result, response.Message);
     }
 
@@ -43,6 +43,7 @@ public class AccountController : Controller
         var response = await RequestHandler.HandleLoginRequest(body, token);
 
         Logger.GenerateResponseLog(response.Result, AccountRequest.Login);
+
 
         return GenerateHttpResponse(response.Result, response.Message);
     }
@@ -64,7 +65,9 @@ public class AccountController : Controller
     [Route("Users")]
     public async Task<IActionResult> GetUsers(CancellationToken token)
     {
-        throw new NotImplementedException();
+        var cookie = HttpContext.Request.Cookies;
+
+        return Ok();
     }
 
     private ObjectResult GenerateHttpResponse(ResponseIdentityResult res, string message) => res switch

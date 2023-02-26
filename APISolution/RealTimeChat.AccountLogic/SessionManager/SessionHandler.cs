@@ -1,6 +1,8 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using RealTimeChat.AccountLogic.Enums;
 using RealTimeChat.AccountLogic.Interfaces;
+using RealTimeChat.AccountLogic.Models;
 using RealTimeChat.DataAccess.IdentityContext;
 using RealTimeChat.DataAccess.Models;
 
@@ -19,27 +21,43 @@ public class SessionHandler :ISessionHandler
         DbContext = dbContext;
     }
 
-    public async Task InitializeSession()
+    public async Task<ResponseModel> InitializeSession()
     {
-        Session sessionToInitialize = DataAccessModelFactory.CreateSessionModel(GetGUIDClaims());
+        
+        Session sessionToInitialize = DataAccessModelFactory.CreateSessionModel(GetGuidClaims());
 
-        DbContext.Session.Add(sessionToInitialize);
-        await DbContext.SaveChangesAsync();
+        try
+        {
+            DbContext.Session.Add(sessionToInitialize);
+            await DbContext.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            return ResponseModel.CreateResponse(ResponseIdentityResult.ServerError);
+        }
+
+        return ResponseModel.CreateResponse(ResponseIdentityResult.Success);
     }
 
-    public async Task TerminateSession()
+    public async Task<ResponseModel> TerminateSession()
     {
-        Session? sessionToTerminate = DbContext.Session.SingleOrDefault(session => session.UserGUID == GetGUIDClaims());
-            
-        if (sessionToTerminate != null)
+        Session? sessionToTerminate = DbContext.Session.SingleOrDefault(session => session.UserGUID == GetGuidClaims());
+
+        try
         {
             DbContext.Session.Remove(sessionToTerminate);
             await DbContext.SaveChangesAsync();
         }
+        catch (Exception ex)
+        {
+            return ResponseModel.CreateResponse(ResponseIdentityResult.ServerError);
+        }
+
+        return ResponseModel.CreateResponse(ResponseIdentityResult.Success);
     }
 
 
-    public string? GetGUIDClaims()
+    private string? GetGuidClaims()
     {
         return ContextAccessor.HttpContext.User.FindFirst(UserGUID)?.Value;
     }

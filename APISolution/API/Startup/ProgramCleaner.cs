@@ -113,7 +113,7 @@ public static class ProgramCleaner
         services.AddTransient<AccountCallLogger, AccountCallLogger>();
         services.AddTransient<AccountDataAccess, AccountDataAccess>();
         services.AddTransient<HubDataAccess, HubDataAccess>();
-
+        services.AddTransient<ClaimsManager, ClaimsManager>();
 
         return services;
     }

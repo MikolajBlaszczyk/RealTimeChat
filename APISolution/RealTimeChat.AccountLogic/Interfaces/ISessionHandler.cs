@@ -1,7 +1,9 @@
-﻿namespace RealTimeChat.AccountLogic.Interfaces;
+﻿using RealTimeChat.AccountLogic.Models;
+
+namespace RealTimeChat.AccountLogic.Interfaces;
 
 public interface ISessionHandler
 {
-    Task InitializeSession();
-    Task TerminateSession();
+    Task<ResponseModel> InitializeSession();
+    Task<ResponseModel> TerminateSession();
 }

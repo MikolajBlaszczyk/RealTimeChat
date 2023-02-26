@@ -1,11 +1,16 @@
+using Microsoft.AspNetCore.DataProtection;
 using RealTimeChat.API.LifeCycle;
 using RealTimeChat.API.Messages;
 using RealTimeChat.API.Startup;
+using Microsoft.AspNetCore.SignalR;
 using RealTimeChat.SignalR;
 using Serilog;
 using Serilog.Events;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDataProtection().SetApplicationName("APP");
+
 var connectionString = builder.Configuration.GetConnectionString("AppContextConnection") ?? throw new InvalidOperationException("Connection string 'AppContextConnection' not found.");
 
 builder.Services.RegisterServices(connectionString);
@@ -28,11 +33,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-app.UseCookiePolicy();
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseCors("CORS");
+app.UseHttpsRedirection();
+
+
+
 
 
 app.MapControllers();

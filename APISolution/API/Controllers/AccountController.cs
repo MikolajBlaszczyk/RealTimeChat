@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RealTimeChat.DataAccess.IdentityContext;
 using RealTimeChat.API.Messages;
@@ -66,6 +67,7 @@ public class AccountController : Controller
         return GenerateHttpResponse(response.Result, response.Message);
     }
 
+    [Authorize]
     [HttpGet]
     [Route("Users")]
     public async Task<IActionResult> GetUsers(CancellationToken token)
@@ -73,6 +75,21 @@ public class AccountController : Controller
         var cookie = HttpContext.Request.Cookies;
 
         return Ok();
+    }
+
+    [Authorize]
+    [HttpGet]
+    [Route("Token")]
+    public async Task<IActionResult> GetToken(CancellationToken token)
+    {
+        var accessToken = Request.Cookies[CookieAuthenticationDefaults.AuthenticationScheme];
+
+        if (accessToken == null)
+        {
+            return NotFound();
+        }
+
+        return Content(accessToken);
     }
 
     private ObjectResult GenerateHttpResponse(ResponseIdentityResult res, string message) => res switch

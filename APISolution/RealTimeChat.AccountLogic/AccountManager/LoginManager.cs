@@ -15,7 +15,7 @@ public class LoginManager : ILoginManager
     private readonly ISessionHandler _sessionHandler;
 
     public IAccountValidator Validator { get; }
-    public AccountDataAccess DataAccess { get; }
+    
     public IMemoryCache Cache { get; }
 
     public SignInManager<ApplicationUser> SignInManager
@@ -30,11 +30,9 @@ public class LoginManager : ILoginManager
         }
     }
     
-    public LoginManager(IAccountValidator validator, SignInManager<ApplicationUser> singInManager, ISessionHandler sessionHandler,
-        AccountDataAccess dataAccess)
+    public LoginManager(IAccountValidator validator, SignInManager<ApplicationUser> singInManager, ISessionHandler sessionHandler)
     {
         Validator = validator;
-        DataAccess = dataAccess;
         _singInManager = singInManager;
         _sessionHandler = sessionHandler;
     }
@@ -45,9 +43,9 @@ public class LoginManager : ILoginManager
         if (isValid)
         {
 
-            var principal = await ClaimGuid(DataAccess.GetUserGuid(user.Username));
+            
 
-            var result = await SignInAsync(user, token, principal);
+            var result = await SignInAsync(user, token);
 
 
             await _sessionHandler.InitializeSession();
@@ -61,7 +59,7 @@ public class LoginManager : ILoginManager
 
     }
 
-    public async Task<ResponseModel> SignInAsync(IUserModel user, CancellationToken token, Claim claim)
+    public async Task<ResponseModel> SignInAsync(IUserModel user, CancellationToken token)
     {
         
         
@@ -70,7 +68,6 @@ public class LoginManager : ILoginManager
         var cookie = SignInManager.Context.Response.Cookies;
         if (signInResult.Succeeded)
         {
-            await CreateGuidClaim(user, claim);
 
             return ResponseModel.CreateResponse(ResponseIdentityResult.Success);
         }
@@ -88,24 +85,6 @@ public class LoginManager : ILoginManager
     }
 
 
-    private async Task CreateGuidClaim(IUserModel user, Claim claim)
-    {
-        var userToFind = await SignInManager.UserManager.FindByNameAsync(user.Username);
-        await SignInManager.UserManager.AddClaimAsync(userToFind, claim);
-        await SignInManager.RefreshSignInAsync(userToFind);
-
-        ClaimsIdentity claims = new ClaimsIdentity(new[] { claim });
-        SignInManager.Context.User.AddIdentity(claims);
-    }
-
-    public async Task<Claim> ClaimGuid(string? Guid)
-    {
-        //TODO: add message
-        if (Guid is null)
-            throw new ArgumentNullException();
-
-
-        return new Claim("GUID", Guid);
-    }
+ 
 
 }

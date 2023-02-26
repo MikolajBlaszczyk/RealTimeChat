@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Authentication.Cookies;
+﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using RealTimeChat.DataAccess.IdentityContext;
 using RealTimeChat.AccountLogic;
@@ -16,6 +19,8 @@ using RealTimeChat.FriendsLogic;
 using RealTimeChat.FriendsLogic.FriendsManagers;
 using RealTimeChat.FriendsLogic.Helpers;
 using RealTimeChat.FriendsLogic.Interfaces;
+using StackExchange.Redis;
+using RealTimeChat.SignalR;
 
 namespace RealTimeChat.API.Startup;
 
@@ -33,25 +38,11 @@ public static class ProgramCleaner
                 builder.MigrationsAssembly("RealTimeChat.API");
             }));
         //Identity 
+
         services.AddDefaultIdentity<ApplicationUser>()
             .AddEntityFrameworkStores<ApplicationContext>()
             .AddDefaultTokenProviders();
 
-        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-            .AddCookie(options =>
-            {
-                options.Cookie.Name = "RTC";
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
-                options.Cookie.Domain = "localhost";
-                options.Cookie.Path = "/";
-                options.Cookie.SameSite = SameSiteMode.None;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
-                options.SlidingExpiration = true;
-            });
-
-    
 
         services.Configure<IdentityOptions>(options =>
         {
@@ -70,8 +61,9 @@ public static class ProgramCleaner
                 "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
             options.User.RequireUniqueEmail = false;
         });
-      
-     
+
+
+        
         //SignalR WebSocket. to chat
         services.AddSignalR();
         services.AddResponseCompression(options =>
@@ -80,20 +72,19 @@ public static class ProgramCleaner
         });
         //Other
         services.AddCors(options =>
-        {
+        { ;
+
             options.AddPolicy("CORS", policy =>
             {
-                policy.WithOrigins("https://localhost:7272")
-                    .AllowCredentials()
+                policy.WithOrigins("https://localhost:7013")
+                    .AllowAnyMethod()
                     .AllowAnyHeader()
-                    .AllowAnyMethod();
-            });
+                    .AllowCredentials();
 
-            options.AddDefaultPolicy(policy =>
-            {
-                policy.AllowAnyOrigin();
-                policy.AllowAnyHeader();
-                policy.AllowAnyMethod();
+                policy.WithOrigins("https://localhost:7272", "http://localhost:5277", "http://localhost:30420")
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();
             });
         });
 
@@ -106,8 +97,8 @@ public static class ProgramCleaner
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
-        services.AddHttpContextAccessor();
         //Dependency injection
+        services.AddHttpContextAccessor();
         services.AddTransient<AppCleaner,AppCleaner>();
         services.AddTransient<IRegisterManager, RegisterManager>();
         services.AddTransient<ILoginManager, LoginManager>();

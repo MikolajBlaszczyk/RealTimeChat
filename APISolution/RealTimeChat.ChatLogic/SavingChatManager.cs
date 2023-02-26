@@ -5,11 +5,11 @@ namespace RealTimeChat.ChatLogic
 {
     public class SavingChatManager
     {
-        private ILogger<SavingChatManager> Looger { get; }
+        private ILogger<SavingChatManager> Loger { get; }
 
-        public SavingChatManager(ILogger<SavingChatManager> looger)
+        public SavingChatManager(ILogger<SavingChatManager> loger)
         {
-            Looger = looger;
+            Loger = loger;
         }
 
         public ChatResponseModel Save(string messages)

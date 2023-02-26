@@ -29,7 +29,7 @@ public class UserAccountRequestHandler : IUserAccountRequestHandler
                 return registerResult;
             }
 
-            var loginResult = await LoginManager.SignInAsync(user, token, null);
+            var loginResult = await LoginManager.SignInAsync(user, token);
 
             return loginResult;
         }

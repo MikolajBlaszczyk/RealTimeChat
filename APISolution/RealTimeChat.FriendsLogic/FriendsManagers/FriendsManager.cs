@@ -95,7 +95,7 @@ public class FriendsManager : IFriendsManager
 
         foreach (var friend in friends)
         {
-            friendsDtoList.Add(new UserDto(friend.UserName, "default"));
+            friendsDtoList.Add(new UserDto(friend.UserName, friend.ThisSession.ConnectionID));
         }
 
         var result = JsonConvert.SerializeObject(friendsDtoList);
@@ -129,7 +129,7 @@ public class FriendsManager : IFriendsManager
         public string Username;
         public string ConnectionId;
 
-        public UserDto(string username, string connectionId)
+        public UserDto(string username, string connectionId = "Default")
         {
             Username = username;
             ConnectionId = connectionId;

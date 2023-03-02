@@ -35,7 +35,6 @@ public static class ProgramCleaner
             options.UseSqlServer(connectionString, builder =>
             {
                 builder.EnableRetryOnFailure(5, TimeSpan.FromSeconds(10), null);
-                builder.MigrationsAssembly("RealTimeChat.API");
             }));
         //Identity 
 

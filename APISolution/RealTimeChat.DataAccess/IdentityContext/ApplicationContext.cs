@@ -14,6 +14,12 @@ public class ApplicationContext : IdentityDbContext<ApplicationUser>
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        builder.Entity<ApplicationUser>()
+            .HasOne(user => user.Status)
+            .WithMany()
+            .HasForeignKey(user => user.StatusId);
+        
+
         builder.Entity<UserConversationConnector>()
             .HasKey(connector => new { connector.ConversationID, connector.UserGUID });
 
@@ -67,6 +73,7 @@ public class ApplicationContext : IdentityDbContext<ApplicationUser>
     }
 
     public DbSet<Session> Session { get; set; }
+    public DbSet<Statuses> Statuses { get; set; }
     public DbSet<Conversation> Conversation { get; set; }
     public DbSet<UserConversationConnector> UsersConversation { get; set; }
   	public DbSet<InvitationModel> Invitations { get; set; }

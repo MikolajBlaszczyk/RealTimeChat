@@ -19,7 +19,7 @@ namespace RealTimeChat.DataAccess.DataAccessUtils
             DbContext = dbContext;
         }
 
-        public async  Task<Conversation> GetConversationByUsers(string userGuid_A, string userGuid_B)
+        public async  Task<Conversation?> GetConversationByUsers(string userGuid_A, string userGuid_B)
         {
             var userConversations_A = DbContext.UsersConversation
                 .Include(conversation => conversation.Conversation)
@@ -34,7 +34,7 @@ namespace RealTimeChat.DataAccess.DataAccessUtils
             if (conversationBetweenUsers != null)
                 return conversationBetweenUsers.Conversation;
             else
-                throw new ArgumentNullException();
+                return null;
         }
     }
 }

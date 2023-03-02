@@ -12,26 +12,24 @@ namespace RealTimeChat.BusinessLogic.WebSupervisors
     {
 
         public const string GuidClaim = "GUID";
-        private HubCallerContext Context { get; }
         private HubDataAccess DataAccess { get; }
 
-        public UserConnectionHandler(HubCallerContext context, HubDataAccess dataAccess)
+        public UserConnectionHandler( HubDataAccess dataAccess)
         {
-            Context = context;
             DataAccess = dataAccess;
         }
 
-        public async Task HandleUserConnection()
+        public async Task HandleUserConnection(HubCallerContext context)
         {
-            string? guid = Context.User.FindFirst(GuidClaim)?.Value;
-            string? connectionId = Context.ConnectionId;
+            string? guid = context.User.FindFirst(GuidClaim)?.Value;
+            string? connectionId = context.ConnectionId;
 
             await DataAccess.UpdateSessionConnection(guid, connectionId);
         }
 
-        public async Task HandleUserDisconnection()
+        public async Task HandleUserDisconnection(HubCallerContext context)
         {
-            string? guid = Context.User.FindFirst(GuidClaim)?.Value;
+            string? guid = context.User.FindFirst(GuidClaim)?.Value;
 
             DataAccess.DeleteSessionConnection(guid);
 

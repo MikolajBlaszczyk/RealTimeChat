@@ -19,14 +19,14 @@ public class WebChatHub:Hub
 
     public override async Task OnConnectedAsync()
     {
-        await Handler.HandleUserConnection();
+        await Handler.HandleUserConnection(Context);
         
         await base.OnConnectedAsync();
     }
 
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
-        await Handler.HandleUserDisconnection();
+        await Handler.HandleUserDisconnection(Context);
 
         await base.OnDisconnectedAsync(exception);
     }

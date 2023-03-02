@@ -17,7 +17,7 @@ namespace RealTimeChat.ChatLogic
 
         public ChatResponseModel Save(string connectionID_A, string connectionID_B,string messages_A, string messages_B)
         {
-            
+            return ChatResponseModel.CreateChatResponse(true);
         }
 
     }

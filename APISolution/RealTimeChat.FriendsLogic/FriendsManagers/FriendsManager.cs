@@ -95,7 +95,12 @@ public class FriendsManager : IFriendsManager
 
         foreach (var friend in friends)
         {
-            friendsDtoList.Add(new UserDto(friend.UserName, friend.ThisSession.ConnectionID));
+            if (friend.ThisSession != null)
+                friendsDtoList.Add(new UserDto(friend.UserName, friend.ThisSession.ConnectionID));
+            else
+            {
+                friendsDtoList.Add(new UserDto(friend.UserName, "null"));
+            }
         }
 
         var result = JsonConvert.SerializeObject(friendsDtoList);

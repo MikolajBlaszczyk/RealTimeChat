@@ -9,6 +9,6 @@ public class ApplicationUser : IdentityUser
  	public ICollection<UserConversationConnector> Connectors { get; set; }
     public virtual Session ThisSession { get; set; }
     
-    public int StatusId { get; set; } = 1;
+    public int StatusId { get; set; } = 1;  // Offline
     public virtual Statuses Status { get; set; }
 }

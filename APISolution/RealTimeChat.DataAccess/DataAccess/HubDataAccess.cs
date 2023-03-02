@@ -5,7 +5,7 @@ namespace RealTimeChat.DataAccess.DataAccess
 {
     public class HubDataAccess
     {
-        public ApplicationContext DbContext { get; }
+        private ApplicationContext DbContext { get; }
 
         public HubDataAccess(ApplicationContext dbContext)
         {

@@ -1,45 +1,34 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.SignalR;
-using RealTimeChat.DataAccess.DataAccess;
-using RealTimeChat.DataAccess.Models;
+using RealTimeChat.BusinessLogic.WebSupervisors;
+using System.Threading;
+
 
 namespace RealTimeChat.SignalR;
 
 [Authorize]
 public class WebChatHub:Hub
 {
-    private readonly IHttpContextAccessor _context;
-    public HubDataAccess DataAccess { get; }
-    public UserManager<ApplicationUser> UserManager { get; }
+    public UserConnectionHandler Handler { get; }
 
-    public WebChatHub(HubDataAccess dataAccess, UserManager<ApplicationUser> userManager)
+    public WebChatHub(UserConnectionHandler handler)
     {
-        DataAccess = dataAccess;
-        UserManager = userManager;
+        Handler = handler;
     }
 
-    public override Task OnConnectedAsync()
+    public override async Task OnConnectedAsync()
     {
-        string? guid = Context.User.FindFirst("GUID")?.Value;
-        string? connectionID = Context.ConnectionId;
-
-        DataAccess.UpdateSessionConnection(guid, connectionID);
-
-        return base.OnConnectedAsync();
+        await Handler.HandleUserConnection();
+        
+        await base.OnConnectedAsync();
     }
 
-    public override  Task OnDisconnectedAsync(Exception? exception)
+    public override async Task OnDisconnectedAsync(Exception? exception)
     {
-        string? guid = Context.User.FindFirst("GUID")?.Value;
+        await Handler.HandleUserDisconnection();
 
-        if(guid is null)
-            throw new Exception();
-
-        DataAccess.DeleteSessionConnection(guid);
-        return base.OnDisconnectedAsync(exception);
+        await base.OnDisconnectedAsync(exception);
     }
 
     public Task SendMessageToAll(string userName, string messageContent)

@@ -1,9 +1,5 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using RealTimeChat.DataAccess.IdentityContext;
 using RealTimeChat.AccountLogic;
@@ -19,8 +15,7 @@ using RealTimeChat.FriendsLogic;
 using RealTimeChat.FriendsLogic.FriendsManagers;
 using RealTimeChat.FriendsLogic.Helpers;
 using RealTimeChat.FriendsLogic.Interfaces;
-using StackExchange.Redis;
-using RealTimeChat.SignalR;
+using RealTimeChat.BusinessLogic.WebSupervisors;
 
 namespace RealTimeChat.API.Startup;
 
@@ -92,12 +87,13 @@ public static class ProgramCleaner
             options.ShutdownTimeout = TimeSpan.FromSeconds(20);
         });
 
-
+        services.AddMemoryCache();
         services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
         //Dependency injection
         services.AddHttpContextAccessor();
+        services.AddTransient<UserConnectionHandler, UserConnectionHandler>();
         services.AddTransient<AppCleaner,AppCleaner>();
         services.AddTransient<IRegisterManager, RegisterManager>();
         services.AddTransient<ILoginManager, LoginManager>();
@@ -113,6 +109,7 @@ public static class ProgramCleaner
         services.AddTransient<AccountDataAccess, AccountDataAccess>();
         services.AddTransient<HubDataAccess, HubDataAccess>();
         services.AddTransient<ClaimsManager, ClaimsManager>();
+        
 
         return services;
     }

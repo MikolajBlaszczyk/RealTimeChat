@@ -9,7 +9,7 @@ namespace RealTimeChat.DataAccess.DataAccess
 {
     public class AccountDataAccess
     {
-        public ApplicationContext DbContext { get; }
+        private readonly ApplicationContext DbContext;
 
         public AccountDataAccess(ApplicationContext dbContext)
         {

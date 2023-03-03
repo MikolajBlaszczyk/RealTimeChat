@@ -13,7 +13,12 @@ namespace RealTimeChat.DataAccess.DataAccessUtils
             DataAccess = dataAccess;
         }
 
-        public ApplicationUser? GetUserByConnection(string connectionID)
+        public async Task<ApplicationUser?> GetUserByUserName(string userName)
+        {
+            return DataAccess.Users.FirstOrDefault(x => x.UserName == userName);
+        }
+
+        public async Task<ApplicationUser?> GetUserByConnection(string connectionID)
         {
             return DataAccess.Users
                 .Include(user => user.ThisSession)

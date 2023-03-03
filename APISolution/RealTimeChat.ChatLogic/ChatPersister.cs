@@ -2,9 +2,6 @@
 using RealTimeChat.ChatLogic.ChatRetention;
 using RealTimeChat.ChatLogic.Logic;
 using RealTimeChat.DataAccess.DataAccess;
-using RealTimeChat.DataAccess.KeyDataAccess;
-using RealTimeChat.DataAccess.Models;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace RealTimeChat.ChatLogic
 {
@@ -12,13 +9,13 @@ namespace RealTimeChat.ChatLogic
     {
         public ChatPersisterDataAccess DataAccess { get; }
         public MessageConverter Converter { get; }
-        private ILogger<ChatPersister> Loger { get; }
+        private ILogger<ChatPersister> Logger { get; }
 
-        public ChatPersister(ChatPersisterDataAccess dataAccess, MessageConverter converter, ILogger<ChatPersister> loger)
+        public ChatPersister(ChatPersisterDataAccess dataAccess, MessageConverter converter, ILogger<ChatPersister> logger)
         {
             DataAccess = dataAccess;
             Converter = converter;
-            Loger = loger;
+            Logger = logger;
         }
 
         public async Task<ChatResponseModel> Save(string connectionID_A, string messages_A, string connectionID_B)

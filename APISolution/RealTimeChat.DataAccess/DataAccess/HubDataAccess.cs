@@ -1,38 +1,32 @@
-﻿using RealTimeChat.DataAccess.IdentityContext;
+﻿using RealTimeChat.DataAccess.DataAccessUtils;
+using RealTimeChat.DataAccess.IdentityContext;
 using RealTimeChat.DataAccess.Models;
 
 namespace RealTimeChat.DataAccess.DataAccess
 {
     public class HubDataAccess
     {
-        private ApplicationContext DbContext { get; }
+        private readonly SessionUtils SessionUtils;
 
-        public HubDataAccess(ApplicationContext dbContext)
+        public HubDataAccess(SessionUtils sessionUtils)
         {
-            DbContext = dbContext;
+            SessionUtils = sessionUtils;
         }
 
 
         public async Task UpdateSessionConnection(string guid, string connectionID)
         {
-            Session? sessionToUpdate = DbContext.Session.FirstOrDefault(session => session.UserGUID == guid);
-
-            if (sessionToUpdate is null)
-                return;
+            Session sessionToUpdate = await SessionUtils.GetSessionByUserGuid(guid);
 
             sessionToUpdate.ConnectionID = connectionID;
-            await DbContext.SaveChangesAsync();
+            SessionUtils.UpdateSession(sessionToUpdate); 
         }
 
         public async Task DeleteSessionConnection(string guid)
         {
-            Session? sessionToDelete = DbContext.Session.FirstOrDefault(session => session.UserGUID == guid);
+            Session sessionToDelete = await SessionUtils.GetSessionByUserGuid(guid);
 
-            if(sessionToDelete is null) 
-                return;
-
-            DbContext.Session.Remove(sessionToDelete);
-            await DbContext.SaveChangesAsync();
+            SessionUtils.DeleteSession(sessionToDelete);
         }
     }
 }

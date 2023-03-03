@@ -81,7 +81,7 @@ namespace RealTimeChat.AccountLogic.AccountManager
 
         private async Task<Claim> CreateGuidClaim(IUserModel model)
         {
-            string? guid = DataAccess.GetUserGuid(model.Username);
+            string? guid = await DataAccess.GetUserGuid(model.Username);
 
             //TODO: add message
             if (model is null)

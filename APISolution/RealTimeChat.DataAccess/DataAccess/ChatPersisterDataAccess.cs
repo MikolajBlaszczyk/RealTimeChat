@@ -11,8 +11,8 @@ namespace RealTimeChat.DataAccess.DataAccess
 {
     public class ChatPersisterDataAccess
     {
-        public UserUtils UserContext { get; }
-        public ConversationUtils ConversationUtils { get; }
+        private readonly UserUtils UserContext;
+        private readonly ConversationUtils ConversationUtils;
 
 
         public ChatPersisterDataAccess(UserUtils userContext, ConversationUtils conversationUtils)
@@ -23,8 +23,8 @@ namespace RealTimeChat.DataAccess.DataAccess
 
         public async Task<Conversation> GetConversation(string connectionID_A, string connectionID_B)
         {
-            var user_A = UserContext.GetUserByConnection(connectionID_A);
-            var user_B = UserContext.GetUserByConnection(connectionID_B);
+            var user_A = await UserContext.GetUserByConnection(connectionID_A);
+            var user_B = await UserContext.GetUserByConnection(connectionID_B);
 
             if (user_A is null || user_B is null)
                 throw new Exception();
@@ -36,7 +36,7 @@ namespace RealTimeChat.DataAccess.DataAccess
 
         public async Task<string> GetUsername(string connectionID)
         {
-            var user = UserContext.GetUserByConnection(connectionID);
+            var user = await UserContext.GetUserByConnection(connectionID);
 
             if(user is null)
                 throw new Exception();

@@ -1,24 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RealTimeChat.DataAccess.IdentityContext;
+﻿using RealTimeChat.DataAccess.DataAccessUtils;
+using RealTimeChat.DataAccess.Models;
 
 namespace RealTimeChat.DataAccess.DataAccess
 {
     public class AccountDataAccess
     {
-        private readonly ApplicationContext DbContext;
+        private readonly UserUtils UserDataAcces;
 
-        public AccountDataAccess(ApplicationContext dbContext)
+        public AccountDataAccess(UserUtils userDataAcces)
         {
-            DbContext = dbContext;
+            UserDataAcces = userDataAcces;
         }
 
-        public string? GetUserGuid(string username)
+        public async Task<string?> GetUserGuid(string username)
         {
-            return DbContext.Users.FirstOrDefault(user => user.UserName == username)?.Id;
+            ApplicationUser? user = await UserDataAcces.GetUserByUserName(username);
+
+            if(user is null)
+                throw new Exception();
+
+            return user.Id;
         }
 
 

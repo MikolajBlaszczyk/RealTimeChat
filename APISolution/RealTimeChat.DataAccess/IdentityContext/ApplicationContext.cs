@@ -10,7 +10,10 @@ public class ApplicationContext : IdentityDbContext<ApplicationUser>
     public ApplicationContext(DbContextOptions<ApplicationContext> options)
         : base(options)
     {
+        
     }
+    
+
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -68,6 +71,10 @@ public class ApplicationContext : IdentityDbContext<ApplicationUser>
             .HasOne(i => i.Responder)
             .WithMany()
             .HasForeignKey(i => i.ResponderId);
+
+        builder.Entity<Statuses>()
+            .HasData(new Statuses { StatusId = 1, StatusName = "Offline" },
+                new Statuses { StatusId = 2, StatusName = "Online" });
 
         base.OnModelCreating(builder);
     }

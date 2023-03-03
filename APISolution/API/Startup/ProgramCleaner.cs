@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.ResponseCompression;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using RealTimeChat.DataAccess.IdentityContext;
 using RealTimeChat.AccountLogic;
@@ -17,6 +16,9 @@ using RealTimeChat.FriendsLogic.FriendsManagers;
 using RealTimeChat.FriendsLogic.Helpers;
 using RealTimeChat.FriendsLogic.Interfaces;
 using RealTimeChat.BusinessLogic.WebSupervisors;
+using RealTimeChat.ChatLogic;
+using RealTimeChat.DataAccess.DataAccessUtils;
+using RealTimeChat.ChatLogic.Logic;
 
 namespace RealTimeChat.API.Startup;
 
@@ -110,7 +112,12 @@ public static class ProgramCleaner
         services.AddTransient<AccountDataAccess, AccountDataAccess>();
         services.AddTransient<HubDataAccess, HubDataAccess>();
         services.AddTransient<ClaimsManager, ClaimsManager>();
-        
+        services.AddTransient<SessionUtils,SessionUtils>();
+        services.AddTransient<UserUtils,UserUtils>();
+        services.AddTransient<ConversationUtils, ConversationUtils>();
+        services.AddTransient<ChatPersisterDataAccess, ChatPersisterDataAccess>();
+        services.AddTransient<ChatPersister, ChatPersister>();
+        services.AddTransient<MessageConverter,MessageConverter>();
 
         return services;
     }

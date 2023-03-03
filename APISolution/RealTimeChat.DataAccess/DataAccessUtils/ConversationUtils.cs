@@ -36,5 +36,11 @@ namespace RealTimeChat.DataAccess.DataAccessUtils
             else
                 return null;
         }
+
+        public async Task SaveConversation(Conversation conversation)
+        {
+            DbContext.Conversation.Add(conversation);
+            await DbContext.SaveChangesAsync();
+        }
     }
 }

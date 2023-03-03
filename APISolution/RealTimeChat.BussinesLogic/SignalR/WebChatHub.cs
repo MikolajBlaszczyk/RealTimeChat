@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.SignalR;
 using RealTimeChat.BusinessLogic.WebSupervisors;
 using System.Threading;
+using RealTimeChat.DataAccess.DataAccess;
 
 
 namespace RealTimeChat.SignalR;
@@ -12,7 +13,7 @@ public class WebChatHub:Hub
 {
     public UserConnectionHandler Handler { get; }
 
-    public WebChatHub(UserConnectionHandler handler)
+    public WebChatHub(UserConnectionHandler handler, ChatPersister persister)
     {
         Handler = handler;
     }

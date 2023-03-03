@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RealTimeChat.ChatLogic\RealTimeChat.ChatLogic.csproj" />
     <ProjectReference Include="..\RealTimeChat.DataAccess\RealTimeChat.DataAccess.csproj" />
   </ItemGroup>
 

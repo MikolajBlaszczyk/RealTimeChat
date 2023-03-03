@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using RealTimeChat.DataAccess.IdentityContext;
+using RealTimeChat.DataAccess.Models;
 
 namespace RealTimeChat.DataAccess.DataAccessUtils
 {
@@ -17,16 +13,12 @@ namespace RealTimeChat.DataAccess.DataAccessUtils
             DataAccess = dataAccess;
         }
 
-        public string GetUserIDByConnection(string connectionID)
+        public ApplicationUser? GetUserByConnection(string connectionID)
         {
-            var user = DataAccess.Users
+            return DataAccess.Users
                 .Include(user => user.ThisSession)
                 .FirstOrDefault(user => user.ThisSession.ConnectionID == connectionID);
-
-            if (user != null)
-                return user.Id;
-
-            return string.Empty;
         }
+
     }
 }

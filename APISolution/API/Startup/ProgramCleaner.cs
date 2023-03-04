@@ -20,6 +20,7 @@ using RealTimeChat.BusinessLogic.WebSupervisors;
 using RealTimeChat.ChatLogic;
 using RealTimeChat.DataAccess.DataAccessUtils;
 using RealTimeChat.ChatLogic.Logic;
+using RealTimeChat.SignalR;
 
 namespace RealTimeChat.API.Startup;
 

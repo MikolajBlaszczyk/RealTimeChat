@@ -22,5 +22,17 @@ public class StatusManager
         
         await DataAccess.UpdateUserStatus(guid, newStatus);
 
+        await GetActiveConnections(context);
+    }
+
+    public async Task<List<string>> GetActiveConnections(HubCallerContext context)
+    {
+        var guid = context.User.FindFirst(GuidClaim)?.Value;
+        
+        if(guid == null)
+            return new List<string>();
+        
+        return await DataAccess.GetFriendsConnectionIds(guid);
+
     }
 }

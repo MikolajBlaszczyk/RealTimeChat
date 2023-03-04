@@ -41,7 +41,8 @@ public class FriendsManager : IFriendsManager
         {
             foreach (var invitation in invitations)
             {
-                if (invitation.SenderId == userId && invitation.Status is "Pending" or "Declined" || invitation.SenderId == friendId && invitation.Status == "Pending")
+                if (invitation.SenderId == userId && invitation.Status is "Pending" or "Declined" ||
+                    invitation.SenderId == friendId && invitation.Status == "Pending")
                 {
                     return ResponseModel.CreateResponse(FriendsResponseResult.AlreadyFriend, "Invitation pending");
                 }
@@ -134,8 +135,8 @@ public class FriendsManager : IFriendsManager
     private class UserDto
     {
         public string Username;
-        public string ConnectionId;
         public string Status;
+        public string ConnectionId;
 
         public UserDto(string username, string status, string connectionId = "Default")
         {

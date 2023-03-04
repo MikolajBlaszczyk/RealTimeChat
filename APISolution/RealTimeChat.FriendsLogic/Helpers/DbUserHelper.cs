@@ -71,6 +71,8 @@ public class DbUserHelper : IDbUserHelper
             .Include(u => u.User)
             .Include(u => u.User.Status)
             .Include(u => u.Friend.Status)
+            .Include(u => u.User.ThisSession)
+            .Include(u => u.Friend.ThisSession)
             .Where(u => u.UserId == userId || u.FriendId == userId).ToList();
 
         var usersList = new List<ApplicationUser>();

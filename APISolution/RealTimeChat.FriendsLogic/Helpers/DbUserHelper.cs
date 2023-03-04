@@ -69,6 +69,8 @@ public class DbUserHelper : IDbUserHelper
         var friends = Context.Friends
             .Include(u => u.Friend)
             .Include(u => u.User)
+            .Include(u => u.User.Status)
+            .Include(u => u.Friend.Status)
             .Where(u => u.UserId == userId || u.FriendId == userId).ToList();
 
         var usersList = new List<ApplicationUser>();

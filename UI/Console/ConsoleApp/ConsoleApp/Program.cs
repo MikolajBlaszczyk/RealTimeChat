@@ -34,5 +34,6 @@ HubConnection hub = new HubConnectionBuilder()
     }).WithAutomaticReconnect().Build();
 
 await hub.StartAsync();
-
 Console.ReadLine();
+await hub.StopAsync();
+

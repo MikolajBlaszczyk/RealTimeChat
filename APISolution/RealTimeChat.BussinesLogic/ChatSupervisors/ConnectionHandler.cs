@@ -31,7 +31,7 @@ namespace RealTimeChat.BusinessLogic.WebSupervisors
         {
             string? guid = context.User.FindFirst(GuidClaim)?.Value;
 
-            DataAccess.DeleteSessionConnection(guid);
+            await DataAccess.DeleteSessionConnection(guid);
 
         }
     }

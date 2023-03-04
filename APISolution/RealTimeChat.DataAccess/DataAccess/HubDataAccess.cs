@@ -19,14 +19,14 @@ namespace RealTimeChat.DataAccess.DataAccess
             Session sessionToUpdate = await SessionUtils.GetSessionByUserGuid(guid);
 
             sessionToUpdate.ConnectionID = connectionID;
-            SessionUtils.UpdateSession(sessionToUpdate); 
+            await SessionUtils.UpdateSession(sessionToUpdate); 
         }
 
         public async Task DeleteSessionConnection(string guid)
         {
             Session sessionToDelete = await SessionUtils.GetSessionByUserGuid(guid);
 
-            SessionUtils.DeleteSession(sessionToDelete);
+            await SessionUtils.DeleteSession(sessionToDelete);
         }
     }
 }

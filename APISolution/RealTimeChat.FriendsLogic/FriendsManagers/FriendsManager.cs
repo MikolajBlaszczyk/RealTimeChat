@@ -96,10 +96,12 @@ public class FriendsManager : IFriendsManager
         foreach (var friend in friends)
         {
             if (friend.ThisSession != null)
-                friendsDtoList.Add(new UserDto(friend.UserName, friend.ThisSession.ConnectionID));
+                friendsDtoList.Add(new UserDto(
+                    friend.UserName, friend.Status.StatusName, friend.ThisSession.ConnectionID
+                    ));
             else
             {
-                friendsDtoList.Add(new UserDto(friend.UserName, "null"));
+                friendsDtoList.Add(new UserDto(friend.UserName, friend.Status.StatusName, "null"));
             }
         }
 
@@ -133,11 +135,13 @@ public class FriendsManager : IFriendsManager
     {
         public string Username;
         public string ConnectionId;
+        public string Status;
 
-        public UserDto(string username, string connectionId = "Default")
+        public UserDto(string username, string status, string connectionId = "Default")
         {
             Username = username;
             ConnectionId = connectionId;
+            Status = status;
         }
     }
 }

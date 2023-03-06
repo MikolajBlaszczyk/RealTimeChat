@@ -21,8 +21,6 @@ public class StatusManager
             return;
         
         await DataAccess.UpdateUserStatus(guid, newStatus);
-
-        await GetActiveConnections(context);
     }
 
     public async Task<List<string>> GetActiveConnections(HubCallerContext context)
@@ -33,6 +31,5 @@ public class StatusManager
             return new List<string>();
         
         return await DataAccess.GetFriendsConnectionIds(guid);
-
     }
 }

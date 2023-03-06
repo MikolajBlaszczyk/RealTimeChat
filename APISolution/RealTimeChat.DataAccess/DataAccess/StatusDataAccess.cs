@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RealTimeChat.DataAccess.IdentityContext;
+using RealTimeChat.DataAccess.Models;
 
 namespace RealTimeChat.DataAccess.DataAccess;
 
@@ -32,38 +33,21 @@ public class StatusDataAccess
 
     public async Task<List<string>> GetFriendsConnectionIds(string guid)
     {
-        var friends = DbContext.Friends
-            .Include(friendsModel => friendsModel.User)
-                .ThenInclude(user => user.ThisSession)
-            .Include(friendsModel => friendsModel.Friend)
-                .ThenInclude(friend => friend.ThisSession)
-            .Where(friendsModel => friendsModel.UserId == guid || friendsModel.FriendId == guid)
+
+        var friendships = DbContext.Friends
+            .Where(f => f.UserId == guid || f.FriendId == guid)
+            .Include(f => f.User)
+            .ThenInclude(u => u.ThisSession)
+            .Include(f => f.Friend)
+            .ThenInclude(u => u.ThisSession).ToList();
+
+        var friends = friendships
+            .Select(f => f.UserId != guid ? f.User : f.Friend)
+            .Where(u => u.ThisSession != null && u.ThisSession.ConnectionID != null)
+            .Select(u => u.ThisSession.ConnectionID)
             .ToList();
 
-     
 
-        var activeFriends = new List<string>();
-
-        foreach (var friend in friends)
-        {
-            try
-            {
-                if (friend.UserId != guid && friend.User.ThisSession.ConnectionID != null)
-                {
-                    activeFriends.Add(friend.User.ThisSession.ConnectionID);
-                }
-            
-                else if (friend.FriendId != guid && friend.Friend.ThisSession.ConnectionID != null)
-                {
-                    activeFriends.Add(friend.Friend.ThisSession.ConnectionID!);
-                }
-            }
-            catch (Exception e)
-            {
-                // ignored
-            }
-        }
-
-        return activeFriends;
+        return friends;
     }
 }

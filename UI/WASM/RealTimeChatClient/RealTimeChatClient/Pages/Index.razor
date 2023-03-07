@@ -1,0 +1,24 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+<div id="body-div">
+    <div id="login-form-div">
+        <form id="login-form" class="flex-vertical">
+            <input type="text" placeholder="Login" id="username-input" @bind="username"/>
+            <input type="password" placeholder="password" id="password-input" @bind="password"/>
+            <input type="submit" value="submit" id="submit-input" @onclick="SubmitLogin" />
+        </form>
+    </div>
+</div>
+
+@code
+{
+    private string username = "";
+    private string password = "";
+
+    private async Task SubmitLogin()
+    {
+
+    }
+}

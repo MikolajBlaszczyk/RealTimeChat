@@ -1,0 +1,67 @@
+﻿@page "/"
+@using System.Text
+@using System.Net.Http.Headers
+@using Microsoft.AspNetCore.SignalR.Client
+@inject IHttpClientFactory HttpClient;
+@inject NavigationManager navigation;
+<div>
+    <form onsubmit="@HandleSubmit">
+        <input @bind-value="username"/>
+        <input @bind-value="password"/>
+        <input type="submit"/>
+    </form>
+</div>
+
+@code {
+
+    private string username { get; set; }
+    private string password { get; set; }
+
+        private const string cs = "https://localhost:7234/api/Account/Login/";
+        private const string cs2 = "https://localhost:7234/api/Account/Users/";
+
+    private async Task HandleSubmit()
+    {
+        try
+        {
+            var httpClient = HttpClient.CreateClient("API");
+
+            var request = new HttpRequestMessage(HttpMethod.Post, cs);
+            
+
+            string json = "{" + $"\"Username\":\"{username}\",\"Password\":\"{password}\"" + "}";
+            HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            request.Content = content;
+            var res = await httpClient.SendAsync(request);
+            
+            
+
+            await httpClient.GetAsync(cs2);
+
+
+            if (res.IsSuccessStatusCode)
+            {
+                var hub = new HubConnectionBuilder()
+                    .WithUrl("https://localhost:7234/chat", options =>
+                    {
+                        options.UseDefaultCredentials = true;
+                        options.HttpMessageHandlerFactory = innerHandler =>
+                            new IncludeRequestCredentialsMessageHandler() { InnerHandler = innerHandler };
+                    })
+                    .WithAutomaticReconnect()
+                    .Build();
+
+                await hub.StartAsync();
+                navigation.NavigateTo("/Chat");
+            }
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+  
+
+    }
+}

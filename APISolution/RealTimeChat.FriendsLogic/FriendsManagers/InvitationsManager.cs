@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
+using RealTimeChat.DataAccess.DataAccess;
 using RealTimeChat.DataAccess.IdentityContext;
 using RealTimeChat.DataAccess.Models;
 using RealTimeChat.FriendsLogic.Enums;
@@ -13,10 +14,10 @@ namespace RealTimeChat.FriendsLogic.FriendsManagers;
 public class InvitationsManager : IInvitationsManager
 {
     private ApplicationContext Context { get; set; }
-    private IDbUserHelper DbUserHelper { get; }
+    private DbUserHelper DbUserHelper { get; }
 
 
-    public InvitationsManager(ApplicationContext context, IDbUserHelper dbUserHelper)
+    public InvitationsManager(ApplicationContext context, DbUserHelper dbUserHelper)
     {
         Context = context;
         DbUserHelper = dbUserHelper;
@@ -42,7 +43,7 @@ public class InvitationsManager : IInvitationsManager
 
     public async Task<Enums.InvitationStatus> UpdateInvitation(string friendUsername, string userId, bool response)
     {
-        var senderId = await DbUserHelper.FriendUsernameToId(friendUsername, userId);
+        var senderId = await DbUserHelper.GetFriendGuidByUserName(friendUsername, userId);
         
         var invitation = await DbUserHelper.FindInvitation(senderId, userId);
 

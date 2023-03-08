@@ -14,7 +14,6 @@ using RealTimeChat.DataAccess.DataAccess;
 using RealTimeChat.DataAccess.Models;
 using RealTimeChat.FriendsLogic;
 using RealTimeChat.FriendsLogic.FriendsManagers;
-using RealTimeChat.FriendsLogic.Helpers;
 using RealTimeChat.FriendsLogic.Interfaces;
 using RealTimeChat.BusinessLogic.WebSupervisors;
 using RealTimeChat.ChatLogic;
@@ -109,7 +108,7 @@ public static class ProgramCleaner
         services.AddTransient<IFriendsRequestHandler, FriendsRequestHandler>();
         services.AddTransient<IInvitationsManager, InvitationsManager>();
         services.AddTransient<IFriendsManager, FriendsManager>();
-        services.AddTransient<IDbUserHelper, DbUserHelper>();
+        services.AddTransient<DbUserHelper, DbUserHelper>();
         services.AddTransient<AccountCallLogger, AccountCallLogger>();
         services.AddTransient<AccountDataAccess, AccountDataAccess>();
         services.AddTransient<HubDataAccess, HubDataAccess>();

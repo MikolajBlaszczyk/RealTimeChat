@@ -15,4 +15,8 @@
       <ProjectReference Include="..\RealTimeChat.DataAccess\RealTimeChat.DataAccess.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Helpers" />
+    </ItemGroup>
+
 </Project>

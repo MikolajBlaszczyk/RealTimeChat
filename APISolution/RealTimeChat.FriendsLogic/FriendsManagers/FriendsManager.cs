@@ -1,6 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using RealTimeChat.DataAccess.DataAccess;
 using RealTimeChat.DataAccess.IdentityContext;
 using RealTimeChat.DataAccess.Models;
 using RealTimeChat.FriendsLogic.Enums;
@@ -14,9 +15,9 @@ public class FriendsManager : IFriendsManager
 {
     private ApplicationContext Context { get; }
     private IInvitationsManager InvitationsManager { get; }
-    private IDbUserHelper DbUserHelper { get; }
+    private DbUserHelper DbUserHelper { get; }
 
-    public FriendsManager(ApplicationContext context, IInvitationsManager invitationsManager, IDbUserHelper dbUserHelper)
+    public FriendsManager(ApplicationContext context, IInvitationsManager invitationsManager, DbUserHelper dbUserHelper)
     {
         Context = context;
         InvitationsManager = invitationsManager;
@@ -26,7 +27,7 @@ public class FriendsManager : IFriendsManager
     public async Task<ResponseModel> AddFriend(string userId, string friendUsername)
     {
   
-        var friendId = await DbUserHelper.FriendUsernameToId(friendUsername, userId);
+        var friendId = await DbUserHelper.GetFriendGuidByUserName(friendUsername, userId);
         
         var friendship = await DbUserHelper.FindFriendship(userId, friendId);
         
@@ -35,7 +36,7 @@ public class FriendsManager : IFriendsManager
             return ResponseModel.CreateResponse(FriendsResponseResult.AlreadyFriend, "Already befriended.");
 
 
-        var invitations = await DbUserHelper.FindBothSidesInvitations(userId, friendId);
+        var invitations = await DbUserHelper.FindInvitationsBothSides(userId, friendId);
 
         if (invitations != null)
         {
@@ -56,7 +57,7 @@ public class FriendsManager : IFriendsManager
 
     public async Task<ResponseModel> CreateFriendship(string userId, string friendUsername)
     {
-        var friendId =  await DbUserHelper.FriendUsernameToId(friendUsername, userId);
+        var friendId =  await DbUserHelper.GetFriendGuidByUserName(friendUsername, userId);
         
         var friendship = await DbUserHelper.FindFriendship(userId, friendId);
 
@@ -113,7 +114,7 @@ public class FriendsManager : IFriendsManager
 
     public async Task<ResponseModel> RemoveFriend(string userId, string friendUsername)
     {
-        var friendId =  await DbUserHelper.FriendUsernameToId(friendUsername, userId);
+        var friendId =  await DbUserHelper.GetFriendGuidByUserName(friendUsername, userId);
         
         var friendship = await DbUserHelper.FindFriendship(userId, friendId);
         

@@ -4,7 +4,6 @@ using RealTimeChat.DataAccess.IdentityContext;
 using RealTimeChat.DataAccess.Models;
 using RealTimeChat.FriendsLogic;
 using RealTimeChat.FriendsLogic.FriendsManagers;
-using RealTimeChat.FriendsLogic.Helpers;
 using RealTimeChat.FriendsLogic.Enums;
 using RealTimeChat.FriendsLogic.Interfaces;
 using RealTimeChat.FriendsLogic.Models;

@@ -14,7 +14,7 @@ var handler = new HttpClientHandler()
 
 HttpClient client = new HttpClient(handler);
 
-var json = "{" + $"\"Username\":\"ApiTest\",\"Password\":\"password123\"" + "}";
+var json = "{" + $"\"Username\":\"ApiTest3\",\"Password\":\"password123\"" + "}";
 StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
 var response = await client.PostAsync(cs,content);

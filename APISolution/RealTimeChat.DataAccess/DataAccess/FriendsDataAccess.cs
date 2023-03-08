@@ -1,32 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RealTimeChat.DataAccess.DataAccessUtils;
 using RealTimeChat.DataAccess.IdentityContext;
 using RealTimeChat.DataAccess.Models;
-using RealTimeChat.FriendsLogic.Enums;
-using RealTimeChat.FriendsLogic.Models;
-using RealTimeChat.FriendsLogic.Interfaces;
 
-namespace RealTimeChat.FriendsLogic.Helpers;
+namespace RealTimeChat.DataAccess.DataAccess;
 
-public class DbUserHelper : IDbUserHelper
+public class DbUserHelper
 {
     private ApplicationContext Context { get; }
+    public UserUtils Utils { get; }
 
-    public DbUserHelper(ApplicationContext context)
+    public DbUserHelper(ApplicationContext context, UserUtils utils)
     {
         Context = context;
-    }
-
-    public async Task<string?> UserUsernameToId(string username)
-    {
-        var user = await Context.Users.FirstOrDefaultAsync(u => u.UserName == username);
-
-        return user?.Id;
-    }
-    
-    public async Task<ApplicationUser?> FindUser(string userId)
-    {
-        var user = await Context.Users.FirstOrDefaultAsync(u => u.Id == userId);
-        return user;
+        Utils = utils;
     }
 
     public async Task<FriendsModel?> FindFriendship(string userId, string friendId)
@@ -46,16 +33,7 @@ public class DbUserHelper : IDbUserHelper
         return invitation;
     }
 
-    public async Task<InvitationModel?> FindBothSidesInvitation(string senderId, string responderId)
-    {
-        var invitation = await Context.Invitations.FirstOrDefaultAsync(i =>
-            i.SenderId == senderId && i.ResponderId == responderId ||
-            i.SenderId == responderId && i.ResponderId == senderId 
-        );
-        return invitation;
-    }
-    
-    public async Task<List<InvitationModel>?> FindBothSidesInvitations(string senderId, string responderId)
+    public async Task<List<InvitationModel>?> FindInvitationsBothSides(string senderId, string responderId)
     {
         var invitation =  Context.Invitations.Where(i =>
             i.SenderId == senderId && i.ResponderId == responderId ||
@@ -113,12 +91,12 @@ public class DbUserHelper : IDbUserHelper
         return senders;
     }
 
-    public async Task<string> FriendUsernameToId(string username, string userId)
+    public async Task<string> GetFriendGuidByUserName(string username, string userId)
     {
         if (username == string.Empty)
             throw new ArgumentException("Empty username");
         
-        var friendId = await UserUsernameToId(username);
+        var friendId = await Utils.GetGuidByUserName(username);
 
         if (friendId == null)
             throw new ArgumentException("User does not exist");

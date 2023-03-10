@@ -1,4 +1,7 @@
 ﻿@page "/"
+@using System.Text
+@inject HttpClient Client
+@inject NavigationManager NavigationManager
 
 <PageTitle>Index</PageTitle>
 
@@ -19,6 +22,12 @@
 
     private async Task SubmitLogin()
     {
+        var json = "{" + $"\"Username\":\"{username}\",\"Password\":\"{password}\"" + "}";
+        StringContent content = new StringContent(json, Encoding.UTF8, "application/json");
 
+        var response = await Client.PostAsync("https://localhost:7234/api/Account/Login/", content);
+
+        if(response.IsSuccessStatusCode)
+            NavigationManager.NavigateTo("/Chat");
     }
 }

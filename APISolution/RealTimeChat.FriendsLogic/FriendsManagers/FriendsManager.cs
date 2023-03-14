@@ -1,6 +1,7 @@
 ﻿using System.Runtime.Serialization;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using RealTimeChat.DataAccess.DataAccess;
 using RealTimeChat.DataAccess.IdentityContext;
 using RealTimeChat.DataAccess.Models;
 using RealTimeChat.FriendsLogic.Enums;
@@ -14,9 +15,9 @@ public class FriendsManager : IFriendsManager
 {
     private ApplicationContext Context { get; }
     private IInvitationsManager InvitationsManager { get; }
-    private IDbUserHelper DbUserHelper { get; }
+    private DbUserHelper DbUserHelper { get; }
 
-    public FriendsManager(ApplicationContext context, IInvitationsManager invitationsManager, IDbUserHelper dbUserHelper)
+    public FriendsManager(ApplicationContext context, IInvitationsManager invitationsManager, DbUserHelper dbUserHelper)
     {
         Context = context;
         InvitationsManager = invitationsManager;
@@ -26,7 +27,7 @@ public class FriendsManager : IFriendsManager
     public async Task<ResponseModel> AddFriend(string userId, string friendUsername)
     {
   
-        var friendId = await DbUserHelper.FriendUsernameToId(friendUsername, userId);
+        var friendId = await DbUserHelper.GetFriendGuidByUserName(friendUsername, userId);
         
         var friendship = await DbUserHelper.FindFriendship(userId, friendId);
         
@@ -35,13 +36,14 @@ public class FriendsManager : IFriendsManager
             return ResponseModel.CreateResponse(FriendsResponseResult.AlreadyFriend, "Already befriended.");
 
 
-        var invitations = await DbUserHelper.FindBothSidesInvitations(userId, friendId);
+        var invitations = await DbUserHelper.FindInvitationsBothSides(userId, friendId);
 
         if (invitations != null)
         {
             foreach (var invitation in invitations)
             {
-                if (invitation.SenderId == userId && invitation.Status is "Pending" or "Declined" || invitation.SenderId == friendId && invitation.Status == "Pending")
+                if (invitation.SenderId == userId && invitation.Status is "Pending" or "Declined" ||
+                    invitation.SenderId == friendId && invitation.Status == "Pending")
                 {
                     return ResponseModel.CreateResponse(FriendsResponseResult.AlreadyFriend, "Invitation pending");
                 }
@@ -55,7 +57,7 @@ public class FriendsManager : IFriendsManager
 
     public async Task<ResponseModel> CreateFriendship(string userId, string friendUsername)
     {
-        var friendId =  await DbUserHelper.FriendUsernameToId(friendUsername, userId);
+        var friendId =  await DbUserHelper.GetFriendGuidByUserName(friendUsername, userId);
         
         var friendship = await DbUserHelper.FindFriendship(userId, friendId);
 
@@ -96,10 +98,12 @@ public class FriendsManager : IFriendsManager
         foreach (var friend in friends)
         {
             if (friend.ThisSession != null)
-                friendsDtoList.Add(new UserDto(friend.UserName, friend.ThisSession.ConnectionID));
+                friendsDtoList.Add(new UserDto(
+                    friend.UserName, friend.Status.StatusName, friend.ThisSession.ConnectionID
+                    ));
             else
             {
-                friendsDtoList.Add(new UserDto(friend.UserName, "null"));
+                friendsDtoList.Add(new UserDto(friend.UserName, friend.Status.StatusName, "null"));
             }
         }
 
@@ -110,7 +114,7 @@ public class FriendsManager : IFriendsManager
 
     public async Task<ResponseModel> RemoveFriend(string userId, string friendUsername)
     {
-        var friendId =  await DbUserHelper.FriendUsernameToId(friendUsername, userId);
+        var friendId =  await DbUserHelper.GetFriendGuidByUserName(friendUsername, userId);
         
         var friendship = await DbUserHelper.FindFriendship(userId, friendId);
         
@@ -132,12 +136,14 @@ public class FriendsManager : IFriendsManager
     private class UserDto
     {
         public string Username;
+        public string Status;
         public string ConnectionId;
 
-        public UserDto(string username, string connectionId = "Default")
+        public UserDto(string username, string status, string connectionId = "Default")
         {
             Username = username;
             ConnectionId = connectionId;
+            Status = status;
         }
     }
 }

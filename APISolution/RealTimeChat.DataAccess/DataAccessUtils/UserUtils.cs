@@ -24,6 +24,13 @@ namespace RealTimeChat.DataAccess.DataAccessUtils
                 .Include(user => user.ThisSession)
                 .FirstOrDefault(user => user.ThisSession.ConnectionID == connectionID);
         }
+        
+        public async Task<string?> GetGuidByUserName(string username)
+        {
+            var user = await DataAccess.Users.FirstOrDefaultAsync(u => u.UserName == username);
+
+            return user?.Id;
+        }
 
     }
 }

@@ -9,16 +9,17 @@ using RealTimeChat.AccountLogic.SessionManager;
 using RealTimeChat.AccountLogic.Validators;
 using RealTimeChat.API.Controllers;
 using RealTimeChat.API.LifeCycle;
+using RealTimeChat.BusinessLogic.AvailabilityManager;
 using RealTimeChat.DataAccess.DataAccess;
 using RealTimeChat.DataAccess.Models;
 using RealTimeChat.FriendsLogic;
 using RealTimeChat.FriendsLogic.FriendsManagers;
-using RealTimeChat.FriendsLogic.Helpers;
 using RealTimeChat.FriendsLogic.Interfaces;
 using RealTimeChat.BusinessLogic.WebSupervisors;
 using RealTimeChat.ChatLogic;
 using RealTimeChat.DataAccess.DataAccessUtils;
 using RealTimeChat.ChatLogic.Logic;
+using RealTimeChat.SignalR;
 
 namespace RealTimeChat.API.Startup;
 
@@ -107,7 +108,7 @@ public static class ProgramCleaner
         services.AddTransient<IFriendsRequestHandler, FriendsRequestHandler>();
         services.AddTransient<IInvitationsManager, InvitationsManager>();
         services.AddTransient<IFriendsManager, FriendsManager>();
-        services.AddTransient<IDbUserHelper, DbUserHelper>();
+        services.AddTransient<DbUserHelper, DbUserHelper>();
         services.AddTransient<AccountCallLogger, AccountCallLogger>();
         services.AddTransient<AccountDataAccess, AccountDataAccess>();
         services.AddTransient<HubDataAccess, HubDataAccess>();
@@ -118,6 +119,8 @@ public static class ProgramCleaner
         services.AddTransient<ChatPersisterDataAccess, ChatPersisterDataAccess>();
         services.AddTransient<ChatPersister, ChatPersister>();
         services.AddTransient<MessageConverter,MessageConverter>();
+        services.AddTransient<StatusDataAccess, StatusDataAccess>();
+        services.AddTransient<StatusManager, StatusManager>();
 
         return services;
     }

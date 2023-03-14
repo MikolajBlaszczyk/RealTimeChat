@@ -1,9 +1,10 @@
 ﻿using RealTimeChat.DataAccess.DataAccessUtils;
+using RealTimeChat.DataAccess.Interfaces;
 using RealTimeChat.DataAccess.Models;
 
 namespace RealTimeChat.DataAccess.DataAccess
 {
-    public class AccountDataAccess
+    public class AccountDataAccess : IAccountDataAccess
     {
         private readonly UserUtils UserDataAcces;
 

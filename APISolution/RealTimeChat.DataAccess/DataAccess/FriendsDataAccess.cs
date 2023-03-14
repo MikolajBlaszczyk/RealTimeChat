@@ -1,16 +1,17 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RealTimeChat.DataAccess.DataAccessUtils;
 using RealTimeChat.DataAccess.IdentityContext;
+using RealTimeChat.DataAccess.Interfaces;
 using RealTimeChat.DataAccess.Models;
 
 namespace RealTimeChat.DataAccess.DataAccess;
 
-public class DbUserHelper
+public class FriendsDataAccess : IFriendsDataAccess
 {
-    private ApplicationContext Context { get; }
-    public UserUtils Utils { get; }
+    private readonly ApplicationContext Context;
+    public readonly UserUtils Utils;
 
-    public DbUserHelper(ApplicationContext context, UserUtils utils)
+    public FriendsDataAccess(ApplicationContext context, UserUtils utils)
     {
         Context = context;
         Utils = utils;

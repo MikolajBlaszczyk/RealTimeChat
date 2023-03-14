@@ -6,10 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using RealTimeChat.DataAccess.DataAccessUtils;
 using RealTimeChat.DataAccess.Models;
+using RealTimeChat.DataAccess.Interfaces;
 
 namespace RealTimeChat.DataAccess.DataAccess
 {
-    public class ChatPersisterDataAccess
+    public class ChatPersisterDataAccess : IChatPersisterDataAccess
     {
         private readonly UserUtils UserContext;
         private readonly ConversationUtils ConversationUtils;

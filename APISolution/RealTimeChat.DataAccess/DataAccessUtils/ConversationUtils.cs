@@ -5,11 +5,12 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using RealTimeChat.DataAccess.IdentityContext;
+using RealTimeChat.DataAccess.Interfaces;
 using RealTimeChat.DataAccess.Models;
 
 namespace RealTimeChat.DataAccess.DataAccessUtils
 {
-    public class ConversationUtils
+    public class ConversationUtils : IConversationUtils
     {
 
         private readonly ApplicationContext DbContext;

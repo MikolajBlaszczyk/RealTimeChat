@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RealTimeChat.DataAccess.IdentityContext;
+using RealTimeChat.DataAccess.Interfaces;
 using RealTimeChat.DataAccess.Models;
 
 namespace RealTimeChat.DataAccess.DataAccessUtils
 {
-    public class UserUtils
+    public class UserUtils : IUserUtils
     {
         private readonly ApplicationContext DataAccess;
 

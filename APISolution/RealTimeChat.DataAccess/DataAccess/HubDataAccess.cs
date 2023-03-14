@@ -1,10 +1,11 @@
 ﻿using RealTimeChat.DataAccess.DataAccessUtils;
 using RealTimeChat.DataAccess.IdentityContext;
+using RealTimeChat.DataAccess.Interfaces;
 using RealTimeChat.DataAccess.Models;
 
 namespace RealTimeChat.DataAccess.DataAccess
 {
-    public class HubDataAccess
+    public class HubDataAccess : IHubDataAccess
     {
         private readonly SessionUtils SessionUtils;
 

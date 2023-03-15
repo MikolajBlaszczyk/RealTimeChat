@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RealTimeChat.DataAccess.IdentityContext;
-using RealTimeChat.DataAccess.Models;
+using RealTimeChat.DataAccess.Interfaces;
 
 namespace RealTimeChat.DataAccess.DataAccess;
 
-public class StatusDataAccess
+public class StatusDataAccess : IStatusDataAccess
 {
-    private ApplicationContext DbContext { get; }
+    private readonly ApplicationContext DbContext;
 
     public StatusDataAccess(ApplicationContext dbContext)
     {

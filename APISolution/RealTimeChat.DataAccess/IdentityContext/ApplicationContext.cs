@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using RealTimeChat.DataAccess.Models;
-using System.Reflection.Emit;
 
 namespace RealTimeChat.DataAccess.IdentityContext;
 

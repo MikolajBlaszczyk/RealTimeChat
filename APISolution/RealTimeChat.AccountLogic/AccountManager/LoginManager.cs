@@ -1,10 +1,7 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.AspNetCore.Identity;
 using RealTimeChat.AccountLogic.Enums;
 using RealTimeChat.AccountLogic.Interfaces;
 using RealTimeChat.AccountLogic.Models;
-using RealTimeChat.DataAccess.DataAccess;
 using RealTimeChat.DataAccess.Models;
 
 namespace RealTimeChat.AccountLogic.AccountManager;

@@ -1,15 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RealTimeChat.DataAccess.IdentityContext;
-using RealTimeChat.API.Messages;
 using RealTimeChat.API.Models;
 using RealTimeChat.AccountLogic.Enums;
 using RealTimeChat.AccountLogic.Interfaces;
 using RealTimeChat.API.enums;
-using Serilog;
-using Serilog.Core;
-using ILogger = Microsoft.Extensions.Logging.ILogger;
 
 namespace RealTimeChat.API.Controllers;
 

@@ -1,13 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using RealTimeChat.DataAccess.IdentityContext;
-using RealTimeChat.DataAccess.Models;
-using RealTimeChat.FriendsLogic;
-using RealTimeChat.FriendsLogic.FriendsManagers;
+﻿using Microsoft.Extensions.Logging;
 using RealTimeChat.FriendsLogic.Enums;
 using RealTimeChat.FriendsLogic.Interfaces;
 using RealTimeChat.FriendsLogic.Models;
-using InvitationStatus = RealTimeChat.BusinessLogic.FriendsLogic.Enums.InvitationStatus;
 
 namespace RealTimeChat.FriendsLogic;
 

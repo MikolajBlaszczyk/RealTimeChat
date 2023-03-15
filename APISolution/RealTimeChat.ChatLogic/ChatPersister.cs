@@ -1,17 +1,17 @@
 ﻿using Microsoft.Extensions.Logging;
 using RealTimeChat.ChatLogic.ChatRetention;
-using RealTimeChat.ChatLogic.Logic;
-using RealTimeChat.DataAccess.DataAccess;
+using RealTimeChat.ChatLogic.Interfaces;
+using RealTimeChat.DataAccess.Interfaces;
 
 namespace RealTimeChat.ChatLogic
 {
-    public class ChatPersister
+    public class ChatPersister : IChatPersister
     {
-        public ChatPersisterDataAccess DataAccess { get; }
-        public MessageConverter Converter { get; }
-        private ILogger<ChatPersister> Logger { get; }
+        private readonly IChatPersisterDataAccess DataAccess;
+        private readonly IMessageConverter Converter;
+        private readonly ILogger<ChatPersister> Logger;
 
-        public ChatPersister(ChatPersisterDataAccess dataAccess, MessageConverter converter, ILogger<ChatPersister> logger)
+        public ChatPersister(IChatPersisterDataAccess dataAccess, IMessageConverter converter, ILogger<ChatPersister> logger)
         {
             DataAccess = dataAccess;
             Converter = converter;
@@ -39,6 +39,7 @@ namespace RealTimeChat.ChatLogic
             {
                 return ChatResponseModel.CreateChatResponse(false, "Failed saving conversation");
             }
+
             return ChatResponseModel.CreateChatResponse(true);
         }
 

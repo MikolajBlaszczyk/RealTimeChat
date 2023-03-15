@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RealTimeChat.DataAccess.IdentityContext;
+﻿using RealTimeChat.DataAccess.IdentityContext;
+using RealTimeChat.DataAccess.Interfaces;
 using RealTimeChat.DataAccess.Models;
 
 namespace RealTimeChat.DataAccess.DataAccessUtils
 {
-    public class SessionUtils
+    public class SessionUtils : ISessionUtils
     {
         private readonly ApplicationContext DbContext;
         public SessionUtils(ApplicationContext dbContext)

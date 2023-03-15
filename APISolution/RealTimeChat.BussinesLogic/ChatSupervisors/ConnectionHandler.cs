@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.SignalR;
-using RealTimeChat.DataAccess.DataAccess;
+﻿using Microsoft.AspNetCore.SignalR;
+using RealTimeChat.DataAccess.Interfaces;
 
-namespace RealTimeChat.BusinessLogic.WebSupervisors
+namespace RealTimeChat.BusinessLogic.ChatSupervisors
 {
     public class UserConnectionHandler
     {
 
         public const string GuidClaim = "GUID";
-        private HubDataAccess DataAccess { get; }
+        private IHubDataAccess DataAccess { get; }
 
-        public UserConnectionHandler( HubDataAccess dataAccess)
+        public UserConnectionHandler( IHubDataAccess dataAccess)
         {
             DataAccess = dataAccess;
         }

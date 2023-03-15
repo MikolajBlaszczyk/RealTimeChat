@@ -1,6 +1,4 @@
-﻿using RealTimeChat.BusinessLogic.FriendsLogic.Enums;
-
-namespace RealTimeChat.DataAccess.Models;
+﻿namespace RealTimeChat.DataAccess.Models;
 
 public class InvitationModel
 {

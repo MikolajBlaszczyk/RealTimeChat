@@ -10,16 +10,17 @@ using RealTimeChat.AccountLogic.Validators;
 using RealTimeChat.API.Controllers;
 using RealTimeChat.API.LifeCycle;
 using RealTimeChat.BusinessLogic.AvailabilityManager;
+using RealTimeChat.BusinessLogic.ChatSupervisors;
 using RealTimeChat.DataAccess.DataAccess;
 using RealTimeChat.DataAccess.Models;
 using RealTimeChat.FriendsLogic;
 using RealTimeChat.FriendsLogic.FriendsManagers;
 using RealTimeChat.FriendsLogic.Interfaces;
-using RealTimeChat.BusinessLogic.WebSupervisors;
 using RealTimeChat.ChatLogic;
+using RealTimeChat.ChatLogic.Interfaces;
 using RealTimeChat.DataAccess.DataAccessUtils;
 using RealTimeChat.ChatLogic.Logic;
-using RealTimeChat.SignalR;
+using RealTimeChat.DataAccess.Interfaces;
 
 namespace RealTimeChat.API.Startup;
 
@@ -108,18 +109,18 @@ public static class ProgramCleaner
         services.AddTransient<IFriendsRequestHandler, FriendsRequestHandler>();
         services.AddTransient<IInvitationsManager, InvitationsManager>();
         services.AddTransient<IFriendsManager, FriendsManager>();
-        services.AddTransient<DbUserHelper, DbUserHelper>();
+        services.AddTransient<IFriendsDataAccess, FriendsDataAccess>();
         services.AddTransient<AccountCallLogger, AccountCallLogger>();
-        services.AddTransient<AccountDataAccess, AccountDataAccess>();
-        services.AddTransient<HubDataAccess, HubDataAccess>();
+        services.AddTransient<IAccountDataAccess, AccountDataAccess>();
+        services.AddTransient<IHubDataAccess, HubDataAccess>();
         services.AddTransient<ClaimsManager, ClaimsManager>();
-        services.AddTransient<SessionUtils,SessionUtils>();
-        services.AddTransient<UserUtils,UserUtils>();
-        services.AddTransient<ConversationUtils, ConversationUtils>();
-        services.AddTransient<ChatPersisterDataAccess, ChatPersisterDataAccess>();
-        services.AddTransient<ChatPersister, ChatPersister>();
-        services.AddTransient<MessageConverter,MessageConverter>();
-        services.AddTransient<StatusDataAccess, StatusDataAccess>();
+        services.AddTransient<ISessionUtils,SessionUtils>();
+        services.AddTransient<IUserUtils,UserUtils>();
+        services.AddTransient<IConversationUtils, ConversationUtils>();
+        services.AddTransient<IChatPersisterDataAccess, ChatPersisterDataAccess>();
+        services.AddTransient<IChatPersister, ChatPersister>();
+        services.AddTransient<IMessageConverter,MessageConverter>();
+        services.AddTransient<IStatusDataAccess, StatusDataAccess>();
         services.AddTransient<StatusManager, StatusManager>();
 
         return services;

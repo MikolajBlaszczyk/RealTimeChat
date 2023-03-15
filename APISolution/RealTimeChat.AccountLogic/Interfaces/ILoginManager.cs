@@ -1,6 +1,4 @@
-﻿using System.Security.Claims;
-using RealTimeChat.AccountLogic.Models;
-using RealTimeChat.AccountLogic.Enums;
+﻿using RealTimeChat.AccountLogic.Models;
 
 namespace RealTimeChat.AccountLogic.Interfaces;
 

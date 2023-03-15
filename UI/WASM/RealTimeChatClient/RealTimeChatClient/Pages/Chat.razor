@@ -1,0 +1,26 @@
+﻿@page "/Chat"
+@using Microsoft.AspNetCore.SignalR.Client
+@using Microsoft.AspNetCore.Http.Connections
+
+<div>
+    <input type="text" @bind=""/>
+</div>
+
+@code {
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        HubConnection hub = new HubConnectionBuilder()
+            .WithUrl("https://localhost:7234/chat", options =>
+            {
+                options.Cookies = HttpHandler.CookieContainer; 
+                options.Transports = HttpTransportType.WebSockets;
+            }).WithAutomaticReconnect().Build();
+
+        await hub.StartAsync();
+
+        await base.OnInitializedAsync();
+    }
+
+}

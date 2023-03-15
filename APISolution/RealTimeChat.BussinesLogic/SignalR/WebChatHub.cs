@@ -1,23 +1,19 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Connections;
 using Microsoft.AspNetCore.SignalR;
-using RealTimeChat.BusinessLogic.WebSupervisors;
-using System.Threading;
 using RealTimeChat.BusinessLogic.AvailabilityManager;
-using RealTimeChat.ChatLogic;
-using RealTimeChat.DataAccess.DataAccess;
+using RealTimeChat.BusinessLogic.ChatSupervisors;
+using RealTimeChat.ChatLogic.Interfaces;
 
-
-namespace RealTimeChat.SignalR;
+namespace RealTimeChat.BusinessLogic.SignalR;
 
 [Authorize]
 public class WebChatHub:Hub
 {
     public UserConnectionHandler Handler { get; }
-    public ChatPersister Persister { get; }
+    public IChatPersister Persister { get; }
     public StatusManager StatusManager { get; }
 
-    public WebChatHub(UserConnectionHandler handler, ChatPersister persister, StatusManager statusManager)
+    public WebChatHub(UserConnectionHandler handler, IChatPersister persister, StatusManager statusManager)
     {
         Handler = handler;
         Persister = persister;

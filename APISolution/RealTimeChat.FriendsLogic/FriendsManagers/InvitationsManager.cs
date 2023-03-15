@@ -1,26 +1,25 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
-using RealTimeChat.DataAccess.DataAccess;
 using RealTimeChat.DataAccess.IdentityContext;
+using RealTimeChat.DataAccess.Interfaces;
 using RealTimeChat.DataAccess.Models;
 using RealTimeChat.FriendsLogic.Enums;
 using RealTimeChat.FriendsLogic.Interfaces;
 using RealTimeChat.FriendsLogic.Models;
-using InvitationStatus = RealTimeChat.BusinessLogic.FriendsLogic.Enums.InvitationStatus;
 
 namespace RealTimeChat.FriendsLogic.FriendsManagers;
 
 public class InvitationsManager : IInvitationsManager
 {
     private ApplicationContext Context { get; set; }
-    private DbUserHelper DbUserHelper { get; }
+    private IFriendsDataAccess FriendsDataAccess { get; }
 
 
-    public InvitationsManager(ApplicationContext context, DbUserHelper dbUserHelper)
+    public InvitationsManager(ApplicationContext context, IFriendsDataAccess friendsDataAccess)
     {
         Context = context;
-        DbUserHelper = dbUserHelper;
+        FriendsDataAccess = friendsDataAccess;
     }
     
     public async Task<ResponseModel> CreateInvitation(string userId, string friendId)
@@ -43,9 +42,9 @@ public class InvitationsManager : IInvitationsManager
 
     public async Task<Enums.InvitationStatus> UpdateInvitation(string friendUsername, string userId, bool response)
     {
-        var senderId = await DbUserHelper.GetFriendGuidByUserName(friendUsername, userId);
+        var senderId = await FriendsDataAccess.GetFriendGuidByUserName(friendUsername, userId);
         
-        var invitation = await DbUserHelper.FindInvitation(senderId, userId);
+        var invitation = await FriendsDataAccess.FindInvitation(senderId, userId);
 
         if (invitation == null || invitation.Status == "Declined")
             throw new ArgumentException("No invitation from this user");
@@ -72,7 +71,7 @@ public class InvitationsManager : IInvitationsManager
       
         
         // check for conflict in invitations, or remaining invitation from opposite user, remove opposite invitation if necessary
-        var oppositeInvitation = await DbUserHelper.FindInvitation(userId, senderId);
+        var oppositeInvitation = await FriendsDataAccess.FindInvitation(userId, senderId);
 
         if (oppositeInvitation != null)
         {
@@ -89,7 +88,7 @@ public class InvitationsManager : IInvitationsManager
 
     public async Task<ResponseModel> GetAllInvitations(string userId)
     {
-        var invitations = DbUserHelper.GetAllAvailableInvitationsSenders(userId);
+        var invitations = FriendsDataAccess.GetAllAvailableInvitationsSenders(userId);
         
         if (invitations == null || invitations.Count == 0)
             return ResponseModel.CreateResponse(FriendsResponseResult.Fail, "No invitations");

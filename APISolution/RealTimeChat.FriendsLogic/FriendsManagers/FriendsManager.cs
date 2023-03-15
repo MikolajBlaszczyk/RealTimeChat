@@ -1,8 +1,7 @@
-﻿using System.Runtime.Serialization;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using RealTimeChat.DataAccess.DataAccess;
 using RealTimeChat.DataAccess.IdentityContext;
+using RealTimeChat.DataAccess.Interfaces;
 using RealTimeChat.DataAccess.Models;
 using RealTimeChat.FriendsLogic.Enums;
 using RealTimeChat.FriendsLogic.Interfaces;
@@ -15,28 +14,28 @@ public class FriendsManager : IFriendsManager
 {
     private ApplicationContext Context { get; }
     private IInvitationsManager InvitationsManager { get; }
-    private DbUserHelper DbUserHelper { get; }
+    private IFriendsDataAccess FriendsDataAccess { get; }
 
-    public FriendsManager(ApplicationContext context, IInvitationsManager invitationsManager, DbUserHelper dbUserHelper)
+    public FriendsManager(ApplicationContext context, IInvitationsManager invitationsManager, IFriendsDataAccess friendsDataAccess)
     {
         Context = context;
         InvitationsManager = invitationsManager;
-        DbUserHelper = dbUserHelper;
+        FriendsDataAccess = friendsDataAccess;
     }
     
     public async Task<ResponseModel> AddFriend(string userId, string friendUsername)
     {
   
-        var friendId = await DbUserHelper.GetFriendGuidByUserName(friendUsername, userId);
+        var friendId = await FriendsDataAccess.GetFriendGuidByUserName(friendUsername, userId);
         
-        var friendship = await DbUserHelper.FindFriendship(userId, friendId);
+        var friendship = await FriendsDataAccess.FindFriendship(userId, friendId);
         
         
         if (friendship != null)
             return ResponseModel.CreateResponse(FriendsResponseResult.AlreadyFriend, "Already befriended.");
 
 
-        var invitations = await DbUserHelper.FindInvitationsBothSides(userId, friendId);
+        var invitations = await FriendsDataAccess.FindInvitationsBothSides(userId, friendId);
 
         if (invitations != null)
         {
@@ -57,9 +56,9 @@ public class FriendsManager : IFriendsManager
 
     public async Task<ResponseModel> CreateFriendship(string userId, string friendUsername)
     {
-        var friendId =  await DbUserHelper.GetFriendGuidByUserName(friendUsername, userId);
+        var friendId =  await FriendsDataAccess.GetFriendGuidByUserName(friendUsername, userId);
         
-        var friendship = await DbUserHelper.FindFriendship(userId, friendId);
+        var friendship = await FriendsDataAccess.FindFriendship(userId, friendId);
 
         if (friendship != null)
             return ResponseModel.CreateResponse(FriendsResponseResult.AlreadyFriend, "Already friend");
@@ -87,7 +86,7 @@ public class FriendsManager : IFriendsManager
 
     public async Task<ResponseModel> GetAllFriends(string userId)
     {
-        var friends = DbUserHelper.GetAllFriendsUsers(userId);
+        var friends = FriendsDataAccess.GetAllFriendsUsers(userId);
         
         if (friends == null || friends.Count == 0)
             return ResponseModel.CreateResponse(FriendsResponseResult.Fail, "You have no friends");
@@ -114,9 +113,9 @@ public class FriendsManager : IFriendsManager
 
     public async Task<ResponseModel> RemoveFriend(string userId, string friendUsername)
     {
-        var friendId =  await DbUserHelper.GetFriendGuidByUserName(friendUsername, userId);
+        var friendId =  await FriendsDataAccess.GetFriendGuidByUserName(friendUsername, userId);
         
-        var friendship = await DbUserHelper.FindFriendship(userId, friendId);
+        var friendship = await FriendsDataAccess.FindFriendship(userId, friendId);
         
         if(friendship == null)
             return ResponseModel.CreateResponse(FriendsResponseResult.Fail, "You are not friend with this user");

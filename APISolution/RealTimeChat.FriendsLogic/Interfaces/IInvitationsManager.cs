@@ -1,5 +1,4 @@
-﻿using RealTimeChat.FriendsLogic.Enums;
-using RealTimeChat.FriendsLogic.Models;
+﻿using RealTimeChat.FriendsLogic.Models;
 using InvitationStatus = RealTimeChat.FriendsLogic.Enums.InvitationStatus;
 
 namespace RealTimeChat.FriendsLogic.Interfaces;

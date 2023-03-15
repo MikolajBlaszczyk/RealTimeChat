@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Identity;
 using RealTimeChat.DataAccess.Models;
 using RealTimeChat.AccountLogic.Interfaces;
 

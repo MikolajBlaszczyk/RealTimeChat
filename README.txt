@@ -24,3 +24,4 @@ Code was written to be scalable and readable.
 - [@JakubJachym4](https://www.github.com/JakubJachym4)
 
 ## Database Relation Schema
+![schema](https://user-images.githubusercontent.com/107769098/225423071-1e292b06-6c9e-49d2-b853-c28fc7f24690.png)

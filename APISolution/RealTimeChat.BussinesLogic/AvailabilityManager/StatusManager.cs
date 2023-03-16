@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using RealTimeChat.DataAccess.DataAccess;
+using RealTimeChat.DataAccess.Interfaces;
 
 namespace RealTimeChat.BusinessLogic.AvailabilityManager;
 
 public class StatusManager
 {
     private const string GuidClaim = "GUID";
-    private StatusDataAccess DataAccess { get; }
+    private IStatusDataAccess DataAccess { get; }
 
-    public StatusManager(StatusDataAccess dataAccess)
+    public StatusManager(IStatusDataAccess dataAccess)
     {
         DataAccess = dataAccess;
     }

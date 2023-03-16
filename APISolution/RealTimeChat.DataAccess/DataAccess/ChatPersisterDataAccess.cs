@@ -1,22 +1,15 @@
-﻿using RealTimeChat.DataAccess.IdentityContext;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RealTimeChat.DataAccess.DataAccessUtils;
-using RealTimeChat.DataAccess.Models;
+﻿using RealTimeChat.DataAccess.Models;
 using RealTimeChat.DataAccess.Interfaces;
 
 namespace RealTimeChat.DataAccess.DataAccess
 {
     public class ChatPersisterDataAccess : IChatPersisterDataAccess
     {
-        private readonly UserUtils UserContext;
-        private readonly ConversationUtils ConversationUtils;
+        private readonly IUserUtils UserContext;
+        private readonly IConversationUtils ConversationUtils;
 
 
-        public ChatPersisterDataAccess(UserUtils userContext, ConversationUtils conversationUtils)
+        public ChatPersisterDataAccess(IUserUtils userContext, IConversationUtils conversationUtils)
         {
             UserContext = userContext;
             ConversationUtils = conversationUtils;

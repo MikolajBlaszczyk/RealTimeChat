@@ -2,9 +2,6 @@
 using RealTimeChat.AccountLogic.Enums;
 using RealTimeChat.AccountLogic.Interfaces;
 using RealTimeChat.AccountLogic.Models;
-using RealTimeChat.AccountLogic.Interfaces;
-using RealTimeChat.AccountLogic.Models;
-using Serilog;
 
 namespace RealTimeChat.AccountLogic;
 

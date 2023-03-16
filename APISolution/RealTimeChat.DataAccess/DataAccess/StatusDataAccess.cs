@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RealTimeChat.DataAccess.IdentityContext;
 using RealTimeChat.DataAccess.Interfaces;
-using RealTimeChat.DataAccess.Models;
 
 namespace RealTimeChat.DataAccess.DataAccess;
 

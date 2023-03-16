@@ -1,8 +1,7 @@
-﻿using System.Runtime.Serialization;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using RealTimeChat.DataAccess.DataAccess;
 using RealTimeChat.DataAccess.IdentityContext;
+using RealTimeChat.DataAccess.Interfaces;
 using RealTimeChat.DataAccess.Models;
 using RealTimeChat.FriendsLogic.Enums;
 using RealTimeChat.FriendsLogic.Interfaces;
@@ -15,9 +14,9 @@ public class FriendsManager : IFriendsManager
 {
     private ApplicationContext Context { get; }
     private IInvitationsManager InvitationsManager { get; }
-    private FriendsDataAccess FriendsDataAccess { get; }
+    private IFriendsDataAccess FriendsDataAccess { get; }
 
-    public FriendsManager(ApplicationContext context, IInvitationsManager invitationsManager, FriendsDataAccess friendsDataAccess)
+    public FriendsManager(ApplicationContext context, IInvitationsManager invitationsManager, IFriendsDataAccess friendsDataAccess)
     {
         Context = context;
         InvitationsManager = invitationsManager;

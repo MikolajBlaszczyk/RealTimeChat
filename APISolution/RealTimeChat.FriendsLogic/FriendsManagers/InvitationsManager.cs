@@ -1,23 +1,22 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Newtonsoft.Json;
-using RealTimeChat.DataAccess.DataAccess;
 using RealTimeChat.DataAccess.IdentityContext;
+using RealTimeChat.DataAccess.Interfaces;
 using RealTimeChat.DataAccess.Models;
 using RealTimeChat.FriendsLogic.Enums;
 using RealTimeChat.FriendsLogic.Interfaces;
 using RealTimeChat.FriendsLogic.Models;
-using InvitationStatus = RealTimeChat.BusinessLogic.FriendsLogic.Enums.InvitationStatus;
 
 namespace RealTimeChat.FriendsLogic.FriendsManagers;
 
 public class InvitationsManager : IInvitationsManager
 {
     private ApplicationContext Context { get; set; }
-    private FriendsDataAccess FriendsDataAccess { get; }
+    private IFriendsDataAccess FriendsDataAccess { get; }
 
 
-    public InvitationsManager(ApplicationContext context, FriendsDataAccess friendsDataAccess)
+    public InvitationsManager(ApplicationContext context, IFriendsDataAccess friendsDataAccess)
     {
         Context = context;
         FriendsDataAccess = friendsDataAccess;

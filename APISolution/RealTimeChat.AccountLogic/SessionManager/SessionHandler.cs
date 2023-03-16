@@ -1,5 +1,4 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using RealTimeChat.AccountLogic.Enums;
 using RealTimeChat.AccountLogic.Interfaces;
 using RealTimeChat.AccountLogic.Models;

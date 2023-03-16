@@ -1,8 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using RealTimeChat.ChatLogic.ChatRetention;
 using RealTimeChat.ChatLogic.Interfaces;
-using RealTimeChat.ChatLogic.Logic;
-using RealTimeChat.DataAccess.DataAccess;
 using RealTimeChat.DataAccess.Interfaces;
 
 namespace RealTimeChat.ChatLogic

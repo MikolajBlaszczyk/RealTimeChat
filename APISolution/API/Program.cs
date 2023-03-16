@@ -2,8 +2,7 @@ using Microsoft.AspNetCore.DataProtection;
 using RealTimeChat.API.LifeCycle;
 using RealTimeChat.API.Messages;
 using RealTimeChat.API.Startup;
-using Microsoft.AspNetCore.SignalR;
-using RealTimeChat.SignalR;
+using RealTimeChat.BusinessLogic.SignalR;
 using Serilog;
 using Serilog.Events;
 

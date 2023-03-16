@@ -10,18 +10,17 @@ using RealTimeChat.AccountLogic.Validators;
 using RealTimeChat.API.Controllers;
 using RealTimeChat.API.LifeCycle;
 using RealTimeChat.BusinessLogic.AvailabilityManager;
+using RealTimeChat.BusinessLogic.ChatSupervisors;
 using RealTimeChat.DataAccess.DataAccess;
 using RealTimeChat.DataAccess.Models;
 using RealTimeChat.FriendsLogic;
 using RealTimeChat.FriendsLogic.FriendsManagers;
 using RealTimeChat.FriendsLogic.Interfaces;
-using RealTimeChat.BusinessLogic.WebSupervisors;
 using RealTimeChat.ChatLogic;
 using RealTimeChat.ChatLogic.Interfaces;
 using RealTimeChat.DataAccess.DataAccessUtils;
 using RealTimeChat.ChatLogic.Logic;
 using RealTimeChat.DataAccess.Interfaces;
-using RealTimeChat.SignalR;
 
 namespace RealTimeChat.API.Startup;
 

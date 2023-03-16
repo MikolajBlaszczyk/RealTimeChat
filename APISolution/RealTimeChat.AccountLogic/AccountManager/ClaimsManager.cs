@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using RealTimeChat.AccountLogic.Enums;
 using RealTimeChat.AccountLogic.Interfaces;
 using RealTimeChat.AccountLogic.Models;
-using RealTimeChat.DataAccess.DataAccess;
+using RealTimeChat.DataAccess.Interfaces;
 using RealTimeChat.DataAccess.Models;
 
 namespace RealTimeChat.AccountLogic.AccountManager
@@ -24,9 +19,9 @@ namespace RealTimeChat.AccountLogic.AccountManager
         private const string GuidClaim = "GUID";
 
         public SignInManager<ApplicationUser> SignInManager { get; }
-        public AccountDataAccess DataAccess { get; }
+        public IAccountDataAccess DataAccess { get; }
 
-        public ClaimsManager(SignInManager<ApplicationUser> signInManager, AccountDataAccess dataAccess)
+        public ClaimsManager(SignInManager<ApplicationUser> signInManager, IAccountDataAccess dataAccess)
         {
             SignInManager = signInManager;
             DataAccess = dataAccess;

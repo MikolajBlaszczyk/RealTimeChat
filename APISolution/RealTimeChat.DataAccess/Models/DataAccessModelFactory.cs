@@ -1,6 +1,4 @@
 ﻿
-using RealTimeChat.DataAccess.Models;
-
 namespace RealTimeChat.DataAccess.Models;
 
 public static class DataAccessModelFactory

@@ -9,7 +9,7 @@ namespace RealTimeChat.BusinessLogic.ChatSupervisors
         public const string GuidClaim = "GUID";
         private IHubDataAccess DataAccess { get; }
 
-        public UserConnectionHandler( IHubDataAccess dataAccess)
+        public UserConnectionHandler(IHubDataAccess dataAccess)
         {
             DataAccess = dataAccess;
         }

@@ -45,6 +45,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RealTimeChat.AccountLogic\RealTimeChat.AccountLogic.csproj" />
+    <ProjectReference Include="..\RealTimeChat.DataAccess\RealTimeChat.DataAccess.csproj" />
     <ProjectReference Include="..\RealTimeChat.FriendsLogic\RealTimeChat.FriendsLogic.csproj" />
     <ProjectReference Include="..\RealTimeChat.BussinesLogic\RealTimeChat.BusinessLogic.csproj" />
   </ItemGroup>

@@ -122,6 +122,7 @@ public static class ProgramCleaner
         services.AddTransient<IMessageConverter,MessageConverter>();
         services.AddTransient<IStatusDataAccess, StatusDataAccess>();
         services.AddTransient<StatusManager, StatusManager>();
+        services.AddTransient<IApiDataAccess, ApiDataAccess>();
 
         return services;
     }

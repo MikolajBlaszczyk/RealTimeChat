@@ -1,0 +1,21 @@
+:root {
+  --white: white;
+  --grey: #4e4c5c;
+  --main-theme: rgb(37, 37, 37);
+  --main-theme-shadow: rgb(37, 34, 34);
+  --main-secondary: #00a97f;
+  --main-secondary-darker: #008362;
+}
+
+html,
+body,
+main {
+  display: flex;
+  min-width: 100vw;
+  height: 100%;
+  overflow-x: hidden;
+  padding: 0;
+  margin: 0;
+  font-family: 'Lato';
+}
+

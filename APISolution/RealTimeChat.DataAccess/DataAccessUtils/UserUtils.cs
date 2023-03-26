@@ -14,6 +14,11 @@ namespace RealTimeChat.DataAccess.DataAccessUtils
             DataAccess = dataAccess;
         }
 
+        public async Task<List<ApplicationUser>> GetAllUsers()
+        {
+            return DataAccess.Users.ToList();
+        }
+
         public async Task<ApplicationUser?> GetUserByUserName(string userName)
         {
             return DataAccess.Users.FirstOrDefault(x => x.UserName == userName);

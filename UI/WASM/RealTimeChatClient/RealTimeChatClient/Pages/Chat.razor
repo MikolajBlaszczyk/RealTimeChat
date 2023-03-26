@@ -2,25 +2,47 @@
 @using Microsoft.AspNetCore.SignalR.Client
 @using Microsoft.AspNetCore.Http.Connections
 
+
+
 <div>
-    <input type="text" @bind=""/>
+    <div>
+        @Users
+    </div>
+    <div>
+        <input type="text" @bind="Message"/>
+    </div>
+    <div>
+
+    </div>
+    
 </div>
 
 @code {
-
+    private List<string> Users { get; set; }
+    private string Message { get; set; }
+    private string ChatContent { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
         HubConnection hub = new HubConnectionBuilder()
             .WithUrl("https://localhost:7234/chat", options =>
             {
-                options.Cookies = HttpHandler.CookieContainer; 
+                options.Cookies = HttpHandler.GetContainer(); 
                 options.Transports = HttpTransportType.WebSockets;
             }).WithAutomaticReconnect().Build();
+
 
         await hub.StartAsync();
 
         await base.OnInitializedAsync();
+    }
+
+    private async Task ConfigureHub(HubConnection hub)
+    {
+        hub.On<string,string>("MessageFromOtherClient", (username, messageContent) =>
+        {
+            ConversationHandler.AttachToConversation(username, messageContent);
+        });
     }
 
 }
